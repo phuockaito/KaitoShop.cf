@@ -57,6 +57,9 @@ export default function Footer() {
                                 <li>
                                     <a href="https://www.youtube.com/channel/UC-AkfAZivVZFBQTQPh7hx2w" target="_blank" rel="noopener noreferrer"><i className="fa fa-youtube-play" /></a>
                                 </li>
+                                <li>
+                                    <a href="http://kaitomovie.cf/" target="_blank" rel="noopener noreferrer"><i className="fa fa-external-link" /></a>
+                                </li>
                             </ul>
                         </div>
                     </div>

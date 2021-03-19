@@ -64,7 +64,8 @@
     display: grid;
     padding: 0 10px;
     position: relative;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
 }
 .group-footer .footer .group-connect-us ul li {
     width: 50px;
@@ -73,7 +74,7 @@
     display: block;
     text-align: center;
     margin: auto;
-    line-height: 50px;
+    line-height: 55px;
     border-radius: 4px;
 }
 .group-footer .footer .group-connect-us ul li:nth-child(1) {
@@ -92,7 +93,10 @@
     background: #f70000;
     border-radius: 4px;
 }
-
+.group-footer .footer .group-connect-us ul li:nth-child(4) {
+    background: #28282d;
+    border-radius: 4px;
+}
 @media screen and (max-width: 1000px) {
     .frames-group-footer .group-footer {
         padding-left: 0;

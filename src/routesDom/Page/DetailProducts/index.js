@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouteMatch } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { notification } from 'antd';
+import { CheckCircleOutlined } from '@ant-design/icons';
+
+import $ from 'jquery';
 // API
 import { getProductId, getProductType } from 'features/Product/pathAPI';
 import { getCommentOne } from 'features/Comment/pathAPI';
@@ -11,8 +15,12 @@ import SeeMoreProduct from './SeeMoreProduct/index';
 import Comment from './Comment/index';
 import Loading from "loading/index";
 import HistoryProduct from './HistoryProduct/index';
+// Context
+import { UserContext } from 'contexts/UserContext';
 // --CSS
 import './style.css';
+// 
+// const server = io.connect();
 export default function DetailProducts() {
     let historyProduct = JSON.parse(localStorage.getItem('historyProduct')) || [];
     const { key, name, _id, nsx } = useRouteMatch().params;
@@ -21,6 +29,8 @@ export default function DetailProducts() {
     const getProductTypePage = (param) => dispatch(getProductType(param));
     // create state
     const [pageComment, setPageComment] = useState(1);
+    const [state] = useContext(UserContext);
+    const { socket, token, dataUser } = state;
     // Data Product ID
     const loading = useSelector(state => state.productId.loading);
     const dataProductsId = useSelector(state => state.productId.data);
@@ -29,22 +39,63 @@ export default function DetailProducts() {
     const lengthProductsType = useSelector(state => state.type.length);
     const loadingProductsType = useSelector(state => state.type.loading);
     // Data Comment
-    const dataComment = useSelector(state => state.comment.data);
-    const lengthComment = useSelector(state => state.comment.length);
     const loadingComet = useSelector(state => state.comment.loading);
+    const [lengthComment, setLengthComment] = useState(null);
+    const [dataComment, setDataComment] = useState([]);
     // useEffect
-    useEffect(() => {
-        const fetchComment = async () => {
-            const paramsComment = {
-                _id_product: _id,
-                page: pageComment,
-                limit: 5
-            }
-            await dispatch(getCommentOne(paramsComment));
+    const fetchComment = async () => {
+        const paramsComment = {
+            _id_product: _id,
+            page: pageComment,
+            limit: 10
         }
+        const comment = await dispatch(getCommentOne(paramsComment));
+        setDataComment(comment.payload.data);
+        setLengthComment(comment.payload.length);
+    };
+
+    useEffect(() => {
+        if (socket) {
+            socket.emit('joinRoom', _id);
+        }
+    }, [socket, _id]);
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('createCommentToClient', msg => {
+                // $("body,html").animate({ scrollTop: $(".item-comment").offset().top - 90 }, 500);
+                setDataComment([msg, ...dataComment]);
+            });
+            return () => socket.off('createCommentToClient');
+        };
+    }, [socket, dataComment]);
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('deleteCommentToClick', msg => {
+                const dataCommentNew = [...dataComment];
+                const index = dataCommentNew.findIndex(comment => comment._id === msg._id);
+                dataCommentNew.splice(index, 1);
+                setDataComment(dataCommentNew);
+                // fetchComment();
+                if (token) {
+                    notification.open({
+                        message: 'Thông Báo',
+                        description:
+                            'Xóa Thành Công',
+                        icon: <CheckCircleOutlined style={{ color: '#1fbb4f' }} />,
+                    });
+                }
+            });
+            return () => socket.off('deleteCommentToClick');
+        }
+    }, [socket, dataComment]);
+
+    // // get comment
+    useEffect(() => {
         fetchComment();
     }, [pageComment, _id]);
-    // get one product 
+    //  get one product 
     useEffect(() => {
         const fetchProductIdAPI = async () => {
             // fetch API Product See More
@@ -92,7 +143,7 @@ export default function DetailProducts() {
                     <Link to='/'>Trang chủ</Link>
                     <Link to={`/product/${key}`}>{key}</Link>
                     <Link to={`/products/${key}/${nsx}`}>{nsx.replace(/-/g, ' ')}</Link>
-                    <span>{name.replace(/-/g, ' ')}</span>
+                    <span style={{ color: '#ec1839' }}>{name.replace(/-/g, ' ')}</span>
                 </div>
                 {loading && <Loading />}
                 <InForProduct
@@ -106,6 +157,9 @@ export default function DetailProducts() {
                     onChangePageComment={onChangePageComment}
                     dataProductsId={dataProductsId}
                     loadingComet={loadingComet}
+                    socket={socket}
+                    token={token}
+                    dataUser={dataUser}
                 />
                 <SeeMoreProduct
                     data={dataProductsType}

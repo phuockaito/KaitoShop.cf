@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Comment, Tooltip, List, Popover, Button } from 'antd';
+import { Comment, Tooltip, List, Popover, Button} from 'antd';
 import moment from 'moment';
 import 'moment/locale/vi';
 import StarRatings from "react-star-ratings";
@@ -9,17 +9,17 @@ import LoadingBtn from 'component/LoadingBtn/index';
 // --CSS
 import './style.css';
 moment.locale('vi');
-export default function ListComment({ dataComment, lengthComment, onChangePageComment, token, id_user, idProduct, actionDeleteComment }) {
+export default function ListComment({ dataComment, lengthComment, onChangePageComment, token, id_user, idProduct, socket }) {
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         setLoading(false);
     }, [dataComment.length]);
     const deleteComment = id => {
-        const data = {
+        socket.emit('deleteComment', {
             _id: id,
-            _id_product: idProduct
-        };
-        actionDeleteComment(data, token);
+            id_product: idProduct
+        });
+
     };
     return (
         <div className="group-list-comment">
@@ -29,7 +29,7 @@ export default function ListComment({ dataComment, lengthComment, onChangePageCo
                         <>
                             <div className="group-review">
                                 <h3>Khách Hàng Nhận Xét</h3>
-                                <p>({dataComment.length} / {lengthComment} bình luận)</p>
+                                {/* <p>({dataComment.length} / {lengthComment} bình luận)</p> */}
                             </div>
                             <List
                                 className="comment-list"
@@ -76,12 +76,11 @@ export default function ListComment({ dataComment, lengthComment, onChangePageCo
                                                             content={
                                                                 <div className="man-group-delete">
                                                                     <div className="btn-delete">
-                                                                        
+
                                                                         <Button
                                                                             onClick={() => { deleteComment(item._id) }}
                                                                         >
-                                                                         <DeleteOutlined />    Xóa
-                                                                     </Button>
+                                                                            <DeleteOutlined />Xóa</Button>
                                                                     </div>
                                                                 </div>
                                                             }
