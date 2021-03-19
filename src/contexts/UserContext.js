@@ -14,7 +14,7 @@ const UserContextProvider = (props) => {
         socket: null,
     });
     useEffect(async () => {
-        const socket = io('http://kaitoshop.cf', {
+        const socket = io('https://api-shop-phuoc.herokuapp.com', {
             withCredentials: true,
             extraHeaders: {
                 "Access-Control-Allow-Origin": "*",
