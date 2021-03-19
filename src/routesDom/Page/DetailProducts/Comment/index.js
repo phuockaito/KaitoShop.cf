@@ -1,6 +1,21 @@
+import { useDispatch } from 'react-redux';
+import { useContext } from 'react';
+// -- Context
+import { UserContext } from 'contexts/UserContext';
+// --ComPonent
 import FormWrite from './FormWrite/index';
 import ListComment from './ListComment/index';
-export default function Comment({ dataComment, idProduct, lengthComment, onChangePageComment, dataProductsId, loadingComet,socket,token,dataUser }) {
+// dispatch API
+import { postComment, deleteComment } from 'features/Comment/pathAPI';
+
+export default function Comment({ dataComment, idProduct, lengthComment, onChangePageComment, dataProductsId, loadingComet }) {
+    const dispatch = useDispatch();
+    // create State
+    const [user] = useContext(UserContext);
+    const { token, dataUser } = user;
+    // dispatch API
+    const addComment = (data, token) => dispatch(postComment(data, token));
+    const actionDeleteComment = (data, token) => dispatch(deleteComment(data, token));
     return (
         <div className="group-comment" >
             <div className="container-comment">
@@ -9,9 +24,9 @@ export default function Comment({ dataComment, idProduct, lengthComment, onChang
                     dataProductsId={dataProductsId}
                     token={token}
                     dataUser={dataUser}
+                    addComment={addComment}
                     loadingComet={loadingComet}
-                    lengthComment={dataComment.length}
-                    socket={socket}
+                    dataComment={dataComment}
                 />
                 <ListComment
                     onChangePageComment={onChangePageComment}
@@ -20,7 +35,7 @@ export default function Comment({ dataComment, idProduct, lengthComment, onChang
                     token={token}
                     id_user={dataUser.length > 0 && dataUser[0]._id}
                     idProduct={idProduct}
-                    socket={socket}
+                    actionDeleteComment={actionDeleteComment}
                 />
             </div>
         </div>

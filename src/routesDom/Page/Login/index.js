@@ -15,14 +15,14 @@ export default function Login() {
         top: 0,
         behavior: "smooth"
     });
-    const [state, setState] = useContext(UserContext);
-    const { token } = state;
+    const [user, setUser] = useContext(UserContext);
     const loadingSubmit = useSelector(state => state.user.loadingSlice);
+    const { token } = user;
     const [form] = Form.useForm();
     document.querySelector('title').innerHTML = 'Đăng Nhập';
     const dispatch = useDispatch();
     const history = useHistory();
- 
+    console.log({history})
     //check data user is
     if (tokenLocal || token) {
         history.push("/");
@@ -35,7 +35,7 @@ export default function Login() {
         }
         const actionResult = await dispatch(loginUser(data));
         const currentUser = unwrapResult(actionResult);
-        setState({
+        setUser({
             token: currentUser.accesToken,
             dataUser: currentUser.user
         })

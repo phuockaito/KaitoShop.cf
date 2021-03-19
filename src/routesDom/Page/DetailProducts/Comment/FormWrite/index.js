@@ -4,7 +4,8 @@ import { Comment, Avatar, Form, Button, Input, notification } from 'antd';
 import ImageDefault from 'image/Notoken.png';
 // --CSS
 import './style.css';
-export default function FormWrite({ idProduct, dataProductsId, token, dataUser, lengthComment, socket }) {
+export default function FormWrite({ idProduct, dataProductsId, token, dataUser, addComment, dataComment }) {
+
     // create State
     const { TextArea } = Input;
     const [form] = Form.useForm();
@@ -17,7 +18,7 @@ export default function FormWrite({ idProduct, dataProductsId, token, dataUser, 
         setStart(0);
         setContentCmt(0)
         setSubmitting(false);
-    }, [lengthComment]);
+    }, [dataComment.length]);
     // function
     const onFinish = (values) => {
         const product = {
@@ -27,19 +28,16 @@ export default function FormWrite({ idProduct, dataProductsId, token, dataUser, 
             NSX: dataProductsId[0].NSX,
             name: dataProductsId[0].name,
         }
+        const dataReqAPI = {
+            id_product: idProduct,
+            array_product: product,
+            content: values.content.trim(),
+            start: start
+        };
+
         if (token) {
-            const createdAt = new Date().toISOString();
-            socket.emit('createComment', {
-                id_product: idProduct,
-                array_product: product,
-                content: values.content.trim(),
-                start,
-                timeComment: createdAt,
-                id_user: dataUser[0]._id,
-                name: dataUser[0].name,
-                avatar: dataUser[0].avatar
-            });
             setSubmitting(true);
+            addComment(dataReqAPI, token);
         }
         else {
             notification['error']({

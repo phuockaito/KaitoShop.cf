@@ -447,7 +447,6 @@
 
   .group-detail .group-information-detail .group-buys-detail {
     grid-template-columns: repeat(1, 1fr);
-    grid-row-gap: 20px;
   }
   .group-information-detail .information-detail .group-free-detail {
     padding: 10px;
@@ -472,8 +471,7 @@
     font-size: 1em;
   }
   .group-detail .group-information-detail .buys-detail button {
-    width:180px;
-    height: 42px;
+    width: 200px;
   }
   .group-description .group-description-text p {
     font-size: 1em;

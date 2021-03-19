@@ -18,8 +18,8 @@ export default function HistoryComment() {
     document.querySelector('title').innerHTML = 'Nhật ký hoạt động';
     const dispatch = useDispatch();
     const history = useHistory();
-    const [state, setState] = useContext(UserContext);
-    const { socket, token } = state;
+    const [user] = useContext(UserContext);
+    const { token } = user;
     // create State
     const [page, setPage] = useState(1);
     const [loadingCmt, setLoadingCmt] = useState(false);

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCommentOne, deleteComment } from './pathAPI';
+import { getCommentOne, postComment, deleteComment } from './pathAPI';
 import { message } from 'antd';
+import $ from "jquery";
 const CommentSlice = createSlice({
     name: 'comment',
     initialState: {
@@ -21,7 +22,19 @@ const CommentSlice = createSlice({
             state.loading = false;
             state.length = action.payload.length;
             state.data = action.payload.data;
-        }, 
+        },// post comment
+        [postComment.pending]: (state) => {
+            state.loading = true;
+        },
+        [postComment.rejected]: (state, action) => {
+            state.loading = false;
+        },
+        [postComment.fulfilled]: (state, action) => {
+            state.length = action.payload.length;
+            state.data.unshift(action.payload.data);
+            state.loading = false;
+            $("body,html").animate({ scrollTop: $(".item-comment").offset().top - 90 }, 500);
+        },
         // delete comment
         [deleteComment.pending]: (state) => {
             state.loadingDeleteCmtAPI = true;

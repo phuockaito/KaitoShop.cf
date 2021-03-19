@@ -12,7 +12,7 @@ import Footer from 'component/Footer/index';
 import './App.css';
 import 'aos/dist/aos.css';
 
-// socket 
+
 export default function App() {
   const showPage = (Page) => {
     var result = null;
@@ -28,23 +28,23 @@ export default function App() {
     }
     return result;
   };
-    return (
-      <Router>
-        <UserContextProvider>
-          <Header />
-          <Menu />
-          <div className="ground-container">
-            <div className="main-container">
-              <Suspense fallback={<Loading />}>
-                <Switch>
-                  {showPage(Page)}
-                  <Redirect to="/" from="/" />
-                </Switch>
-                <Footer />
-              </Suspense>
-            </div>
+  return (
+    <Router>
+      <UserContextProvider>
+        <Header />
+        <Menu />
+        <div className="ground-container">
+          <div className="main-container">
+            <Suspense fallback={<Loading />}>
+              <Switch>
+                {showPage(Page)}
+                <Redirect to="/" from="/" />
+              </Switch>
+              <Footer />
+            </Suspense>
           </div>
-        </UserContextProvider>
-      </Router>
-    );
-  };
+        </div>
+      </UserContextProvider>
+    </Router>
+  );
+};
