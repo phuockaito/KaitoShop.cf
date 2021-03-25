@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import StarRatings from "react-star-ratings";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-
 import './style.css';
 import Loading from 'component/LoadingBtn/index';
 export default function AllProduct({ data, loading, lengthAllProduct, onChangePage }) {

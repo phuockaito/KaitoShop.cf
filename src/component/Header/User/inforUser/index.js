@@ -19,7 +19,7 @@ import UpdateUser from './UpdateSexName';
 import UploadImage from './UploadImage';
 import './Style/style.css';
 moment.locale('vi');
-export default function InForUser({ dataUser, token, setUser }) {
+export default function InForUser({ user, token, setUser}) {
     const dispatch = useDispatch();
     // dispatch API
     const actionUpdateNameSexUser = (data, token) => dispatch(updateNameSexUser(data, token));
@@ -39,7 +39,7 @@ export default function InForUser({ dataUser, token, setUser }) {
         <>
             <div className="frofile">
                 <div className="avartar-user">
-                    <img src={dataUser[0].avatar} alt={dataUser[0].name} onClick={() => setVisible(true)} />
+                    <img src={user[0].avatar} alt={user[0].name} onClick={() => setVisible(true)} />
                 </div>
                 <div className="group-information">
                     <Drawer
@@ -51,20 +51,20 @@ export default function InForUser({ dataUser, token, setUser }) {
                     >
                         <div className="information">
                             <UploadImage
-                                avatar={dataUser[0].avatar}
+                                avatar={user[0].avatar}
                                 token={token}
                                 actionUploadImageUser={actionUploadImageUser}
-                                setUserConText={setUser}
+                                setUser={setUser}
                             />
                             <div className="create-account">
                                 {
-                                    dataUser[0].createdAt && (
+                                    user[0].createdAt && (
                                         <>
-                                           <span>
-                                                {/* {moment(dataUser[0].createdAt).fromNow()} */}
+                                            <span>
+                                                {moment(user[0].createdAt).fromNow()}
                                             </span>
                                             <span>
-                                                {moment(dataUser[0].createdAt).subtract(1, 'days').format('DD/MM/YYYY')}
+                                                {moment(user[0].createdAt).subtract(1, 'days').format('DD/MM/YYYY')}
                                             </span>
                                         </>
                                     )
@@ -76,7 +76,7 @@ export default function InForUser({ dataUser, token, setUser }) {
                                     <UserOutlined className="icon-user-information" />
                                 </div>
                                 <div className="name-information">
-                                    <p className="inforUser" style={{ 'fontWeight': '600' }}>{dataUser[0].name}</p>
+                                    <p className="inforUser" style={{ 'fontWeight': '600' }}>{user[0].name}</p>
                                 </div>
                             </div>
                             <div className="group-email hover-group-information">
@@ -84,7 +84,7 @@ export default function InForUser({ dataUser, token, setUser }) {
                                     <MailOutlined className="icon-user-information" />
                                 </div>
                                 <div className="email-information">
-                                    <p className="inforUser">{dataUser[0].email}</p>
+                                    <p className="inforUser">{user[0].email}</p>
                                 </div>
                             </div>
                             <div className="group-sex hover-group-information">
@@ -92,7 +92,7 @@ export default function InForUser({ dataUser, token, setUser }) {
                                     <WomanOutlined className="icon-user-information" />
                                 </div>
                                 <div className="sex-information">
-                                    <p className="inforUser">{dataUser[0].sex}</p>
+                                    <p className="inforUser">{user[0].sex}</p>
                                 </div>
                             </div>
                             <div className="group-buy-cart">
@@ -146,8 +146,8 @@ export default function InForUser({ dataUser, token, setUser }) {
                 </div>
             </div>
             <UpdateUser
-                setUserConText={setUser}
-                dataUser={dataUser}
+                setUser={setUser}
+                user={user}
                 token={token}
                 isInformation={isInformation}
                 setIsInformation={setIsInformation}

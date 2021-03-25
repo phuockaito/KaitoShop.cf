@@ -19,7 +19,8 @@ const UserSlice = createSlice({
         // history comment
         diaryComment: [],
         diaryCommentLength: 0,
-        loadingDiaryComment: false
+        loadingDiaryComment: false,
+        loadingGetProfile: false,
     },
     extraReducers: {
         [loginUser.pending]: (state) => {
@@ -35,13 +36,18 @@ const UserSlice = createSlice({
             state.tokenSlice = action.payload.accesToken;
         },
         // get when token
+        [getProfile.pending]: state => {
+            state.loadingGetProfile = true;
+        },
         [getProfile.rejected]: state => {
             state.userSlice = [];
             localStorage.removeItem('token');
             state.tokenSlice = null;
+            state.loadingGetProfile = false;
         },
         [getProfile.fulfilled]: (state, action) => {
             state.userSlice = action.payload.data;
+            state.loadingGetProfile = false;
             state.tokenSlice = localStorage.getItem('token');
         },// post register user
         [registerUser.pending]: state => {

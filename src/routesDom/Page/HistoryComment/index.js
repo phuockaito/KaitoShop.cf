@@ -1,100 +1,111 @@
-import { useEffect, useState, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { FileTextOutlined } from '@ant-design/icons';
+import { FileTextOutlined } from "@ant-design/icons";
 // API
-import { getDiaryComment } from 'features/User/patchAPI';
+import { getDiaryComment } from "features/User/patchAPI";
 // Component
-import ListItem from './ListItem';
-import Loading from 'component/LoadingBtn/index';
-import LoadingPage from 'component/LoadingPage/index';
+import ListItem from "./ListItem";
+import Loading from "component/LoadingBtn/index";
+import LoadingPage from "component/LoadingPage/index";
 // dispatch API
-import { deleteComment } from 'features/Comment/pathAPI';
+import { deleteComment } from "features/Comment/pathAPI";
 // Context
-import { UserContext } from 'contexts/UserContext';
-import './style.css';
-const tokenLocal = localStorage.getItem('token');
+import { UserContext } from "contexts/UserContext";
+import "./style.css";
+const tokenLocal = localStorage.getItem("token");
 export default function HistoryComment() {
-    document.querySelector('title').innerHTML = 'Nhật ký hoạt động';
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const [user] = useContext(UserContext);
-    const { token } = user;
-    // create State
-    const [page, setPage] = useState(1);
-    const [loadingCmt, setLoadingCmt] = useState(false);
-    if (!token && !tokenLocal) {
-        history.push("/");
+  document.querySelector("title").innerHTML = "Nhật ký hoạt động";
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const state = useContext(UserContext);
+  const { token } = state;
+  // create State
+  const [page, setPage] = useState(1);
+  const [loadingCmt, setLoadingCmt] = useState(false);
+  if (!token && !tokenLocal) {
+    history.push("/");
+  }
+  // dispatch API
+  const getDataComments = (data, token) =>
+    dispatch(getDiaryComment(data, token));
+  const actionDeleteComment = (data, token) =>
+    dispatch(deleteComment(data, token));
+  // useSelector
+  const dataHistoryComment = useSelector((state) => state.user.diaryComment);
+  const lengthSumHistoryComment = useSelector(
+    (state) => state.user.diaryCommentLength
+  );
+  const loadingHistoryComment = useSelector(
+    (state) => state.user.loadingDiaryComment
+  );
+  const loadingDeleteCmtAPI = useSelector(
+    (state) => state.comment.loadingDeleteCmtAPI
+  );
+  // Effect
+  useEffect(() => {
+    if (token) {
+      const data = {
+        page: page,
+        iteml: 5,
+      };
+      getDataComments(data, token);
     }
-    // dispatch API
-    const getDataComments = (data, token) => dispatch(getDiaryComment(data, token));
-    const actionDeleteComment = (data, token) => dispatch(deleteComment(data, token));
-    // useSelector
-    const dataHistoryComment = useSelector(state => state.user.diaryComment);
-    const lengthSumHistoryComment = useSelector(state => state.user.diaryCommentLength);
-    const loadingHistoryComment = useSelector(state => state.user.loadingDiaryComment);
-    const loadingDeleteCmtAPI = useSelector(state => state.comment.loadingDeleteCmtAPI)
-    // Effect
-    useEffect(() => {
-        if (token) {
-            const data = {
-                page: page,
-                iteml: 5,
-            };
-            getDataComments(data, token);
-        }
-    }, [page, token]);
-    // scrollTo
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        })
-    }, []);
-    useEffect(() => {
-        setLoadingCmt(false);
-    }, [dataHistoryComment.length])
-    const onChangeLoadingCmt = page => {
-        setLoadingCmt(true);
-        setPage(page + 1);
-    }
-    return (
-        <div className="group-history-comment">
-            <div className="main-history-comment">
-                <div className="group-title-rewvie">
-                    <h3>HOẠT ĐỘNG GẦN ĐÂY</h3>
-                    <p>({dataHistoryComment.length} / {lengthSumHistoryComment} Bình luận)</p>
-                    {loadingDeleteCmtAPI && (<LoadingPage />)}
-                </div>
-                <ListItem
-                    dataHistoryComment={dataHistoryComment}
-                    actionDeleteComment={actionDeleteComment}
-                    token={token}
-                />
-                <div className="group-loading-see-more">
-                    {(loadingHistoryComment && !loadingCmt) && <Loading />}
-                    {
-                        (!loadingCmt && dataHistoryComment.length < lengthSumHistoryComment) && (
-                            <button
-                                onClick={() => { onChangeLoadingCmt(page) }}
-                            >
-                                xem thêm
-                            </button>
-                        )
-                    }
-                    {loadingCmt && <Loading />}
-                </div>
-                {(lengthSumHistoryComment === 0 && !loadingHistoryComment) && (
-                    <div className="noData-history-comment">
-                        <FileTextOutlined style={{
-                            fontSize: '2em',
-                            margin: '15px auto',
-                        }} />
-                        <h3>Không có gì để hiển thị</h3>
-                    </div>
-                )}
-
-            </div>
+  }, [page, token]);
+  // scrollTo
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
+  useEffect(() => {
+    setLoadingCmt(false);
+  }, [dataHistoryComment.length]);
+  const onChangeLoadingCmt = (page) => {
+    setLoadingCmt(true);
+    setPage(page + 1);
+  };
+  return (
+    <div className="group-history-comment">
+      <div className="main-history-comment">
+        <div className="group-title-rewvie">
+          <h3>HOẠT ĐỘNG GẦN ĐÂY</h3>
+          <p>
+            ({dataHistoryComment.length} / {lengthSumHistoryComment} Bình luận)
+          </p>
+          {loadingDeleteCmtAPI && <LoadingPage />}
         </div>
-    )
+        <ListItem
+          dataHistoryComment={dataHistoryComment}
+          actionDeleteComment={actionDeleteComment}
+          token={token}
+        />
+        <div className="group-loading-see-more">
+          {loadingHistoryComment && !loadingCmt && <Loading />}
+          {!loadingCmt && dataHistoryComment.length < lengthSumHistoryComment && (
+            <button
+              onClick={() => {
+                onChangeLoadingCmt(page);
+              }}
+            >
+              xem thêm
+            </button>
+          )}
+          {loadingCmt && <Loading />}
+        </div>
+        {lengthSumHistoryComment === 0 && !loadingHistoryComment && (
+          <div className="noData-history-comment">
+            <FileTextOutlined
+              style={{
+                fontSize: "2em",
+                margin: "15px auto",
+              }}
+            />
+            <h3>Không có gì để hiển thị</h3>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

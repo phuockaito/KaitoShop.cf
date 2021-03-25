@@ -1,5 +1,5 @@
+import { useContext, useEffect } from 'react';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useContext } from 'react';
 import { Form, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -9,37 +9,43 @@ import { UserContext } from 'contexts/UserContext';
 //API
 import { loginUser } from 'features/User/patchAPI';
 import './style.css';
+document.querySelector('title').innerHTML = 'Đăng Nhập';
 const tokenLocal = localStorage.getItem('token');
 export default function Login() {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-    const [user, setUser] = useContext(UserContext);
+    const state = useContext(UserContext);
+    const [token, setToken] = state.token;
+    const [user, setUser] = state.user;
+    const [patchCart, setPatchCart] = state.patchCart;
     const loadingSubmit = useSelector(state => state.user.loadingSlice);
-    const { token } = user;
     const [form] = Form.useForm();
-    document.querySelector('title').innerHTML = 'Đăng Nhập';
     const dispatch = useDispatch();
     const history = useHistory();
-    console.log({history})
-    //check data user is
-    if (tokenLocal || token) {
-        history.push("/");
-    }
     //function
     const onFinish = async (values) => {
         const data = {
             email: values.email,
             password: values.password,
         }
-        const actionResult = await dispatch(loginUser(data));
-        const currentUser = unwrapResult(actionResult);
-        setUser({
-            token: currentUser.accesToken,
-            dataUser: currentUser.user
-        })
+        const resultLogin = await dispatch(loginUser(data));
+        const currentUser = unwrapResult(resultLogin);
+        if (currentUser) {
+            setToken(currentUser.accesToken);
+            setUser(currentUser.user);
+        }
     };
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+        if (token && patchCart) {
+            history.push('/cart');
+        }
+        else if (tokenLocal || token) {
+            history.push("/");
+        };
+
+    }, [tokenLocal, token])
     return (
         < div className="group-login" >
             <div className="main-login">

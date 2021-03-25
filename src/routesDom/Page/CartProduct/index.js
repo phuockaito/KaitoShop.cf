@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FileTextOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 //dispatch 
 import { deleteCartProduct, updateCartProduct } from 'features/Cart/CartSlice';
 import { postCartAPI } from 'features/Cart/pathAPI';
@@ -15,26 +15,33 @@ import CheckOut from './CheckOut';
 import './style.css';
 export default function CartProduct() {
     document.querySelector('title').innerHTML = 'Giỏ hàng';
+    const history = useHistory();
     const dispatch = useDispatch();
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }, []);
+
     // dispatch API
     const actionToCarAPI = (data, token) => dispatch(postCartAPI(data, token));
     const actionDeleteCart = index => dispatch(deleteCartProduct(index));
     const actionUpdateCartProduct = dataCart => dispatch(updateCartProduct(dataCart));
     // --Contexts
-    const [user] = useContext(UserContext);
-    const { token } = user;
+    const state = useContext(UserContext);
+    const [patchCart, setPatchCart] = state.patchCart;
+    const [token, setToken] = state.token;
     // create state
     const [visible, setVisible] = useState(false);
     // store
     const dataCart = useSelector(state => state.cart.dataCart);
     const loadingPostCartAPI = useSelector(state => state.cart.loadingPostCartAPI);
-
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+        if (history && dataCart.length > 0) {
+            setPatchCart(history.location.pathname);
+        } else {
+            setPatchCart(null);
+        }
+    }, [dataCart.length]);
     return (
         <div className="container-card">
             <div className="group-card">

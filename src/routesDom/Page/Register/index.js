@@ -7,22 +7,22 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { registerUser } from 'features/User/patchAPI';
 // context
 import { UserContext } from 'contexts/UserContext';
-
 import './style.css';
 const avatarGirl = 'https://res.cloudinary.com/phuockaito/image/upload/v1610201206/user/Girl_omajsm.png';
 const avatarBoy = 'https://res.cloudinary.com/phuockaito/image/upload/v1610201205/user/Boy_sk8u4o.png';
 const { Option } = Select;
 const tokenLocal = localStorage.getItem('token');
+document.querySelector('title').innerHTML = 'Đăng Ký';
 export default function Register() {
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
     const loadingSubmit = useSelector(state => state.user.loadingSlice);
-    const [user, setUser] = useContext(UserContext);
-    const { token } = user;
+    const state = useContext(UserContext);
+    const [token, setToken] = state.token;
+    const [user, setUser] = state.user;
     const history = useHistory();
-    document.querySelector('title').innerHTML = 'Đăng Ký';
     if (tokenLocal || token) {
         history.push("/");
     }
@@ -42,10 +42,10 @@ export default function Register() {
         if (values) {
             const actionResult = await dispatch(registerUser(data));
             const currentUser = unwrapResult(actionResult);
-            setUser({
-                token: currentUser.token,
-                dataUser: currentUser.data
-            })
+            if(currentUser){
+                setToken(currentUser.token);
+                setUser(currentUser.data);
+            }
         }
     };
 
@@ -169,7 +169,7 @@ export default function Register() {
                                 {
                                     () => (
                                         <Button
-                                        loading={loadingSubmit}
+                                            loading={loadingSubmit}
                                             type="primary"
                                             htmlType="submit"
                                             className="btn-register"

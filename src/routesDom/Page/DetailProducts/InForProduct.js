@@ -65,7 +65,7 @@ export default function InForProduct({ dataProductsId }) {
                 autoplaySpeed: 3000,
                 nextArrow: (
                     <div>
-                      <i class="fa fa-angle-right right"></i>
+                        <i class="fa fa-angle-right right"></i>
                     </div>
                 ),
                 prevArrow: (
@@ -134,8 +134,7 @@ export default function InForProduct({ dataProductsId }) {
                                                     <div
                                                         className="click-right"
                                                         onClick={() => { SetQuantity(quantity + 1) }}
-                                                    >+
-                                                 </div>
+                                                    >+</div>
                                                 </div>
                                             </div>
                                             <div className="buys-detail">

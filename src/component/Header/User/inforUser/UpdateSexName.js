@@ -1,7 +1,5 @@
-import { unwrapResult } from '@reduxjs/toolkit';
 import { Button, Modal, Form, Input, Select, } from 'antd';
 import formItemLayout from './Style/style'
-
 const { Option } = Select;
 export default function UpdateSexName(
     {
@@ -11,7 +9,7 @@ export default function UpdateSexName(
         actionUpdateNameSexUser,
         loadingUpdateNameSexUser,
         setLoadingUpdateNameSexUser,
-        setUserConText
+        setUser
     }
 ) {
 
@@ -23,13 +21,9 @@ export default function UpdateSexName(
         }
         if (value) {
             setLoadingUpdateNameSexUser(true);
-            const actionResult = await actionUpdateNameSexUser(data, token);
-            const currentUser = unwrapResult(actionResult);
-            if (currentUser) {
-                setUserConText({
-                    dataUser: currentUser.data,
-                    token: token
-                });
+            const result = await actionUpdateNameSexUser(data, token);
+            if (result) {
+                setUser(result.payload.data);
                 setLoadingUpdateNameSexUser(false);
                 setIsInformation(false);
                 form.resetFields(['name']);

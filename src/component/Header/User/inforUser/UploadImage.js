@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Button, Upload, Image, message } from 'antd';
-import { unwrapResult } from '@reduxjs/toolkit';
 import ImgCrop from 'antd-img-crop';
 import {
     UploadOutlined,
 } from '@ant-design/icons';
 
-export default function UploadImage({ avatar, token, actionUploadImageUser, setUserConText }) {
+export default function UploadImage({ avatar, token, actionUploadImageUser, setUser }) {
     // create State
     const [loading, setLoading] = useState(false);
     const beforeUpload = async (file) => {
@@ -22,15 +21,11 @@ export default function UploadImage({ avatar, token, actionUploadImageUser, setU
             setLoading(true);
             const imageData = new FormData();
             imageData.append("avatar", file);
-            const actionResult = await actionUploadImageUser(imageData, token);
-            const currentUser = unwrapResult(actionResult);
-            if (currentUser) {
-                setUserConText({
-                    dataUser: currentUser.user,
-                    token: token
-                });
-                setLoading(false);
-            }
+            const result = await actionUploadImageUser(imageData, token);
+             if (result) {
+                  setUser(result.payload.user);
+                  setLoading(false);
+             }
         }
         return isJpgOrPng && isLt2M;
     };

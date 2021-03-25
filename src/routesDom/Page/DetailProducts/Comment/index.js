@@ -1,21 +1,6 @@
-import { useDispatch } from 'react-redux';
-import { useContext } from 'react';
-// -- Context
-import { UserContext } from 'contexts/UserContext';
-// --ComPonent
 import FormWrite from './FormWrite/index';
 import ListComment from './ListComment/index';
-// dispatch API
-import { postComment, deleteComment } from 'features/Comment/pathAPI';
-
-export default function Comment({ dataComment, idProduct, lengthComment, onChangePageComment, dataProductsId, loadingComet }) {
-    const dispatch = useDispatch();
-    // create State
-    const [user] = useContext(UserContext);
-    const { token, dataUser } = user;
-    // dispatch API
-    const addComment = (data, token) => dispatch(postComment(data, token));
-    const actionDeleteComment = (data, token) => dispatch(deleteComment(data, token));
+export default function Comment({ dataComment, idProduct, lengthComment, onChangePageComment, dataProductsId, loadingComet, socket, token, user,actionCheckDeleteCmt }) {
     return (
         <div className="group-comment" >
             <div className="container-comment">
@@ -23,19 +8,20 @@ export default function Comment({ dataComment, idProduct, lengthComment, onChang
                     idProduct={idProduct}
                     dataProductsId={dataProductsId}
                     token={token}
-                    dataUser={dataUser}
-                    addComment={addComment}
+                    user={user}
                     loadingComet={loadingComet}
-                    dataComment={dataComment}
+                    lengthComment={dataComment.length}
+                    socket={socket}
                 />
                 <ListComment
                     onChangePageComment={onChangePageComment}
                     dataComment={dataComment}
                     lengthComment={lengthComment}
                     token={token}
-                    id_user={dataUser.length > 0 && dataUser[0]._id}
+                    id_user={user.length > 0 && user[0]._id}
                     idProduct={idProduct}
-                    actionDeleteComment={actionDeleteComment}
+                    socket={socket}
+                    actionCheckDeleteCmt={actionCheckDeleteCmt}
                 />
             </div>
         </div>

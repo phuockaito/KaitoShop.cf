@@ -7,10 +7,10 @@
 }
 .group-list-comment .item-comment .group-review {
   display: flex;
-  padding:15px;
+  padding: 15px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   background: #ffff;
-  border-radius:8px;
+  border-radius: 8px;
 }
 .item-comment .comment-list .group-content p.text-hidden {
   overflow: hidden;
@@ -99,29 +99,41 @@
   right: 30px;
   bottom: 15px;
 }
-.man-group-delete{
-  width: 100px;
+.man-group-delete {
+  width: 135px;
   position: relative;
   text-align: center;
 }
-.man-group-delete .btn-delete {
-  width: 100px;
-  position: relative;
-}
-.man-group-delete .btn-delete button{
+
+.man-group-delete .btn-delete button {
   text-align: center;
-  color: #ff4d4f;
+  width: 100%;
   border: none;
   box-shadow: none;
   padding: 5px 30px 5px 20px;
 }
-.man-group-delete .btn-delete:hover button{
+.man-group-delete .btn-delete button.delete {
+  color: #ff4d4f;
+}
+.man-group-delete .btn-delete button.edit {
+  color: #1890ff;
+}
+.man-group-delete .btn-delete:hover button {
   background: #f0f2f5;
 }
 .group-delete span {
   font-weight: bold;
   cursor: pointer;
   font-size: 1.5em;
+}
+/* Edit comment */
+.man-edit-btn {
+  text-align: right;
+  margin-top: 10px;
+}
+.man-edit-btn button{
+ margin-left: 10px;
+ margin-right: 6px;
 }
 
 .group-list-comment .item-comment .load-data-comment {

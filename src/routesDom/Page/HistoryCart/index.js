@@ -19,8 +19,8 @@ const tokenLocal = localStorage.getItem('token');
 export default function HistoryCart() {
     document.querySelector('title').innerHTML = 'Lịch sử mua hàng';
     const dispatch = useDispatch();
-    const [user] = useContext(UserContext);
-    const { token } = user;
+    const state = useContext(UserContext);
+    const { token } = state;
     const history = useHistory();
     if (!tokenLocal && !token) {
         history.push("/");
@@ -35,7 +35,7 @@ export default function HistoryCart() {
     const loadingUpdateCartStatus = useSelector(state => state.cart.loadingUpdateCartStatus);
     const loadingHistoryCart = useSelector(state => state.cart.loadingHistoryCart);
     const loadingDeleteCartAPI = useSelector(state => state.cart.loadingDeleteCartAPI);
- 
+
     // useEffect
     useEffect(() => {
         actionGetCartAPI(token);
