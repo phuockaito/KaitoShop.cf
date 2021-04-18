@@ -1,1 +1,0 @@
-(this.webpackJsonpclient=this.webpackJsonpclient||[]).push([[25],{533:function(n,t,e){"use strict";e.r(t),e.d(t,"default",(function(){return c}));var i=e(1);function c(){return Object(i.jsx)("div",{className:"ground-admin-edit"})}}}]);
