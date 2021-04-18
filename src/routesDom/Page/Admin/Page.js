@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 const Cart = lazy(() => import('./Cart/index'));
-const Product = lazy(() => import('./Product/EditProduct/index'));
-const EditProduct = lazy(() => import('./Product/EditProduct/EditProduct'));
+const ProductManagement = lazy(() => import('./Product/ProductManagement/index'));
+const EditProduct = lazy(() => import('./Product/EditProduct/index'));
 const NewProduct = lazy(() => import('./Product/NewProduct/index'));
 const Page = [
   {
@@ -13,10 +13,10 @@ const Page = [
   {
     path: '/admin-product',
     exact: true,
-    main: Product
+    main: ProductManagement
   },
   {
-    path: '/admin-product/:_id',
+    path: '/admin-edit-product/:id_product',
     exact: true,
     main: EditProduct
   },

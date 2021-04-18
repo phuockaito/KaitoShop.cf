@@ -1,18 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // Components
 import Banner from './Banner/index';
 import Trademark from './Trademark/index';
 import SliderHome from './Slider/index';
 import ProductsType from './ProductsType/index';
-import AllProduct from './AllProduct/index';
+import LatestProduct from './LatestProduct/index';
 // API
 import { getProductType, getProductSlider, getProductAll } from 'features/Product/pathAPI';
-
 export default function HomePage() {
   document.querySelector('title').innerHTML = 'Kaito Shop';
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
+  // dispatch API
+  const actionGetProductAll = params => dispatch(getProductAll(params));
+  const actionGetProductSlider = params => dispatch(getProductSlider(params));
+  const actionGetProductType = params => dispatch(getProductType(params));
   //Slider
   const dataSlider = useSelector(state => state.slider.listProductSlider);
   const loadingSlider = useSelector(state => state.slider.loading);
@@ -25,34 +27,10 @@ export default function HomePage() {
   const lengthProductsList = useSelector(state => state.ListProduct.length);
   //effApi
   useEffect(() => {
-    const fetchTypeAPI = async () => {
-      const paramsType = {
-        name: 'Puma',
-        page: 1,
-        sort_price: 0
-      }
-      await dispatch(getProductType(paramsType));
-      //
-      const paramSlider = {
-        name: 'Converse'
-      }
-      await dispatch(getProductSlider(paramSlider));
-    }
-    fetchTypeAPI();
+    actionGetProductType({ name: 'Puma', page: 1, sort_price: 0 });
+    actionGetProductSlider({ name: 'Converse' });
+    actionGetProductAll({ page: '1', limit: '24' })
   }, []);
-  useEffect(() => {
-    const fetchAPIListProduct = async () => {
-      const params = {
-        page: page
-      }
-      await dispatch(getProductAll(params));
-    };
-    fetchAPIListProduct();
-  }, [page]);
-  const onChangePage = pageNew => {
-    setPage(pageNew + page)
-  }
-
   return (
     <div className="group-home">
       <div className="home">
@@ -66,13 +44,12 @@ export default function HomePage() {
           data={dataSlider}
           loading={loadingSlider}
         />
-        <AllProduct
+        <LatestProduct
           data={dataProductsList}
           loading={loadingProductsList}
           lengthAllProduct={lengthProductsList}
-          onChangePage={onChangePage}
         />
       </div>
     </div>
   )
-}
+};

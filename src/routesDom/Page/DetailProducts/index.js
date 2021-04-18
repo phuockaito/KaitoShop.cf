@@ -8,7 +8,7 @@ import { Button, Popconfirm } from 'antd';
 import { getProductId, getProductType } from "features/Product/pathAPI";
 import { getCommentOne } from "features/Comment/pathAPI";
 import { addCartProduct } from "features/Cart/CartSlice";
-import { deleteProduct } from 'features/Admin/Product/pathAPI';
+import { deleteToProduct } from 'features/Admin/Product/pathAPI';
 // --Components
 import InForProduct from "./InForProduct";
 import SeeMoreProduct from "./SeeMoreProduct/index";
@@ -29,7 +29,7 @@ export default function DetailProducts() {
   // dispatch API
   const getProductTypeAPI = (param) => dispatch(getProductType(param));
   const actionAddToCart = cart => dispatch(addCartProduct(cart));
-  const actionDeleteProduct = (id, token) => dispatch(deleteProduct(id, token));
+  const actionDeleteProduct = (id, token) => dispatch(deleteToProduct(id, token));
   // create state
   const [pageComment, setPageComment] = useState(1);
   const state = useContext(UserContext);
@@ -222,7 +222,7 @@ export default function DetailProducts() {
           </Button>
           </Popconfirm>
           <Button type="primary">
-            Chỉnh Sữa
+            <Link to={`/admin-edit-product/${_id}`}> Chỉnh Sữa</Link>
           </Button>
         </div>}
         <InForProduct dataProductsId={dataProductsId} actionAddToCart={actionAddToCart} />

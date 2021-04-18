@@ -1,62 +1,39 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Table, Button } from 'antd';
-import { Link } from 'react-router-dom';
-//API
-import { getListProduct } from 'features/Admin/Product/pathAPI';
-// Component
-import LoadingPage from 'loading/index';
-import Columns from './Columns';
-// css
-import './style.css';
-export default function Product() {
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+import { useRouteMatch } from 'react-router-dom';
+// API
+import { getProductId } from "features/Product/pathAPI";
+//Component
+import FormProduct from '../FormProduct/index';
+import './style.css'
+export default function EditProduct() {
   const dispatch = useDispatch();
-  const dataProducts = useSelector(state => state.productAdmin.data);
-  const loading = useSelector(state => state.productAdmin.loading);
-  const length = useSelector(state => state.productAdmin.length);
-
+  const { id_product } = useRouteMatch().params;
+  //state
+  const [valuesEdit, setValuesEdit] = useState({});
+  const dataProductsEdit = useSelector(state => state.productId.data);
+  // dispatch action
+  const actionGetProductId = id => dispatch(getProductId(id));
+  // useEffect
   useEffect(() => {
-    const fetchAPIListProduct = async () => {
-      const params = {
-        page: page,
-        limit: limit
-      }
-      await dispatch(getListProduct(params));
-    };
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-    fetchAPIListProduct();
-  }, [page, limit]);
-  const handleTableChange = (pagination, filters, sorter) => {
-    const { current, pageSize } = pagination;
-    setPage(current);
-    setLimit(pageSize);
-  }
-  const pagination = {
-    total: length,
-    position: ['bottomCenter']
-  }
+    actionGetProductId(id_product);
+  }, []);
+  useEffect(() => {
+    if (dataProductsEdit.length > 0) {
+      const { name } = dataProductsEdit[0];
+      setValuesEdit({ 'name': name });
 
+    }
+  }, [dataProductsEdit.length > 0]);
   return (
-    <div className="ground-admin-product">
-      <div className="container-admin-cart">
-        <Link to="/admin-new-product"> <Button className="add-product" type="primary">Thêm Sản Phẩm</Button></Link>
-        {loading && <LoadingPage />}
-        {dataProducts.length > 0 &&
-          <Table
-            className="ground-table"
-            columns={Columns}
-            dataSource={dataProducts}
-            pagination={pagination}
-            onChange={handleTableChange}
-            position={'bottomCenter'}
-            scroll={{ x: 1100 }}
-          />}
+    <div className="ground-edit-product">
+      <div className="container-edit-product">
+        <FormProduct
+          id_product={id_product}
+          valuesEdit={valuesEdit}
+        />
       </div>
     </div>
   )
 }
+

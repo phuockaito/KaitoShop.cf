@@ -32,7 +32,7 @@ export default function Register() {
   const onFinish = async (values) => {
     const data = {
       name: values.name,
-      email: values.email.trim(),
+      email: values.email.toLowerCase().trim(),
       password: values.password,
     };
     if (values) {

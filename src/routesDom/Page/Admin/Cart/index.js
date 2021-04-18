@@ -46,6 +46,7 @@ export default function ListProduct() {
   return (
     <div className="ground-admin-list">
       <div className="container-admin-list">
+        <h3>Tất Cả {!length == 0 && length} Danh Sách Mua Hàng </h3>
         <div className="filter-success">
           <Select
             labelInValue
@@ -53,14 +54,13 @@ export default function ListProduct() {
             onChange={onChangeFilter}
             style={{ width: '160px', textAlign: 'left' }}
           >
-            <Option value={['true-false', 'true-false']}>Tất cả giỏ hàng</Option>
+            <Option value={['true-false', 'true-false']}>Tất Cả Giỏ Hàng</Option>
             <Option value={[false, true]} >Chờ Xét Duyệt</Option>
             <Option value={[false, false]} >Đã Hủy</Option>
             <Option value={[true, true]}>Đã Duyệt</Option>
           </Select>
         </div>
         <div className="main-admin-list">
-          <h3>Tất Cả {!length == 0 && length} Danh Sách Mua Hàng </h3>
           {loading && <Loading />}
           {loadingDeleteCartAPI && <LoadingPage />}
           {

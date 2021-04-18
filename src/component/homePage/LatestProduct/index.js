@@ -1,15 +1,11 @@
-import { useState, useEffect, memo } from 'react';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import StarRatings from "react-star-ratings";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import './style.css';
 import Loading from 'component/LoadingBtn/index';
-function AllProduct({ data, loading, lengthAllProduct, onChangePage }) {
+function LatestProduct({ data, loading }) {
   const formatter = new Intl.NumberFormat('vn');
-  const [btnLoading, setBtnLoading] = useState(false);
-  useEffect(() => {
-    setBtnLoading(false);
-  }, [data.length]);
   const showReview = (rating, numReviews) => {
     const rate = (rating / numReviews);
     if (numReviews > 0) {
@@ -23,7 +19,6 @@ function AllProduct({ data, loading, lengthAllProduct, onChangePage }) {
             starEmptyColor="white"
           />
           <p>{numReviews} Đánh giá</p>
-
         </ >
       )
     }
@@ -70,7 +65,6 @@ function AllProduct({ data, loading, lengthAllProduct, onChangePage }) {
                 <div className="price-products-list">
                   <div className="group-price">
                     <span>{formatter.format(listProduct.price)} <u>đ</u></span>
-
                   </div>
                 </div>
                 <div className="group-start-review">
@@ -83,25 +77,20 @@ function AllProduct({ data, loading, lengthAllProduct, onChangePage }) {
         </div>
       )
     }
-  }
+  };
   return (
     <div className="group-list-Products">
-      <h3>TẤT CẢ SẢN PHẨM</h3>
+      <h3>SẢN PHẨM MỚI NHẤT</h3>
       {loading && <Loading />}
       {
         showListProducts(data)
       }
-      {(btnLoading) && (<Loading />)}
-      {
-        (!btnLoading && data.length < lengthAllProduct) && (
-          <button
-            className="load-data"
-            onClick={() => { onChangePage(1); setBtnLoading(true) }}
-          >
-            xem thêm
-          </button>
-        )}
+      {/* <button
+        className="load-data"
+      >
+        xem tất cả
+      </button> */}
     </div>
   )
 };
-export default memo(AllProduct);
+export default memo(LatestProduct);

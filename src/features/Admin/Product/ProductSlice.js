@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getListProduct } from './pathAPI';
+import { getListProduct, deleteToProduct } from './pathAPI';
 const ProductSlice = createSlice({
   name: 'productAdmin',
   initialState: {
     loading: false,
+    loadingDelete: false,
     data: [],
     length: 0
   },
@@ -19,6 +20,21 @@ const ProductSlice = createSlice({
     },
     [getListProduct.rejected]: state => {
       state.loading = false;
+    },
+    [deleteToProduct.pending]: state => {
+      state.loadingDelete = true
+    },
+    [deleteToProduct.fulfilled]: (state, action) => {
+      const { product } = action.payload;
+      const { data } = state;
+      const index = data.findIndex(item => item._id === product._id);
+      console.log(index);
+      data.splice(index, 1);
+      state.loadingDelete = false;
+      state.length = state.length - 1;
+    },
+    [deleteToProduct.rejected]: state => {
+      state.loadingDelete = false;
     }
   }
 });
