@@ -1,14 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Comment,
-  Tooltip,
-  List,
-  Popover,
-  Button,
-  Form,
-  Modal,
-  Input,
-} from "antd";
+import { Comment, Tooltip, List, Popover, Button, Form, Input } from "antd";
 import moment from "moment";
 import "moment/locale/vi";
 import StarRatings from "react-star-ratings";
@@ -18,6 +9,7 @@ import LoadingBtn from "component/LoadingBtn/index";
 // --CSS
 import "./style.css";
 moment.locale("vi");
+const avatarLogo = "https://res.cloudinary.com/phuockaito/image/upload/v1618158354/tich-xanh-fanpage-va-quang-cao-livestream-fanpage-tich-xanh_ttn2e7.png"
 export default function ListComment({
   dataComment,
   onChangePageComment,
@@ -29,10 +21,12 @@ export default function ListComment({
   lengthComment,
 }) {
   const [loading, setLoading] = useState(false);
+  const [loadingSubmitCmt, setLoadingSubmitCmt] = useState(false);
   const [isEditFromComment, setIsEditFromComment] = useState(false);
   const [idEditFromComment, setIdEditFromComment] = useState(null);
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState('');
   const [start, setStart] = useState(0);
+  const [startOldEdit, setStartOldEdit] = useState(0);
   const [form] = Form.useForm();
   const { TextArea } = Input;
   useEffect(() => {
@@ -46,25 +40,48 @@ export default function ListComment({
     });
     actionCheckDeleteCmt();
   };
+  const onEditComment = (id, start) => {
+    setIdEditFromComment(id);
+    setIsEditFromComment(true);
+    setStartOldEdit(start);
+    setStart(start);
+  }
 
+  const cancelFromEdit = () => {
+    setIsEditFromComment(false);
+    setContent('');
+  }
   const onChangeTextArea = (e) => {
     setContent(e.target.value);
   };
   const onFinish = (e) => {
-    if (content) {
-      const data = {
-        content: content.trim(),
-        start: start,
-        token: token,
-        idProduct: idProduct,
-      };
-    } else {
-      setIsEditFromComment(false);
+    try {
+      if (content || startOldEdit !== start) {
+        socket.emit("userUpdateComment", {
+          _id: idEditFromComment,
+          content: content,
+          start: start,
+          token: token,
+          idProduct: idProduct,
+        });
+        setTimeout(() => {
+          setIsEditFromComment(false);
+          setLoadingSubmitCmt(false);
+          setContent('');
+        }, 1000);
+      } else {
+        setIsEditFromComment(false);
+        setLoadingSubmitCmt(false);
+
+      }
+    } catch (error) {
+      console.log(error)
     }
   };
 
   const handleChange = (newRating) => {
     setStart(newRating);
+
   };
   return (
     <div className="group-list-comment">
@@ -75,21 +92,31 @@ export default function ListComment({
               <h3>Khách Hàng Nhận Xét</h3>
               <p>
                 {dataComment.length} /{lengthComment} bình luận
-              </p>
+							</p>
             </div>
             <List
               className="comment-list"
               itemLayout="horizontal"
               dataSource={dataComment}
               renderItem={(item) => (
-                <li data-aos="fade-left">
+                <li>
                   <Comment
                     avatar={item.avatar}
                     content={
                       !(isEditFromComment && item._id === idEditFromComment) &&
-                      item.content
+                      <div className='list-content'>
+                        {item.content}
+                      </div>
                     }
-                    author={item.name}
+                    author={
+                      <div className="group-avatar-logo-name">
+                        <h3 className={item.role === 1 && 'admin'}>
+                          {item.name}
+                          {item.role === 1 && <img src={avatarLogo} alt={item.name} />}
+                        </h3>
+                        {item.role === 1 && <p>Quản trị viên</p>}
+                      </div>
+                    }
                     datetime={
                       <Tooltip>
                         {isEditFromComment && item._id === idEditFromComment ? (
@@ -98,11 +125,6 @@ export default function ListComment({
                               <div className="group-time">
                                 <span>
                                   {moment(item.timeComment).fromNow()}
-                                </span>
-                                <span>
-                                  {moment(item.timeComment)
-                                    .subtract(1, "days")
-                                    .format("DD/MM/YYYY")}
                                 </span>
                               </div>
                               <div className="group-start">
@@ -124,37 +146,36 @@ export default function ListComment({
                               name="content"
                               style={{ marginTop: "20px" }}
                               placeholder="Mời bạn để lại bình luận"
-                              rows={5}
+                              rows={7}
                               max={20}
                               defaultValue={item.content}
                               onChange={onChangeTextArea}
                               maxLength={700}
                             />
                             <div className="man-edit-btn">
-                              <Button type="primary" htmlType="submit">
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                loading={loadingSubmitCmt}
+                                onClick={() => { setLoadingSubmitCmt(true) }}
+                                disabled={(content.trim().length >= 1) ? false : true}
+                              >
                                 Lưu Lại
-                              </Button>
+															</Button>
                               <Button
                                 type="primary"
                                 danger
-                                onClick={() => {
-                                  setIsEditFromComment(false);
-                                  setContent(null);
-                                }}
+                                onClick={cancelFromEdit}
                               >
                                 Hủy
-                              </Button>
+															</Button>
                             </div>
                           </Form>
                         ) : (
                           <div className="group-time-tart">
                             <div className="group-time">
                               <span>{moment(item.timeComment).fromNow()}</span>
-                              <span>
-                                {moment(item.timeComment)
-                                  .subtract(1, "days")
-                                  .format("DD/MM/YYYY")}
-                              </span>
+                              {item.editComment && <span>Đã chỉnh sửa</span>}
                             </div>
                             <div className="group-start">
                               {item.start > 0 && (
@@ -192,21 +213,17 @@ export default function ListComment({
                                     }}
                                   >
                                     <DeleteOutlined />
-                                    Xóa
-                                  </Button>
+																		Xóa
+																	</Button>
                                 </div>
                                 <div className="btn-delete">
                                   <Button
                                     className="edit"
-                                    onClick={() => {
-                                      setIdEditFromComment(item._id);
-                                      setIsEditFromComment(true);
-                                      setStart(item.start);
-                                    }}
+                                    onClick={() => { onEditComment(item._id, item.start) }}
                                   >
                                     <EditOutlined />
-                                    Chỉnh sữa
-                                  </Button>
+																		Chỉnh sữa
+																	</Button>
                                 </div>
                               </div>
                             }
@@ -237,4 +254,4 @@ export default function ListComment({
       </div>
     </div>
   );
-}
+};

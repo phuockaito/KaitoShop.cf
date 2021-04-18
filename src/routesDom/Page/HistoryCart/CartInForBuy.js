@@ -1,177 +1,185 @@
-import {
-    EditOutlined,
-    FileSearchOutlined,
-    LoadingOutlined,
-    CheckCircleOutlined,
-    CloseOutlined,
-    DeleteOutlined,
-    ShoppingCartOutlined,
-    WarningOutlined,
-    ExclamationCircleOutlined
-} from '@ant-design/icons';
 import { Drawer, Button, Modal } from 'antd';
+import {
+  EditOutlined,
+  FileSearchOutlined,
+  LoadingOutlined,
+  CheckCircleOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  ShoppingCartOutlined,
+  WarningOutlined,
+  ExclamationCircleOutlined
+} from '@ant-design/icons';
 // Component
 import EditAddress from './EditAddress';
 import moment from 'moment';
 import 'moment/locale/vi';
 moment.locale('vi');
 const formatter = new Intl.NumberFormat('vn');
-export default function CartInForBuy({ id_card, data, useState, actionPutCartStatusOrderAPI, token, actionPutCartAddressesAPI, loadingUpdateCartStatus, actionDeleteCartAPI }) {
-    // create state 
-    const [visible, setVisible] = useState(false);
-    const [visibleEditAddress, setVisibleEditAddress] = useState(false);
-    // function
-    const CancelOrder = (id_card) => {
-        const data = {
-            data_card: {
-                status_order: false,
-            },
-            id_card: id_card
-        }
-        actionPutCartStatusOrderAPI(data, token);
+export default function CartInForBuy({
+  id_card,
+  data,
+  useState,
+  actionPutCartStatusOrderAPI,
+  token,
+  actionPutCartAddressesAPI,
+  loadingUpdateCartStatus,
+  actionDeleteCartAPI }) {
+  // create state
+  const [visible, setVisible] = useState(false);
+  const [visibleEditAddress, setVisibleEditAddress] = useState(false);
+  // function
+  const CancelOrder = (id_card) => {
+    const data = {
+      data_card: {
+        status_order: false,
+      },
+      id_card: id_card
     }
-    const OrderCall = (id_card) => {
-        const data = {
-            data_card: {
-                status_order: true,
-            },
-            id_card: id_card
-        }
-        actionPutCartStatusOrderAPI(data, token);
+    actionPutCartStatusOrderAPI(data, token);
+  };
+  const OrderCall = (id_card) => {
+    const data = {
+      data_card: {
+        status_order: true,
+      },
+      id_card: id_card
     }
+    actionPutCartStatusOrderAPI(data, token);
+  };
 
-    function deleteCart(id_card) {
-        Modal.confirm({
-            title: 'Bạn có chắc chắn xóa những giỏ hàng này không ?.',
-            icon: <ExclamationCircleOutlined />,
-            width: 500,
-            okText: 'tiếp tục',
-            cancelText: 'hủy',
-            onOk() {
-                actionDeleteCartAPI(id_card,token);
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
-    }
-    return (
-        <div className="group-info-buy-cart">
-            <div className="group-sum-totale">
-                <h5>Tổng Số Tiền<p>{formatter.format(data.totalSum)} <u>đ</u></p></h5>
-                <div className="button-more-info">
-                    <Button
-                        type="primary"
-                        className="btn-cancel-order-call"
-                        onClick={() => { deleteCart(id_card) }}
-                    >
-                        <DeleteOutlined /> Xóa giỏ hàng
-                    </Button>
-
-                    {
-                        !data.status_order ? (
-                            <Button
-                                type="primary"
-                                className="btn-cancel-order-call"
-                                onClick={() => OrderCall(id_card)}
-                            >
-                                <ShoppingCartOutlined /> Đặt hàng lại
-                            </Button>
-                        ) : null
-                    }
-                    {/*  */}
-                    {
-                        data.status_order ? (<Button
-                            type="primary"
-                            className="btn-cancel-order"
-                            onClick={() => CancelOrder(id_card)}
-                        >
-                            <CloseOutlined /> Hủy đơn hàng
-                        </Button>) : (
-                                <Button
-                                    disabled
-                                    type="primary"
-                                    className="btn-cancel-order-uy"
-                                >
-                                    <WarningOutlined />   Đơn hàng đã hủy
-                                </Button>
-                            )
-                    }
-                    {
-                        data.status_order ? (
-                            <Button
-                                type="primary"
-                                className="btn-edit-address"
-                                onClick={() => setVisibleEditAddress(true)}
-                            >
-                                <EditOutlined />
-                    Chỉnh sửa
-                            </Button>
-                        ) : null
-                    }
-                    <Button
-                        disabled
-                        className={`${data.success ? 'true' : 'false'}`}
-                    >
-                        {
-                            data.success ? <CheckCircleOutlined /> : <LoadingOutlined />
-                        }
-                    Trạng Thái: {data.success ? 'Đã xét duyệt' : 'Chờ xét duyệt'}
-                    </Button>
-                    <Button
-                        type="primary"
-                        onClick={() => setVisible(true)}
-                        className="show-button-more-info"
-                    >
-                        <FileSearchOutlined />
+  function deleteCart(id_card) {
+    Modal.confirm({
+      title: 'Bạn có chắc chắn xóa những giỏ hàng này không ?.',
+      icon: <ExclamationCircleOutlined />,
+      width: 500,
+      okText: 'tiếp tục',
+      cancelText: 'hủy',
+      onOk() {
+        actionDeleteCartAPI(id_card, token);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+  return (
+    <div className="group-info-buy-cart">
+      <div className="group-sum-totale">
+        <h5>Tổng Số Tiền<p>{formatter.format(data.totalSum)} <u>đ</u></p></h5>
+        <div className="button-more-info">
+          <Button
+            type="primary"
+            className="btn-cancel-order-call"
+            onClick={() => { deleteCart(id_card) }}
+          >
+            <DeleteOutlined /> Xóa giỏ hàng
+           </Button>
+          {
+            !data.status_order && (<Button
+              type="primary"
+              className="btn-order-call"
+              onClick={() => OrderCall(id_card)}
+            >
+              <ShoppingCartOutlined /> Đặt hàng lại
+            </Button>)
+          }
+          {
+            data.status_order ? (<Button
+              type="primary"
+              className="btn-cancel-order"
+              onClick={() => CancelOrder(id_card)}
+            >
+              <CloseOutlined /> Hủy đơn hàng
+            </Button>) : (
+              <Button
+                disabled
+                type="primary"
+                className="btn-cancel-order-uy"
+              >
+                <WarningOutlined />  Đơn hàng đã hủy
+              </Button>
+            )
+          }
+          {
+            (data.status_order && !data.success) && (
+              <Button
+                disabled={data.success ? true : false}
+                type="primary"
+                className="btn-edit-address"
+                onClick={() => setVisibleEditAddress(true)}
+              >
+                <EditOutlined />
+                  Chỉnh sửa
+              </Button>)
+          }
+          {
+            data.status_order && (
+              <Button
+                disabled={true}
+                className={`${data.success ? 'true' : 'false'}`}
+              >
+                {
+                  data.success ? <CheckCircleOutlined /> : <LoadingOutlined />
+                }
+                Trạng Thái: {data.success ? 'Đã xét duyệt' : 'Chờ xét duyệt'}
+              </Button>
+            )
+          }
+          <Button
+            type="primary"
+            onClick={() => setVisible(true)}
+            className="show-button-more-info"
+          >
+            <FileSearchOutlined />
                     Xem chi tiết đơn hàng
-                </Button>
-                </div>
-            </div>
-            <Drawer
-                title="Chi tiết Đơn Hàng"
-                className="group-drawer-buy-cart"
-                width={500}
-                onClose={() => setVisible(false)}
-                visible={visible}
-                bodyStyle={{ padding: 10 }}
-                className="container-information"
-                placement="bottom"
-            >
-                <div className="group-modal-cart">
-                    <div className="group-address-modal">
-                        <span>Địa Chỉ:</span> <p>{data.address}</p>
-                    </div>
-                    <div className="group-phone-modal">
-                        <span>Số Điện Thoại:</span> <p>{data.phone}</p>
-                    </div>
-                    <div className="group-payment-modal">
-                        <span>Thanh Toán:</span> <p>{data.payment}</p>
-                    </div>
-                    <div className="group-time-modal">
-                        <span>Ngày Đặt Hàng:</span>
-                        <p>
-                            {moment(data.timeCart).fromNow()}
-                        </p>
-                        <p> {moment(data.timeCart).subtract(1, 'days').format('DD/MM/YYYY')}</p>
-                    </div>
-                </div>
-            </Drawer>
-            <Modal
-                title="Chỉnh sửa giao hàng"
-                onClose={() => setVisibleEditAddress(false)}
-                visible={visibleEditAddress}
-                centered
-                onCancel={() => setVisibleEditAddress(false)}
-                footer={null}
-            >
-                <EditAddress
-                    id_card={id_card}
-                    token={token}
-                    actionPutCartAddressesAPI={actionPutCartAddressesAPI}
-                    loadingUpdateCartStatus={loadingUpdateCartStatus}
-                />
-            </Modal>
+          </Button>
+          {data.message && <p className="message">{data.message}</p>}
         </div>
-    )
+      </div>
+      <Drawer
+        title="Chi tiết Đơn Hàng"
+        width={500}
+        onClose={() => setVisible(false)}
+        visible={visible}
+        bodyStyle={{ padding: 10 }}
+        placement="bottom"
+      >
+        <div className="group-modal-cart">
+          <div className="group-address-modal">
+            <span>Địa Chỉ:</span> <p>{data.address}</p>
+          </div>
+          <div className="group-phone-modal">
+            <span>Số Điện Thoại:</span> <p>{data.phone}</p>
+          </div>
+          <div className="group-payment-modal">
+            <span>Thanh Toán:</span> <p>{data.payment}</p>
+          </div>
+          <div className="group-time-modal">
+            <span>Ngày Đặt Hàng:</span>
+            <p>
+              {moment(data.timeCart).fromNow()}
+            </p>
+            <p> {moment(data.timeCart).subtract(1, 'days').format('DD/MM/YYYY')}</p>
+          </div>
+        </div>
+      </Drawer>
+      <Modal
+        title="Chỉnh sửa giao hàng"
+        onClose={() => setVisibleEditAddress(false)}
+        visible={visibleEditAddress}
+        centered
+        onCancel={() => setVisibleEditAddress(false)}
+        footer={null}
+      >
+        <EditAddress
+          id_card={id_card}
+          token={token}
+          actionPutCartAddressesAPI={actionPutCartAddressesAPI}
+          loadingUpdateCartStatus={loadingUpdateCartStatus}
+          setVisibleEditAddress={setVisibleEditAddress}
+        />
+      </Modal>
+    </div>
+  )
 }

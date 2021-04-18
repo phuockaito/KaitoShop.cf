@@ -17,180 +17,193 @@ import './style.css';
 const { TabPane } = Tabs;
 const tokenLocal = localStorage.getItem('token');
 export default function HistoryCart() {
-    document.querySelector('title').innerHTML = 'Lịch sử mua hàng';
-    const dispatch = useDispatch();
-    const state = useContext(UserContext);
-    const { token } = state;
-    const history = useHistory();
-    if (!tokenLocal && !token) {
-        history.push("/");
-    }
-    // dispatch API
-    const actionGetCartAPI = token => dispatch(getCartAPI(token));
-    const actionPutCartStatusOrderAPI = (data, token) => dispatch(putCartStatusOrderAPI(data, token));
-    const actionPutCartAddressesAPI = (data, token) => dispatch(putCartAddressesAPI(data, token));
-    const actionDeleteCartAPI = (id_card, token) => dispatch(deleteCartAPI(id_card, token));
-    // store
-    const dataHistoryCart = useSelector(state => state.cart.historyCart);
-    const loadingUpdateCartStatus = useSelector(state => state.cart.loadingUpdateCartStatus);
-    const loadingHistoryCart = useSelector(state => state.cart.loadingHistoryCart);
-    const loadingDeleteCartAPI = useSelector(state => state.cart.loadingDeleteCartAPI);
+  document.querySelector('title').innerHTML = 'Lịch sử mua hàng';
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const state = useContext(UserContext);
+  const [idUser,] = state.idUser;
+  const [token,] = state.token;
+  const { socket } = state;
+  if (!tokenLocal && !token) {
+    history.push("/");
+  };
 
-    // useEffect
-    useEffect(() => {
-        actionGetCartAPI(token);
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        })
-    }, []);
+  // dispatch API
+  const actionGetCartAPI = token => dispatch(getCartAPI(token));
+  const actionPutCartStatusOrderAPI = (data, token) => dispatch(putCartStatusOrderAPI(data, token));
+  const actionPutCartAddressesAPI = (data, token) => dispatch(putCartAddressesAPI(data, token));
+  const actionDeleteCartAPI = (id_card, token) => dispatch(deleteCartAPI(id_card, token));
+  // store
+  const dataHistoryCart = useSelector(state => state.cart.historyCart);
+  const loadingUpdateCartStatus = useSelector(state => state.cart.loadingUpdateCartStatus);
+  const loadingHistoryCart = useSelector(state => state.cart.loadingHistoryCart);
+  const loadingDeleteCartAPI = useSelector(state => state.cart.loadingDeleteCartAPI);
 
-    const showProductsBuyCartAll = CartData => {
-        return (
-            CartData.map((itemCart, index) => (
-                <div className="cart-item-history" key={index}>
-                    {
-                        itemCart.cart.map((cart, index) => (
-                            <CartItem data={cart} key={index} />
-                        ))
-                    }
-                    <CartInForBuy
-                        token={token}
-                        data={itemCart}
-                        id_card={itemCart._id}
-                        actionDeleteCartAPI={actionDeleteCartAPI}
-                        useState={useState}
-                        actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
-                        actionPutCartAddressesAPI={actionPutCartAddressesAPI}
-                        loadingUpdateCartStatus={loadingUpdateCartStatus}
-                    />
-                </div>
-            ))
-        )
-    };
-    // show Pending
-    const showProductsBuyCartAllPending = CartData => {
-        return (
-            CartData.map((itemCart, index) => (!itemCart.success) && (
-                <div className="cart-item-history" key={index}>
-                    {
-                        itemCart.cart.map((cart, index) => (
-                            <CartItem data={cart} key={index} />
-                        ))
-                    }
-                    <CartInForBuy
-                        token={token}
-                        data={itemCart}
-                        id_card={itemCart._id}
-                        actionDeleteCartAPI={actionDeleteCartAPI}
-                        useState={useState}
-                        actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
-                        actionPutCartAddressesAPI={actionPutCartAddressesAPI}
-                        loadingUpdateCartStatus={loadingUpdateCartStatus}
-                    />
-                </div>
-            ))
-        )
-    };
+  // useEffect
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    actionGetCartAPI(token);
+  }, []);
 
-    // show Pending Finish
-    const showProductsBuyCartAllFinish = CartData => {
-        return (
-            CartData.map((itemCart, index) => (itemCart.success) && (
-                <div className="cart-item-history" key={index}>
-                    {
-                        itemCart.cart.map((cart, index) => (
-                            <CartItem data={cart} key={index} />
-                        ))
-                    }
-                    <CartInForBuy
-                        token={token}
-                        data={itemCart}
-                        id_card={itemCart._id}
-                        actionDeleteCartAPI={actionDeleteCartAPI}
-                        useState={useState}
-                        actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
-                        actionPutCartAddressesAPI={actionPutCartAddressesAPI}
-                        loadingUpdateCartStatus={loadingUpdateCartStatus}
-                    />
-                </div>
-            ))
-        )
-    };
-    // show  status order
-    const showProductsBuyCartStatusOrder = CartData => {
-        return (
-            CartData.map((itemCart, index) => (!itemCart.status_order) && (
-                <div className="cart-item-history" key={index}>
-                    {
-                        itemCart.cart.map((cart, index) => (
-                            <CartItem data={cart} key={index} />
-                        ))
-                    }
-                    <CartInForBuy
-                        token={token}
-                        data={itemCart}
-                        id_card={itemCart._id}
-                        actionDeleteCartAPI={actionDeleteCartAPI}
-                        useState={useState}
-                        actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
-                        actionPutCartAddressesAPI={actionPutCartAddressesAPI}
-                        loadingUpdateCartStatus={loadingUpdateCartStatus}
-                    />
-                </div>
-            ))
-        )
 
-    };
 
+  const showProductsBuyCartAll = CartData => {
     return (
-        <div className="group-history-cart">
-            <div className="container-history-cart">
-                {loadingDeleteCartAPI && <LoadingPage />}
-                <h3>LỊCH SỬ MUA HÀNG</h3>
-                {loadingHistoryCart && <Loading />}
-                {
-                    (!loadingHistoryCart && dataHistoryCart.length > 0) && (
-                        <Tabs defaultActiveKey="1"  >
-                            <TabPane
-                                tab="Tất Cả"
-                                key="1"
-                            >
-                                {showProductsBuyCartAll(dataHistoryCart)}
-                            </TabPane>
-                            <TabPane
-                                tab="Chờ Duyệt"
-                                key="2"
-                            >
-                                {showProductsBuyCartAllPending(dataHistoryCart)}
-                            </TabPane>
-                            <TabPane
-                                tab="Đã Xét Duyệt"
-                                key="3"
-                            >
-                                {showProductsBuyCartAllFinish(dataHistoryCart)}
-                            </TabPane>
-                            <TabPane
-                                tab="Đã Hủy"
-                                key="4"
-                            >
-                                {showProductsBuyCartStatusOrder(dataHistoryCart)}
-                            </TabPane>
-                        </Tabs>
-                    )
-                }
-                {
-                    (dataHistoryCart.length === 0 && !loadingHistoryCart) && (
-                        <div className="no-history-cart">
-                            <FileTextOutlined style={{
-                                fontSize: '2em',
-                                margin: '15px auto',
-                            }} />
-                            <h4>Không có gì để hiển thị</h4>
-                        </div>
-                    )
-                }
-            </div>
+      CartData.map((itemCart, index) => (
+        <div className="cart-item-history" key={index}>
+          {
+            itemCart.cart.map((cart, index) => (
+              <CartItem data={cart} key={index} />
+            ))
+          }
+          <CartInForBuy
+            socket={socket}
+            idUser={idUser}
+            token={token}
+            data={itemCart}
+            id_card={itemCart._id}
+            actionDeleteCartAPI={actionDeleteCartAPI}
+            useState={useState}
+            actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
+            actionPutCartAddressesAPI={actionPutCartAddressesAPI}
+            loadingUpdateCartStatus={loadingUpdateCartStatus}
+          />
         </div>
+      ))
     )
+  };
+  // show Pending
+  const showProductsBuyCartAllPending = CartData => {
+    return (
+      CartData.map((itemCart, index) => (!itemCart.success) && (
+        <div className="cart-item-history" key={index}>
+          {
+            itemCart.cart.map((cart, index) => (
+              <CartItem data={cart} key={index} />
+            ))
+          }
+          <CartInForBuy
+            socket={socket}
+            idUser={idUser}
+            token={token}
+            data={itemCart}
+            id_card={itemCart._id}
+            actionDeleteCartAPI={actionDeleteCartAPI}
+            useState={useState}
+            actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
+            actionPutCartAddressesAPI={actionPutCartAddressesAPI}
+            loadingUpdateCartStatus={loadingUpdateCartStatus}
+          />
+        </div>
+      ))
+    )
+  };
+
+  // show Pending Finish
+  const showProductsBuyCartAllFinish = CartData => {
+    return (
+      CartData.map((itemCart, index) => (itemCart.success) && (
+        <div className="cart-item-history" key={index}>
+          {
+            itemCart.cart.map((cart, index) => (
+              <CartItem data={cart} key={index} />
+            ))
+          }
+          <CartInForBuy
+            socket={socket}
+            idUser={idUser}
+            token={token}
+            data={itemCart}
+            id_card={itemCart._id}
+            actionDeleteCartAPI={actionDeleteCartAPI}
+            useState={useState}
+            actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
+            actionPutCartAddressesAPI={actionPutCartAddressesAPI}
+            loadingUpdateCartStatus={loadingUpdateCartStatus}
+          />
+        </div>
+      ))
+    )
+  };
+  // show  status order
+  const showProductsBuyCartStatusOrder = CartData => {
+    return (
+      CartData.map((itemCart, index) => (!itemCart.status_order) && (
+        <div className="cart-item-history" key={index}>
+          {
+            itemCart.cart.map((cart, index) => (
+              <CartItem data={cart} key={index} />
+            ))
+          }
+          <CartInForBuy
+            socket={socket}
+            idUser={idUser}
+            token={token}
+            data={itemCart}
+            id_card={itemCart._id}
+            actionDeleteCartAPI={actionDeleteCartAPI}
+            useState={useState}
+            actionPutCartStatusOrderAPI={actionPutCartStatusOrderAPI}
+            actionPutCartAddressesAPI={actionPutCartAddressesAPI}
+            loadingUpdateCartStatus={loadingUpdateCartStatus}
+          />
+        </div>
+      ))
+    )
+
+  };
+
+  return (
+    <div className="group-history-cart">
+      <div className="container-history-cart">
+        {loadingDeleteCartAPI && <LoadingPage />}
+        <h3>LỊCH SỬ MUA HÀNG <span>{dataHistoryCart.length} sản phẩm</span></h3>
+        {loadingHistoryCart && <Loading />}
+        {
+          (!loadingHistoryCart && dataHistoryCart.length > 0) && (
+            <Tabs defaultActiveKey="1"  >
+              <TabPane
+                tab="Tất Cả"
+                key="1"
+              >
+                {showProductsBuyCartAll(dataHistoryCart)}
+              </TabPane>
+              <TabPane
+                tab="Chờ Duyệt"
+                key="2"
+              >
+                {showProductsBuyCartAllPending(dataHistoryCart)}
+              </TabPane>
+              <TabPane
+                tab="Đã Xét Duyệt"
+                key="3"
+              >
+                {showProductsBuyCartAllFinish(dataHistoryCart)}
+              </TabPane>
+              <TabPane
+                tab="Đã Hủy"
+                key="4"
+              >
+                {showProductsBuyCartStatusOrder(dataHistoryCart)}
+              </TabPane>
+            </Tabs>
+          )
+        }
+        {
+          (dataHistoryCart.length === 0 && !loadingHistoryCart) && (
+            <div className="no-history-cart">
+              <FileTextOutlined style={{
+                fontSize: '2em',
+                margin: '15px auto',
+              }} />
+              <h4>Không có gì để hiển thị</h4>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  )
 }

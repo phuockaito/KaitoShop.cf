@@ -19,7 +19,7 @@ export default function HistoryComment() {
   const dispatch = useDispatch();
   const history = useHistory();
   const state = useContext(UserContext);
-  const { token } = state;
+  const [token,] = state.token;
   // create State
   const [page, setPage] = useState(1);
   const [loadingCmt, setLoadingCmt] = useState(false);
@@ -33,21 +33,15 @@ export default function HistoryComment() {
     dispatch(deleteComment(data, token));
   // useSelector
   const dataHistoryComment = useSelector((state) => state.user.diaryComment);
-  const lengthSumHistoryComment = useSelector(
-    (state) => state.user.diaryCommentLength
-  );
-  const loadingHistoryComment = useSelector(
-    (state) => state.user.loadingDiaryComment
-  );
-  const loadingDeleteCmtAPI = useSelector(
-    (state) => state.comment.loadingDeleteCmtAPI
-  );
+  const lengthSumHistoryComment = useSelector((state) => state.user.diaryCommentLength);
+  const loadingHistoryComment = useSelector((state) => state.user.loadingDiaryComment);
+  const loadingDeleteCmtAPI = useSelector((state) => state.comment.loadingDeleteCmtAPI);
   // Effect
   useEffect(() => {
     if (token) {
       const data = {
         page: page,
-        iteml: 5,
+        items: 5,
       };
       getDataComments(data, token);
     }

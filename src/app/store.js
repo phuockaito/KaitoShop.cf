@@ -11,20 +11,26 @@ import ListMenuSlice from 'features/Menu/ListMenuSlice';
 import SearchProductSlice from 'features/Search/SearchProductSlice';
 import CartSlice from 'features/Cart/CartSlice';
 import UserSlice from 'features/User/UserSlice';
+// admin
+import AdminCart from 'features/Admin/Cart/CartSlice';
+import AdminProduct from 'features/Admin/Product/ProductSlice';
 
 const rootReducer = {
-    ListProduct: listProductAPI,
-    menu: ListMenuSlice,
-    slider: SliderProductSlice,
-    type: TypeProductSlice,
-    productId: ProductIdSlice,
-    comment: CommentSlice,
-    trademarkType: TrademarkTypeSlice,
-    search: SearchProductSlice,
-    cart: CartSlice,
-    user: UserSlice
+  ListProduct: listProductAPI,
+  menu: ListMenuSlice,
+  slider: SliderProductSlice,
+  type: TypeProductSlice,
+  productId: ProductIdSlice,
+  comment: CommentSlice,
+  trademarkType: TrademarkTypeSlice,
+  search: SearchProductSlice,
+  cart: CartSlice,
+  user: UserSlice,
+  // admin
+  cartAdmin: AdminCart,
+  productAdmin: AdminProduct
 };
 const store = configureStore({
-    reducer: rootReducer
+  reducer: rootReducer
 });
 export default store;

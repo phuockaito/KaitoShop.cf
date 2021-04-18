@@ -1,50 +1,73 @@
-import { Suspense } from 'react';
+import { Suspense, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { useSelector } from 'react-redux';
 // --Contexts
 import { UserContextProvider } from 'contexts/UserContext';
 // --Components
 import Header from 'component/Header';
 import Loading from "loading/index";
-import Page from 'routesDom/index';
 import Menu from 'component/Header/Menu/index';
 import Footer from 'component/Footer/index';
+import NotFount from 'routesDom/Page/NotFount/index';
+//page
+import pageUser from 'routesDom/index';
+import pageAdmin from 'routesDom/Page/Admin/Page'
 // --CSS
 import './App.css';
 import 'aos/dist/aos.css';
 
-// socket 
+// socket
 export default function App() {
-  const showPage = (Page) => {
-    var result = null;
-    if (Page.length > 0) {
-      result = Page.map((Page, index) => (
-        <Route
-          key={index}
-          exact={Page.exact}
-          path={Page.path}
-          render={props => <Page.main {...props} />}
-        />
-      ))
+  const isAdmin = useSelector(state => state.user.isAdmin);
+  const showPageUser = page => {
+    if (page.length > 0) {
+      return (
+        page.map((page, index) => (
+          <Route
+            key={index}
+            exact={page.exact}
+            path={page.path}
+            component={page.main}
+          />
+        ))
+      )
     }
-    return result;
   };
-    return (
-      <Router>
-        <UserContextProvider>
-          <Header />
-          <Menu />
-          <div className="ground-container">
-            <div className="main-container">
-              <Suspense fallback={<Loading />}>
-                <Switch>
-                  {showPage(Page)}
-                  <Redirect to="/" from="/" />
-                </Switch>
-                <Footer />
-              </Suspense>
-            </div>
+  const showPageAdmin = page => {
+    if (page.length > 0) {
+      return (
+        page.map((page, index) => (
+          < Route
+            key={index}
+            exact={page.exact}
+            path={page.path}
+            component={isAdmin ? page.main : NotFount}
+          />
+        ))
+      )
+    }
+  };
+  return (
+    <Router>
+      <UserContextProvider>
+        <Header />
+        <Menu />
+        <div className="ground-container">
+          <div className="main-container">
+            <Suspense fallback={<Loading />}>
+              <Switch>
+                {/* // page user */}
+                {showPageUser(pageUser)}
+                {/* // page admin */}
+                {isAdmin && showPageAdmin(pageAdmin)}
+                <Route path="/*" component={NotFount} exact />
+                <Redirect to="/" from="/" />
+              </Switch>
+              <Footer />
+            </Suspense>
           </div>
-        </UserContextProvider>
-      </Router>
-    );
-  };
+        </div>
+      </UserContextProvider>
+    </Router>
+  );
+};

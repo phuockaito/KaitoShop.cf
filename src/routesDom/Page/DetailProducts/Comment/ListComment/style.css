@@ -1,164 +1,183 @@
 .group-list-comment {
-  margin: 20px 0 0 0;
-  overflow: hidden;
+	margin: 20px 0 0 0;
+	overflow: hidden;
 }
 .group-list-comment .item-comment .group-review {
-  padding: 10px 0;
+	padding: 10px 0;
 }
 .group-list-comment .item-comment .group-review {
-  display: flex;
-  padding: 15px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: #ffff;
-  border-radius: 8px;
+	display: flex;
+	padding: 15px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background: #ffff;
+	border-radius: 8px;
 }
 .item-comment .comment-list .group-content p.text-hidden {
-  overflow: hidden;
-  height: 110px;
-  transition: ease-out 0.3s;
+	overflow: hidden;
+	height: 110px;
+	transition: ease-out 0.3s;
+}
+.item-comment .comment-list .ant-comment-content {
+	background: #f0f2f5;
+	padding: 20px 15px 40px 15px;
+	border-radius: 8px;
 }
 .item-comment .comment-list .group-content.open p.text-hidden {
-  overflow: visible;
-  height: auto;
+	overflow: visible;
+	height: auto;
 }
 .item-comment .comment-list .group-content button {
-  display: block;
-  text-align: center;
-  padding: 3px 10px;
-  margin: 0 auto 0 auto;
-  position: relative;
-  border-radius: 2px;
-  outline: none;
-  background: none;
-  color: #1890ff;
-  border: none;
+	display: block;
+	text-align: center;
+	padding: 3px 10px;
+	margin: 0 auto 0 auto;
+	position: relative;
+	border-radius: 2px;
+	outline: none;
+	background: none;
+	color: #1890ff;
+	border: none;
 }
 .group-list-comment .item-comment .group-review h3 {
-  color: #4a5568;
-  font-size: 1.2em;
-  font-weight: 550;
-  margin: 0;
-  text-align: left;
+	color: #4a5568;
+	font-size: 1.2em;
+	font-weight: 550;
+	margin: 0;
+	text-align: left;
 }
 .group-list-comment .item-comment .group-review p {
-  font-size: 14px;
-  padding-left: 10px;
-  transition: ease 0.3s;
-  color: rgb(181, 178, 178);
-  margin-bottom: 0;
+	font-size: 14px;
+	padding-left: 10px;
+	transition: ease 0.3s;
+	color: rgb(181, 178, 178);
+	margin-bottom: 0;
 }
-.group-list-comment .ant-comment-content-author-name {
-  color: rgb(36, 36, 36);
-  font-size: 1.2em;
-  font-weight: 400;
+
+.group-list-comment .group-avatar-logo-name h3 {
+	color: rgb(36, 36, 36);
+	font-size: 1.2em;
+}
+.group-list-comment .group-avatar-logo-name p {
+	background: #f1c40f;
+	color: #333;
+	border-radius: 4px;
+	padding: 2px;
+	margin: 0;
+	display: block;
+	text-align: center;
+}
+.group-list-comment .group-avatar-logo-name h3.admin {
+	font-weight: 550;
+}
+.group-list-comment .group-avatar-logo-name img {
+	position: relative;
+	width: 15px;
+	height: 15px;
+	margin-left: 3px;
 }
 .group-list-comment .ant-list-split .ant-list-header {
-  padding: 10px 20px;
+	padding: 10px 20px;
 }
 .group-list-comment .group-start {
-  position: absolute;
-  right: 10px;
-  top: -30px;
+	position: absolute;
+	left: 20px;
+	bottom: 10px;
 }
 .group-list-comment .group-time {
-  padding-top: 4px;
+	padding: 5px 0;
 }
 .group-list-comment .group-time span {
-  padding-right: 15px;
-  color: rgb(153, 153, 153);
-  font-weight: 400;
-  font-size: 1.02em;
+	padding-right: 15px;
+	color: #e87a5a;
+	font-weight: 400;
+	font-size: 1.1em;
 }
-.group-list-comment li {
-  background-color: #fff;
-  box-shadow: 0 1px 6px rgb(239, 233, 242);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  background: #ffff;
-  margin: 20px 0;
-  border-radius: 8px;
-  position: relative;
-  display: block;
-}
-.group-list-comment li:last-child {
-  border-bottom: none;
+.group-list-comment .ant-list-items {
+	box-shadow: 0 1px 6px rgb(239 233 242);
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background: #ffff;
+	margin: 20px 0;
+	border-radius: 8px;
+	position: relative;
+	display: block;
+	padding: 20px 0;
 }
 .group-list-comment .item-comment .ant-comment {
-  padding: 40px 20px;
-  border-radius: 8px;
+	padding: 0px 20px;
 }
 
 .group-list-comment .item-comment .group-time-tart {
-  display: flex;
+	display: flex;
 }
 .group-list-comment .item-comment .ant-comment-content-author-time {
-  width: 100%;
+	width: 100%;
 }
 
-.group-delete {
-  position: absolute;
-  right: 30px;
-  bottom: 15px;
+.item-comment .comment-list .group-delete {
+	position: absolute;
+	right: 30px;
+	bottom: 25px;
 }
 .man-group-delete {
-  width: 135px;
-  position: relative;
-  text-align: center;
+	width: 135px;
+	position: relative;
+	text-align: center;
 }
 
 .man-group-delete .btn-delete button {
-  text-align: center;
-  width: 100%;
-  border: none;
-  box-shadow: none;
-  padding: 5px 30px 5px 20px;
+	text-align: center;
+	width: 100%;
+	border: none;
+	box-shadow: none;
+	padding: 5px 30px 5px 20px;
 }
 .man-group-delete .btn-delete button.delete {
-  color: #ff4d4f;
+	color: #ff4d4f;
 }
 .man-group-delete .btn-delete button.edit {
-  color: #1890ff;
+	color: #1890ff;
 }
 .man-group-delete .btn-delete:hover button {
-  background: #f0f2f5;
+	background: #f0f2f5;
 }
-.group-delete span {
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 1.5em;
+.item-comment .comment-list .group-delete span {
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1.5em;
 }
 /* Edit comment */
 .man-edit-btn {
-  text-align: right;
-  margin-top: 10px;
+	text-align: right;
+	margin-top: 10px;
 }
-.man-edit-btn button{
- margin-left: 10px;
- margin-right: 6px;
+.man-edit-btn button {
+	margin-left: 10px;
+	margin-right: 6px;
 }
 
 .group-list-comment .item-comment .load-data-comment {
-  display: block;
-  text-align: center;
-  margin: 20px auto;
-  outline: none;
-  padding: 5px 20px;
-  border-radius: 15px;
-  background: transparent;
-  border: 1px solid rgb(24, 158, 255);
-  cursor: pointer;
-  font-size: 0.9em;
-  text-transform: capitalize;
-  color: rgb(24, 158, 255);
-  transition: 0.3s ease-out;
-  font-weight: 500;
+	display: block;
+	text-align: center;
+	margin: 20px auto;
+	outline: none;
+	padding: 5px 20px;
+	border-radius: 15px;
+	background: transparent;
+	border: 1px solid rgb(24, 158, 255);
+	cursor: pointer;
+	font-size: 0.9em;
+	text-transform: capitalize;
+	color: rgb(24, 158, 255);
+	transition: 0.3s ease-out;
+	font-weight: 500;
 }
 .group-list-comment .item-comment .load-data-comment:hover {
-  background: rgb(24, 158, 255);
-  color: #ffff;
+	background: rgb(24, 158, 255);
+	color: #ffff;
 }
 
 @media screen and (max-width: 1000px) {
-  .group-list-comment {
-    margin: 10px;
-  }
+	.group-list-comment {
+		margin: 10px;
+	}
 }

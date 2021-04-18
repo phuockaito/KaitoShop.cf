@@ -1,63 +1,57 @@
 import StarRatings from "react-star-ratings";
 import { useState, useEffect } from "react";
-import { Comment, Avatar, Form, Button, Input, notification } from "antd";
+import { Comment, Avatar, Form, Button, Input } from "antd";
 import ImageDefault from "image/Notoken.png";
 import $ from "jquery";
+import { Link } from "react-router-dom";
 // --CSS
 import "./style.css";
+
 export default function FormWrite({
   idProduct,
-  dataProductsId,
   token,
   user,
-  lengthComment,
   socket,
 }) {
   // create State
   const { TextArea } = Input;
   const [form] = Form.useForm();
-  const [submitting, setSubmitting] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [start, setStart] = useState(0);
   const [contentCmt, setContentCmt] = useState(0);
-  useEffect(() => {
-    form.resetFields(["content"]);
-    setStart(0);
-    setContentCmt(0);
-    setSubmitting(false);
-  }, [lengthComment]);
-  useEffect(() => {
-    if (submitting) {
-      $("body,html").animate(
-        { scrollTop: $(".item-comment").offset().top - 90 },
-        1200
-      );
-    }
-  }, [submitting]);
   //function
   const onFinish = (values) => {
-    const product = {
-      _id: dataProductsId[0]._id,
-      poster: dataProductsId[0].poster[0].url,
-      key: dataProductsId[0].key,
-      NSX: dataProductsId[0].NSX,
-      name: dataProductsId[0].name,
-    };
     if (token) {
       socket.emit("userCreateComment", {
         id_product: idProduct,
-        array_product: product,
         content: values.content.trim(),
         start,
         token: token,
       });
-      setSubmitting(true);
-    } else {
-      notification["error"]({
-        message: "Vui lòng đăng nhập !",
-      });
+      form.resetFields(["content"]);
+      setStart(0);
+      setContentCmt(0);
+      $("body,html").animate(
+        { scrollTop: $(".item-comment").offset().top - 90 },
+        1500
+      );
     }
   };
+
+  useEffect(() => {
+    if (socket) {
+      document.getElementById('message').addEventListener('focus', () => {
+        socket.emit('waitWriteComment', { idProduct, message: 'Ai đó đang viết bình luận...' });
+      });
+      document.getElementById('message').addEventListener('blur', () => {
+        socket.emit('waitWriteComment', { idProduct, message: '' });
+      });
+      socket.on('waitWriteComment', (msg) => {
+        document.getElementById('waitWriteComment').innerHTML = msg;
+      });
+    }
+    return () => socket.off("waitWriteComment");
+  }, [contentCmt]);
 
   const onChangeTextArea = (e) => {
     setContentCmt(e.target.value.length);
@@ -109,10 +103,11 @@ export default function FormWrite({
               max={20}
               onChange={onChangeTextArea}
               maxLength={700}
+              id="message"
             />
           </Form.Item>
           <Form.Item shouldUpdate={true}>
-            {() => (
+            {token ?
               <Button
                 htmlType="submit"
                 type="primary"
@@ -122,14 +117,26 @@ export default function FormWrite({
                     .length ||
                   isFormValid
                 }
-                loading={submitting}
               >
                 Thêm Bình Luận
               </Button>
-            )}
+              : <Button
+                htmlType="submit"
+                type="primary"
+                disabled={
+                  !form.isFieldsTouched(true) ||
+                  form.getFieldsError().filter(({ errors }) => errors.length)
+                    .length ||
+                  isFormValid
+                }
+              >
+                <Link to="/login"> Thêm Bình Luận</Link>
+              </Button>
+            }
           </Form.Item>
         </Comment>
       </Form>
+      <p id="waitWriteComment" style={{ color: "rgb(66 59 59)" }}></p>
     </div>
   );
 }

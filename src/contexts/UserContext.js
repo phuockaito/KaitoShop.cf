@@ -1,17 +1,20 @@
 import { createContext, useState, useEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import io from "socket.io-client";
 // dispatch API
 import { getProfile } from "features/User/patchAPI";
 const UserContext = createContext(null);
 const tokenLocal = localStorage.getItem("token");
-const UserContextProvider = (props) => {
+const UserContextProvider = ({ children }) => {
   const dispatch = useDispatch();
+  const admin = useSelector(state => state.user.isAdmin);
   const [token, setToken] = useState(null);
   const [user, setUser] = useState([]);
   const [socket, setSocket] = useState(null);
   const [patchCart, setPatchCart] = useState(null);
+  const [idUser, setIdUser] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(admin);
   useEffect(async () => {
     const socketIo = io("http://localhost:3001", {
       withCredentials: true,
@@ -22,15 +25,22 @@ const UserContextProvider = (props) => {
         "Access-Control-Allow-Methods": "PUT, POST, PUT, DELETE, GET",
       },
     });
-    console.log({ socketIo });
     if (socketIo) {
       setSocket(socketIo);
     }
     if (tokenLocal) {
-      const actionResult = await dispatch(getProfile());
-      const currentUser = unwrapResult(actionResult);
-      setUser(currentUser.data);
-      setToken(tokenLocal);
+      try {
+        const actionResult = await dispatch(getProfile());
+        const currentUser = unwrapResult(actionResult);
+        if (currentUser) {
+          setUser(currentUser.user);
+          setToken(tokenLocal);
+          setIdUser(currentUser.user[0]._id);
+        }
+      } catch (e) {
+        localStorage.removeItem("token");
+        window.location.reload();
+      }
     }
     return () => socket.close();
   }, []);
@@ -38,10 +48,10 @@ const UserContextProvider = (props) => {
     patchCart: [patchCart, setPatchCart],
     token: [token, setToken],
     user: [user, setUser],
+    idUser: [idUser, setIdUser],
+    admin: [isAdmin, setIsAdmin],
     socket,
   };
-  return (
-    <UserContext.Provider value={state}>{props.children}</UserContext.Provider>
-  );
+  return <UserContext.Provider value={state}>{children}</UserContext.Provider>;
 };
 export { UserContext, UserContextProvider };

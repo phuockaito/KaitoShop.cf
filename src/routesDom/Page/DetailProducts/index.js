@@ -1,13 +1,14 @@
 import { useEffect, useState, useContext } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { notification } from "antd";
-import { CheckCircleOutlined } from "@ant-design/icons";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { Button, Popconfirm } from 'antd';
 // API
 import { getProductId, getProductType } from "features/Product/pathAPI";
 import { getCommentOne } from "features/Comment/pathAPI";
+import { addCartProduct } from "features/Cart/CartSlice";
+import { deleteProduct } from 'features/Admin/Product/pathAPI';
 // --Components
 import InForProduct from "./InForProduct";
 import SeeMoreProduct from "./SeeMoreProduct/index";
@@ -22,12 +23,13 @@ import "./style.css";
 export default function DetailProducts() {
   let historyProduct = JSON.parse(localStorage.getItem("historyProduct")) || [];
   const { key, name, _id, nsx } = useRouteMatch().params;
-  document.querySelector("title").innerHTML = name
-    .replace(/-/g, " ")
-    .toUpperCase();
+  const history = useHistory();
+  document.querySelector("title").innerHTML = name.replace(/-/g, " ").toUpperCase();
   const dispatch = useDispatch();
-  // API
-  const getProductTypePage = (param) => dispatch(getProductType(param));
+  // dispatch API
+  const getProductTypeAPI = (param) => dispatch(getProductType(param));
+  const actionAddToCart = cart => dispatch(addCartProduct(cart));
+  const actionDeleteProduct = (id, token) => dispatch(deleteProduct(id, token));
   // create state
   const [pageComment, setPageComment] = useState(1);
   const state = useContext(UserContext);
@@ -37,6 +39,7 @@ export default function DetailProducts() {
   // Data Product ID
   const loading = useSelector((state) => state.productId.loading);
   const [dataProductsId, setDataProductsId] = useState([]);
+  const isAdmin = useSelector(state => state.user.isAdmin);
   // Data Product See More
   const dataProductsType = useSelector((state) => state.type.listProductSlider);
   const lengthProductsType = useSelector((state) => state.type.length);
@@ -46,28 +49,30 @@ export default function DetailProducts() {
   const [lengthComment, setLengthComment] = useState(null);
   const [dataComment, setDataComment] = useState([]);
   const [checkDeleteCmt, setCheckDeleteCmt] = useState(false);
-  // useEffect
-  const fetchComment = async () => {
-    const paramsComment = {
-      _id_product: _id,
-      page: pageComment,
-      limit: 10,
-    };
-    const comment = await dispatch(getCommentOne(paramsComment));
-    setDataComment(comment.payload.data);
-    setLengthComment(comment.payload.length);
-  };
+  const [sumStarRating, setSumStarRating] = useState(0);
+  const [starRating, setStarRating] = useState([]);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [loadingDeleteProduct, setLoadingDeleteProduct] = useState(false);
+  // Join room
+  useEffect(() => {
+    if (socket) {
+      socket.emit("joinRoom", _id);
+    }
+  }, [socket, _id]);
   // create Comment Socket
   useEffect(() => {
     if (socket) {
       socket.on("ServerUserCreateComment", (msg) => {
-        const { comment, length, product } = msg;
+        document.getElementById('waitWriteComment').innerHTML = "";
+        const { comment, length, product, starRating, sumStarRating, reviewRating } = msg;
+        setStarRating(starRating);
+        setSumStarRating(sumStarRating);
+        setReviewRating(reviewRating);
         if (msg) {
           setLengthComment(length);
           setDataComment([comment, ...dataComment]);
           setCheckDeleteCmt(false);
-          console.log([product]);
-          setDataProductsId([product]);
+          setDataProductsId(product);
         }
       });
       return () => socket.off("ServerUserCreateComment");
@@ -77,29 +82,58 @@ export default function DetailProducts() {
   useEffect(() => {
     if (socket) {
       socket.on("serverUserDeleteComment", (msg) => {
-        const { comment, length } = msg;
+        const { comment, length, product, starRating, sumStarRating, reviewRating } = msg;
         const dataCommentNew = [...dataComment];
-        const index = dataCommentNew.findIndex(
-          (cmt) => cmt._id === comment._id
-        );
+        const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
         dataCommentNew.splice(index, 1);
         setLengthComment(length);
         setDataComment(dataCommentNew);
-        if (token && checkDeleteCmt) {
-          notification.open({
-            message: "Thông Báo",
-            description: "Xóa Thành Công",
-            icon: <CheckCircleOutlined style={{ color: "#1fbb4f" }} />,
-          });
-        }
         setCheckDeleteCmt(false);
+        setDataProductsId(product);
+        setStarRating(starRating);
+        setSumStarRating(sumStarRating);
+        setReviewRating(reviewRating);
       });
       return () => socket.off("serverUserDeleteComment");
     }
   }, [socket, dataComment]);
-
+  // up date comment
+  useEffect(() => {
+    if (socket) {
+      socket.on("serverUserUpdateComment", (msg) => {
+        const { comment, product, starRating, sumStarRating, reviewRating } = msg;
+        const dataCommentNew = [...dataComment];
+        const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
+        if (index !== -1) {
+          dataCommentNew[index] = comment;
+        }
+        setDataComment(dataCommentNew);
+        setDataProductsId(product);
+        setStarRating(starRating);
+        setSumStarRating(sumStarRating);
+        setReviewRating(reviewRating);
+      });
+    }
+    return () => socket.off("serverUserUpdateComment");
+  }, [socket, dataComment]);
   // // get comment
   useEffect(() => {
+    const fetchComment = async () => {
+      const paramsComment = {
+        _id_product: _id,
+        page: pageComment,
+        limit: 10,
+      };
+      const resultComment = await dispatch(getCommentOne(paramsComment));
+      const comment = unwrapResult(resultComment);
+      if (comment) {
+        setDataComment(comment.data);
+        setLengthComment(comment.length);
+        setStarRating(comment.starRating);
+        setSumStarRating(comment.sumStarRating);
+        setReviewRating(comment.reviewRating);
+      }
+    };
     fetchComment();
   }, [pageComment, _id]);
   //  get one product
@@ -137,39 +171,75 @@ export default function DetailProducts() {
       page: _page,
       sort_price: 0,
     };
-    getProductTypePage(param);
+    getProductTypeAPI(param);
   };
   const onChangePageComment = (_page) => {
     setPageComment(pageComment + _page);
   };
-  //
   const actionCheckDeleteCmt = () => {
     setCheckDeleteCmt(true);
   };
-
+  const onDeleteProduct = async (id) => {
+    try {
+      if (id) {
+        setLoadingDeleteProduct(true)
+        let result = await actionDeleteProduct(id, token);
+        let reqDelete = unwrapResult(result);
+        if (reqDelete) {
+          setLoadingDeleteProduct(false);
+          history.push('/');
+        }
+      }
+    }
+    catch (error) {
+      setLoadingDeleteProduct(false);
+      history.push('/');
+    }
+  };
   return (
     <div className="container-detail-products">
       <div className="group-detail">
+
         <div className="link-group">
           <Link to="/">Trang chủ</Link>
           <Link to={`/product/${key}`}>{key}</Link>
           <Link to={`/products/${key}/${nsx}`}>{nsx.replace(/-/g, " ")}</Link>
-          <span style={{ color: "#ec1839" }}>{name.replace(/-/g, " ")}</span>
+          <span style={{ color: "#ec1839", fontWeight: '550' }}>{name.replace(/-/g, " ")}</span>
         </div>
         {loading && <Loading />}
         {checkDeleteCmt && <LoadingPage />}
-        <InForProduct dataProductsId={dataProductsId} />
+        {loadingDeleteProduct && <LoadingPage />}
+        {isAdmin && <div className="ground-btn-admin">
+          <Popconfirm
+            title="Chắc chắn để xóa ?"
+            onConfirm={() => onDeleteProduct(_id)}
+            okText="Có"
+            cancelText="Không"
+            placement="bottom"
+          >
+            <Button type="primary" danger Popconfirm>
+              Xóa
+          </Button>
+          </Popconfirm>
+          <Button type="primary">
+            Chỉnh Sữa
+          </Button>
+        </div>}
+        <InForProduct dataProductsId={dataProductsId} actionAddToCart={actionAddToCart} />
         <Comment
           idProduct={_id}
           lengthComment={lengthComment}
           dataComment={dataComment}
           onChangePageComment={onChangePageComment}
-          dataProductsId={dataProductsId}
           loadingComet={loadingComet}
           socket={socket}
           token={token}
           user={user}
           actionCheckDeleteCmt={actionCheckDeleteCmt}
+          sumStarRating={sumStarRating}
+          starRating={starRating}
+          nameProduct={name}
+          reviewRating={reviewRating}
         />
         <SeeMoreProduct
           data={dataProductsType}
