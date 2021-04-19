@@ -1,164 +1,164 @@
-const Product = [
+const MenuProduct = [
   {
-    "key": 'Adidas',
+    "key": 'adidas',
     "name": 'Adidas',
     "productType": [
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas alphabounce",
         "name": "Adidas lphabounce"
       },
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas nmd",
         "name": "Adidas Nmd"
       },
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas superstar",
         "name": "Adidas Superstar"
       },
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas yeezy",
         "name": "Adidas Yeezy"
       },
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas prophere",
         "name": "Adidas Prophere"
       },
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas falcon",
         "name": "Adidas Falcon"
       },
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas stan smith",
         "name": "Adidas Stan Mmith"
       },
       {
-        "key": "Adidas",
+        "key": "adidas",
         "type": "adidas ultraboost",
         "name": "Adidas Ultraboost"
       }
     ]
   },
   {
-    "key": 'Nike',
+    "key": 'nike',
     "name": 'Nike',
     "productType": [
       {
-        "key": "Nike",
+        "key": "nike",
         "type": "nike m2k tekno",
         "name": "Nike M2k Tekno"
       },
       {
-        "key": "Nike",
+        "key": "nike",
         "type": "nike jordan",
         "name": "Nike Jordan"
       },
       {
-        "key": "Nike",
+        "key": "nike",
         "type": "nike cortez",
         "name": "Nike Cortez"
       },
       {
-        "key": "Nike",
+        "key": "nike",
         "type": "nike air max",
         "name": "Nike Air Max"
       }
     ]
   },
   {
-    "key": 'NewBalance',
+    "key": 'newbalance',
     "name": 'New Balance',
     "productType": [
       {
-        "key": "NewBalance",
+        "key": "newbalance",
         "type": "new balance",
         "name": "New Balance"
       }
     ]
   },
   {
-    "key": 'Vans',
+    "key": 'vans',
     "name": 'Vans',
     "productType": [
       {
-        "key": "Vans",
+        "key": "vans",
         "type": "new balance",
         "name": "Vans Anaheim Factory"
       },
       {
-        "key": "Vans",
+        "key": "vans",
         "type": "vans sk8 hi",
         "name": "Vans Sk8 Hi"
       },
       {
-        "key": "Vans",
+        "key": "vans",
         "type": "vans era",
         "name": "Vans Era"
       },
       {
-        "key": "Vans",
+        "key": "vans",
         "type": "vans sneaker",
         "name": "Vans Sneaker"
       },
       {
-        "key": "Vans",
+        "key": "vans",
         "type": "vans authentic",
         "name": "Vans Authentic"
       },
       {
-        "key": "Vans",
+        "key": "vans",
         "type": "vans classic",
         "name": "Vans Classic"
       }
     ]
   },
   {
-    "key": 'Puma',
+    "key": 'puma',
     "name": 'Puma',
     "productType": [
       {
-        "key": "Puma",
+        "key": "puma",
         "type": "puma rsx",
         "name": "Puma Rsx"
       },
       {
-        "key": "Puma",
+        "key": "puma",
         "type": "puma rsx puzzle",
         "name": "Puma Rsx Puzzle"
       },
       {
-        "key": "Puma",
+        "key": "puma",
         "type": "puma rsx super",
         "name": "Puma Rsx Super"
       }
     ]
   },
   {
-    "key": 'Converse',
+    "key": 'converse',
     "name": 'Converse',
     "productType": [
       {
-        "key": "Converse",
+        "key": "converse",
         "type": "converse renew",
         "name": "Converse Renew"
       },
       {
-        "key": "Converse",
+        "key": "converse",
         "type": "converse sneakers",
         "name": "Converse Sneakers"
       },
       {
-        "key": "Converse",
+        "key": "converse",
         "type": "converse chuck 70",
         "name": "Converse Chuck 70"
       }
     ]
   }
 ];
-export default Product;
+export default MenuProduct;

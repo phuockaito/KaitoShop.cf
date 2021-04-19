@@ -208,7 +208,7 @@ export default function ProductManagement() {
   return (
     <div className="ground-admin-product">
       <div className="container-admin-cart">
-        <h3>Có tất cả {length} sản phẩm</h3>
+        {dataProducts.length > 0 && <h3>Có tất cả {length} sản phẩm</h3>}
         {loading && <Loading />}
         {loadingDelete && <LoadingPage />}
         {dataProducts.length > 0 &&

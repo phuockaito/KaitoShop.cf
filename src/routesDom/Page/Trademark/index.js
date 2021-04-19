@@ -136,23 +136,27 @@ export default function Trademark() {
   return (
     <div className="group-product-trademark">
       <div className="container-product-trademark">
-        <h3> {name_Trademark}</h3>
-        <div className="filter-price">
-          <Select
-            labelInValue
-            defaultValue={{ value: 'Giá tăng dần' }}
-            style={{ width: 140 }}
-            onChange={onChangeFilter}
-          >
-            <Option value={1}>Giá tăng dần</Option>
-            <Option value={-1}>Giá giảm dần</Option>
-          </Select>
-        </div>
-        {
-          ShowProducts(dataProductsType)
+        {!loadingProductsType &&
+          <>
+            <h3> {name_Trademark}</h3>
+            <div className="filter-price">
+              <Select
+                labelInValue
+                defaultValue={{ value: 'Giá tăng dần' }}
+                style={{ width: 140 }}
+                onChange={onChangeFilter}
+              >
+                <Option value={1}>Giá tăng dần</Option>
+                <Option value={-1}>Giá giảm dần</Option>
+              </Select>
+            </div>
+          </>
         }
         {
-          showPagination(lengthProductsType)
+          !loadingProductsType && ShowProducts(dataProductsType)
+        }
+        {
+          !loadingProductsType && showPagination(lengthProductsType)
         }
         {loadingProductsType && <Loading />}
       </div>

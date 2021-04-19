@@ -4,7 +4,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { Link } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, InputNumber, Select, Row, Col, Radio, Tag, Upload, Modal, notification } from 'antd';
 // product
-import KeyProduct from './KeyProduct';
+import MenuProduct from './MenuProduct';
 import SizeProduct from './SizeProduct';
 // userContext
 import { UserContext } from 'contexts/UserContext';
@@ -27,29 +27,45 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
   //state
   const state = useContext(UserContext);
   const [token] = state.token;
-  const [nsx, setNsx] = useState('');
-  const [color, setColor] = useState([]);
+  const [keyProduct, setKeyProduct] = useState('');
+  const [productLine, setProductLine] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const [previewImage, setPreviewImage] = useState('');
+  const [linkNewProduct, setLinkNewProduct] = useState('');
+  const [color, setColor] = useState([]);
+  const [fileList, setFileList] = useState([]);
   const [inputVisible, setInputVisible] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = ('');
-  const [fileList, setFileList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [linkNewProduct, setLinkNewProduct] = useState(null);
-  //  state edit
-
-
-  //function
+  // useEffect
+  useEffect(() => {
+    form.resetFields(["NSX"]);
+  }, [keyProduct]);
+  useEffect(() => {
+    if (valuesEdit) {
+      form.setFieldsValue(valuesEdit);
+      const { color, poster, key, NSX } = valuesEdit;
+      setColor([color]);
+      setKeyProduct(key);
+      setProductLine(NSX);
+      if (poster) {
+        setFileList(poster);
+      }
+    };
+  }, [valuesEdit]);
+  useEffect(() => {
+    form.setFieldsValue({ NSX: productLine });
+  }, [productLine]);
+  //function from add and edit
   const onFinish = async (values) => {
     try {
       if (values) {
+        const { name, size, price, sex, collections, productType, key, NSX, description } = values;
         if (id_product) {
-          console.log('edit');
-          console.log({ values })
+          console.log('edit', fileList);
+
         } else {
           setLoading(true)
-          const { name, size, price, sex, collections, productType, key, NSX, description } = values;
           const newPoster = [];
           const product = {
             name,
@@ -85,7 +101,6 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
               behavior: "smooth"
             });
             let linkProduct = resProduct.product;
-            console.log(linkProduct);
             setLinkNewProduct(`${linkProduct.key}/${linkProduct.NSX.replace(/ /g, '-')}/${linkProduct.name.replace(/ /g, '-')}/${linkProduct._id}`)
             notification['success']({
               message: 'Thông Báo !',
@@ -98,13 +113,9 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
       console.log(error)
     };
   };
-  const onChangeProduct = nsx => {
-    setNsx(nsx);
-  }
-  // useEffect
-  useEffect(() => {
-    form.resetFields(["NSX"]);
-  }, [nsx]);
+  const onChangeProduct = key => {
+    setKeyProduct(key);
+  };
   const handleInputChange = e => {
     setInputValue(e.target.value)
   }
@@ -130,12 +141,10 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
       }
       setPreviewImage(file.url || file.preview);
       setPreviewVisible(true);
-      setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
     } catch (error) {
       console.log(error)
     }
   };
-
   const beforeUpload = async (file) => {
     const isJpgOrPng =
       file.type === "image/jpeg" ||
@@ -161,8 +170,10 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
     }
     return isJpgOrPng && isLt2M;
   };
-  const handleChange = ({ fileList }) => setFileList(fileList);
-  console.log('price', valuesEdit);
+  const handleChange = ({ fileList }) => {
+    setFileList(fileList);
+  }
+
 
   return (
     <>
@@ -174,9 +185,6 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
         onFinish={onFinish}
         className="from-add-product from-edit-product"
         name="product"
-        initialValues={
-          { 'price': valuesEdit }
-        }
         hasFeedback={true}
       >
         <Form.Item
@@ -185,7 +193,7 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           name="name"
           rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm !' }]}
         >
-          <Input />
+          <TextArea rows={2} maxLength={100} />
         </Form.Item >
         <Form.Item
           hasFeedback
@@ -196,28 +204,27 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           <InputNumber style={{ width: '100%' }} min={1} max={99999999} />
         </Form.Item>
         <Form.Item
-          label="Gới Tính"
+          label="Giới Tính"
           hasFeedback
           name="sex"
-          rules={[{ required: true, message: 'Vui lòng nhập gới tính !' }]}
+          rules={[{ required: true, message: 'Vui lòng chọn giới tính !' }]}
         >
           <Radio.Group>
-            <Radio value="Nam">Nam</Radio>
-            <Radio value="Nữ">Nữ</Radio>
-            <Radio value="Nam, Nữ">Nam, Nữ</Radio>
+            <Radio value="nam" defaultChecked  >Nam</Radio>
+            <Radio value="nữ" defaultChecked >Nữ</Radio>
+            <Radio value="nam, nữ" defaultChecked >Nam, Nữ</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item
-          label="Nhà sản xuất"
+          label="Nhà Sản Xuất"
           hasFeedback
           name="key"
           rules={[{ required: true, message: 'Vui lòng chọn nhà sản xuất !' }]}
         >
           <Select
             onChange={onChangeProduct}
-            optionFilterProp="children"
           >
-            {KeyProduct.map((product, index) => (
+            {MenuProduct.map((product, index) => (
               <Option value={product.key} key={index}>
                 {product.name}
               </Option>
@@ -225,17 +232,16 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           </Select>
         </Form.Item>
         <Form.Item
-          label="Dòng sản phẩm"
+          label="Dòng Sản Phẩm"
           hasFeedback
           name="NSX"
           rules={[{ required: true, message: 'Vui lòng chọn dòng sản phẩm !' }]}
         >
           <Select
-            optionFilterProp="children"
           >
             {
-              KeyProduct.map((product, index) => (
-                product.productType.map((type, index) => product.key === nsx && (
+              MenuProduct.map((product, index) => (
+                product.productType.map((type, index) => product.key === keyProduct && (
                   <Option value={type.type} key={index}>
                     {type.name}
                   </Option>
@@ -266,12 +272,12 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           name="description"
           rules={[{ required: true, message: 'Vui lòng nhập nội dung sản phẩm !' }]}
         >
-          <TextArea rows={10} />
+          <TextArea rows={11} />
         </Form.Item>
         <Form.Item
           label="Tải Ảnh Lên"
           hasFeedback
-          name="s"
+          name="poster"
           rules={[{ required: (fileList.length < 1 || fileList.length < 4) ? true : false, message: 'Vui lòng tải 4 ảnh  lên  !' }]}
         >
         </Form.Item>
@@ -282,7 +288,6 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           fileList={fileList}
           onPreview={handlePreview}
           onChange={handleChange}
-          name="poster"
           maxCount={4}
           multiple
         >
@@ -293,13 +298,11 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
         </Upload>
         <Modal
           visible={previewVisible}
-          title={previewTitle}
           footer={null}
           onCancel={() => { setPreviewVisible(false) }}
         >
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
-
         <Form.Item
           label="Màu Sắc"
           hasFeedback
@@ -360,8 +363,8 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
         </Form.Item>
         <Form.Item >
           <Button style={{ marginTop: '10px' }} type="primary" htmlType="submit" loading={loading}>
-            Thêm Sản Phẩm
-           </Button>
+            {id_product ? 'Cập Nhật' : 'Thêm Sản Phẩm'}
+          </Button>
         </Form.Item>
       </Form>
     </>
