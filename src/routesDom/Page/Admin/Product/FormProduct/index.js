@@ -20,7 +20,7 @@ function getBase64(file) {
 };
 
 export default function FormProduct({ actionPostAddProduct, id_product, valuesEdit }) {
-  console.log(valuesEdit)
+
   const { Option } = Select;
   const [form] = Form.useForm();
   const { TextArea } = Input;
@@ -45,7 +45,8 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
     try {
       if (values) {
         if (id_product) {
-          console.log('edit')
+          console.log('edit');
+          console.log({ values })
         } else {
           setLoading(true)
           const { name, size, price, sex, collections, productType, key, NSX, description } = values;
@@ -161,6 +162,7 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
     return isJpgOrPng && isLt2M;
   };
   const handleChange = ({ fileList }) => setFileList(fileList);
+  console.log('price', valuesEdit);
 
   return (
     <>
@@ -172,16 +174,18 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
         onFinish={onFinish}
         className="from-add-product from-edit-product"
         name="product"
-        initialValues={valuesEdit}
+        initialValues={
+          { 'price': valuesEdit }
+        }
         hasFeedback={true}
       >
         <Form.Item
           label="Tên Sản Phẩm"
           hasFeedback
-          name='name'
+          name="name"
           rules={[{ required: true, message: 'Vui lòng nhập tên sản phẩm !' }]}
         >
-          <TextArea rows={2} maxLength={150} />
+          <Input />
         </Form.Item >
         <Form.Item
           hasFeedback

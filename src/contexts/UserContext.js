@@ -16,7 +16,7 @@ const UserContextProvider = ({ children }) => {
   const [idUser, setIdUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(admin);
   useEffect(async () => {
-    const socketIo = io("http://localhost:3001", {
+    const socketIo = io("https://api-kaito-shop.herokuapp.com", {
       withCredentials: true,
       extraHeaders: {
         "Access-Control-Allow-Origin": "*",

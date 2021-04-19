@@ -10,8 +10,9 @@ export default function EditProduct() {
   const dispatch = useDispatch();
   const { id_product } = useRouteMatch().params;
   //state
-  const [valuesEdit, setValuesEdit] = useState({});
+  const [valuesEdit, setValuesEdit] = useState(1);
   const dataProductsEdit = useSelector(state => state.productId.data);
+  const loading = useSelector(state => state.productId.loading);
   // dispatch action
   const actionGetProductId = id => dispatch(getProductId(id));
   // useEffect
@@ -20,9 +21,8 @@ export default function EditProduct() {
   }, []);
   useEffect(() => {
     if (dataProductsEdit.length > 0) {
-      const { name } = dataProductsEdit[0];
-      setValuesEdit({ 'name': name });
-
+      const { name, price } = dataProductsEdit[0];
+      setValuesEdit(price);
     }
   }, [dataProductsEdit.length > 0]);
   return (
