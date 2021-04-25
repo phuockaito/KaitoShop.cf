@@ -47,9 +47,6 @@ export default function HistoryCart() {
     });
     actionGetCartAPI(token);
   }, []);
-
-
-
   const showProductsBuyCartAll = CartData => {
     return (
       CartData.map((itemCart, index) => (

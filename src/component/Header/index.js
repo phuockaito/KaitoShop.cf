@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import $ from "jquery";
 import AOS from 'aos';
@@ -6,8 +7,22 @@ import Search from './Search/index';
 import Cart from './User/cart/index';
 import User from './User/index';
 import logo from 'image/logo.png';
+// -- Context
+import { UserContext } from "contexts/UserContext";
+// Css
 import './style.css';
 export default function Header() {
+  // create State
+  const state = useContext(UserContext);
+  const { socket } = state;
+  const [user, setUser] = state.user;
+  const [idUser,] = state.idUser;
+  const [token] = state.token;
+  const [, setPatchCart] = state.patchCart;
+  //  store
+  const dataCart = useSelector(state => state.cart.dataCart);
+  const loadingGetProfile = useSelector((state) => state.user.loadingGetProfile);
+  // useEffect
   useEffect(() => {
     AOS.init({
       duration: 500,
@@ -34,8 +49,15 @@ export default function Header() {
           <div style={{ 'display': 'none' }} className="totle-menu">
             <i className="fa fa-bars" />
           </div>
-          <Cart />
-          <User />
+          <Cart setPatchCart={setPatchCart} dataCart={dataCart} />
+          <User
+            socket={socket}
+            user={user}
+            setUser={setUser}
+            idUser={idUser}
+            token={token}
+            loadingGetProfile={loadingGetProfile}
+          />
         </div>
       </div>
     </>

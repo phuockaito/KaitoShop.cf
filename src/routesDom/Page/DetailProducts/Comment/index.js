@@ -1,7 +1,8 @@
 import FormWrite from './FormWrite/index';
 import ListComment from './ListComment/index';
 import StarRatingUser from './StarRatingUser/index';
-export default function Comment({ dataComment,
+export default function Comment({
+  dataComment,
   idProduct,
   lengthComment,
   onChangePageComment,
@@ -41,6 +42,7 @@ export default function Comment({ dataComment,
           idProduct={idProduct}
           socket={socket}
           actionCheckDeleteCmt={actionCheckDeleteCmt}
+          user={user}
         />
       </div>
     </div>

@@ -1,21 +1,18 @@
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-// -- Context
-import { UserContext } from "contexts/UserContext";
 // --ComPonent
 import InForUser from "./inforUser/index";
 import Loading from "component/LoadingBtn/index";
 // --CSS
 import "./style.css";
-export default function User() {
-  // create State
-  const state = useContext(UserContext);
-  const { socket } = state;
-  const [user, setUser] = state.user;
-  const [idUser,] = state.idUser;
-  const [token] = state.token;
-  const loadingGetProfile = useSelector((state) => state.user.loadingGetProfile);
+export default function User({
+  socket,
+  user,
+  setUser,
+  idUser,
+  token,
+  loadingGetProfile
+}) {
+
   // state
   return (
     <>
@@ -26,7 +23,6 @@ export default function User() {
             đăng nhập
           </Link>
         )}
-
         {!loadingGetProfile && (
           <div className="main-user">
             <div className="profile-login">

@@ -178,7 +178,7 @@ export default function InForProduct({ dataProductsId, actionAddToCart }) {
                         rules={[
                           {
                             required: true,
-                            message: "vui lòng chọn size",
+                            message: false,
                           },
                         ]}
                       >

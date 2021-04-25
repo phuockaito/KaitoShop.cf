@@ -13,15 +13,15 @@ import "./style.css";
 document.querySelector("title").innerHTML = "Đăng Nhập";
 const tokenLocal = localStorage.getItem("token");
 export default function Login() {
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+  const history = useHistory();
   const state = useContext(UserContext);
   const [token, setToken] = state.token;
   const [, setUser] = state.user;
   const [, setIdUser] = state.idUser;
   const [patchCart,] = state.patchCart;
   const loadingSubmit = useSelector((state) => state.user.loadingSlice);
-  const [form] = Form.useForm();
-  const dispatch = useDispatch();
-  const history = useHistory();
   //function
   const onFinish = async (values) => {
     const data = {
@@ -42,7 +42,7 @@ export default function Login() {
       behavior: "smooth",
     });
     if (token && patchCart) {
-      history.push("/cart");
+      history.push(patchCart);
     } else if (tokenLocal || token) {
       history.push("/");
     }

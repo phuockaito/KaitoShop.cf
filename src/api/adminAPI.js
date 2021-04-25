@@ -29,6 +29,10 @@ const adminAPI = {
   deleteProduct: (id, token) => {
     const url = `/admin/delete-product?id_product=${id}`;
     return axiosClient.delete(url, null, token);
-  }
+  },
+  updateProduct: (data, token) => {
+    const url = "/admin/update-product";
+    return axiosClient.put(url, data, token);
+  },
 };
 export default adminAPI;

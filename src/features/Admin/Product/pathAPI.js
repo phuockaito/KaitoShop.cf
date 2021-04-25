@@ -14,4 +14,9 @@ export const postAddProduct = createAsyncThunk('addProduct', async (data, image,
 export const deleteToProduct = createAsyncThunk('delete', async (id, token) => {
   const response = await ProductSlice.deleteProduct(id, token);
   return response;
-})
+});
+
+export const updateToProduct = createAsyncThunk('putProduct', async (data, token) => {
+  const response = await ProductSlice.updateProduct(data, token);
+  return response;
+});

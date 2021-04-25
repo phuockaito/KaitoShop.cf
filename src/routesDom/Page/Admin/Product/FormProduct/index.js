@@ -19,7 +19,7 @@ function getBase64(file) {
   });
 };
 
-export default function FormProduct({ actionPostAddProduct, id_product, valuesEdit }) {
+export default function FormProduct({ actionPostAddProduct, id_product, valuesEdit, actionUpdateProduct }) {
 
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -32,8 +32,8 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
   const [inputValue, setInputValue] = useState('');
   const [previewImage, setPreviewImage] = useState('');
   const [linkNewProduct, setLinkNewProduct] = useState('');
-  const [color, setColor] = useState([]);
-  const [fileList, setFileList] = useState([]);
+  const [colorDefault, setColorDefault] = useState([]);
+  const [fileListImage, setFileListImage] = useState([]);
   const [inputVisible, setInputVisible] = useState(false);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,11 +45,11 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
     if (valuesEdit) {
       form.setFieldsValue(valuesEdit);
       const { color, poster, key, NSX } = valuesEdit;
-      setColor([color]);
+      setColorDefault([color]);
       setKeyProduct(key);
       setProductLine(NSX);
       if (poster) {
-        setFileList(poster);
+        setFileListImage(poster);
       }
     };
   }, [valuesEdit]);
@@ -61,41 +61,66 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
     try {
       if (values) {
         const { name, size, price, sex, collections, productType, key, NSX, description } = values;
+        const formData = new FormData();
         if (id_product) {
-          console.log('edit', fileList);
-
-        } else {
           setLoading(true)
-          const newPoster = [];
-          const product = {
-            name,
-            size,
-            price,
-            sex,
-            color: color,
-            description,
-            collections,
-            productType,
-            key,
-            NSX
-          };
-          // append data product
-          const formData = new FormData();
-          fileList.forEach(img => {
-            newPoster.push(img.originFileObj);
-          });
-          for (var i = 0; i < newPoster.length; i++) {
-            formData.append('poster', newPoster[i]);
+          const imageOld = [];
+          if (fileListImage.length < 4) {
+            notification['error']({
+              message: 'Thông Báo',
+              description:
+                'Vui lòng tải lên 4 ảnh',
+            });
           }
-          formData.append('product', JSON.stringify(product));
+          else {
+            for (let index = 0; index < fileListImage.length; index++) {
+              const element = fileListImage[index];
+              if (element.uid) {
+                formData.append('poster', fileListImage[index].originFileObj);
+              }
+              if (element.url) {
+                imageOld.push(fileListImage[index])
+              }
+            }
+            const productUpdate = { name, size, price, sex, color: colorDefault, description, collections, productType, key, NSX, imageOld: imageOld, id_product: id_product };
+            formData.append('product', JSON.stringify(productUpdate));
+            const resultProduct = await actionUpdateProduct(formData, token);
+            const resProduct = unwrapResult(resultProduct);
+            if (resProduct) {
+              setLoading(false);
+              form.resetFields();
+              setFileListImage([]);
+              setColorDefault([]);
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+              });
+              let linkProduct = resProduct.product;
+              setLinkNewProduct(`/${linkProduct.key}/${linkProduct.NSX.replace(/ /g, '-')}/${linkProduct.name.replace(/ /g, '-')}/${linkProduct._id}`)
+              notification['success']({
+                message: 'Thông Báo !',
+                description: 'Cập nhật thành công '
+              });
+            }
+          }
+        }
+        // add product
+        if (!id_product) {
+          setLoading(true)
+          const productAdd = { name, size, price, sex, color: colorDefault, description, collections, productType, key, NSX };
+          // append data product
+          for (var index = 0; index < fileListImage.length; index++) {
+            formData.append('poster', fileListImage[index].originFileObj);
+          }
+          formData.append('product', JSON.stringify(productAdd));
           // Check Api Request
           const resultProduct = await actionPostAddProduct(formData, token);
           const resProduct = unwrapResult(resultProduct);
           if (resProduct) {
             setLoading(false);
             form.resetFields();
-            setFileList([]);
-            setColor([]);
+            setFileListImage([]);
+            setColorDefault([]);
             window.scrollTo({
               top: 0,
               behavior: "smooth"
@@ -120,8 +145,8 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
     setInputValue(e.target.value)
   }
   const handleInputConfirm = () => {
-    if (inputValue && color.indexOf(inputValue) === -1) {
-      setColor([...color, inputValue]);
+    if (inputValue && colorDefault.indexOf(inputValue) === -1) {
+      setColorDefault([...colorDefault, inputValue]);
       setInputValue('');
       setInputVisible(false);
     } else {
@@ -129,9 +154,10 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
       setInputValue('');
     }
   };
-  const onCloseColor = tagColor => {
-    let newColor = color.filter(tag => tag !== tagColor);
-    setColor(newColor);
+  const onCloseColor = color => {
+    console.log(color)
+    const newColor = colorDefault.filter(tag => tag !== color);
+    setColorDefault(newColor);
   };
   // image
   const handlePreview = async file => {
@@ -145,36 +171,59 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
       console.log(error)
     }
   };
-  const beforeUpload = async (file) => {
-    const isJpgOrPng =
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.type === "image/jpg";
-    if (!isJpgOrPng) {
-
-      notification['error']({
-        message: 'Thông Báo',
-        description:
-          'Bạn chỉ có thể tải lên tệp JPG / PNG / JPEG !',
-      });
+  const handleChange = f => {
+    const { file, fileList, event } = f;
+    let isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png" || file.type === "image/jpg";
+    let isLt2M = file.size / 1024 / 1024 < 2;
+    if (id_product) {
+      //---------------delete image---------------
+      if (file && fileList.length === 0 || file && fileList.length > 0 && !event) {
+        const newImage = [...fileListImage];
+        const index = newImage.findIndex(image => image.id === file.id);
+        newImage.splice(index, 1);
+        setFileListImage(newImage);
+      }
+      //---------------add image---------------
+      if (fileList.length > 0 && event) {
+        if (!isJpgOrPng) {
+          notification['error']({
+            message: 'Thông Báo',
+            description:
+              'Bạn chỉ có thể tải lên tệp JPG / PNG / JPEG !',
+          });
+        }
+        if (!isLt2M) {
+          notification['error']({
+            message: 'Thông báo',
+            description:
+              'Hình ảnh phải nhỏ hơn 2MB ',
+          });
+        }
+      }
+      if (isLt2M && isJpgOrPng) {
+        setFileListImage(fileList);
+      }
     }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      notification['error']({
-        message: 'Thông báo',
-        description:
-          'Hình ảnh phải nhỏ hơn 2MB  !. Vui lòng xóa ảnh đó',
-      });
+    if (!id_product) {
+      if (!isJpgOrPng) {
+        notification['error']({
+          message: 'Thông Báo',
+          description:
+            'Bạn chỉ có thể tải lên tệp JPG / PNG / JPEG !',
+        });
+      }
+      if (!isLt2M) {
+        notification['error']({
+          message: 'Thông báo',
+          description:
+            'Hình ảnh phải nhỏ hơn 2MB ',
+        });
+      }
+      if (isLt2M && isJpgOrPng) {
+        setFileListImage(fileList);
+      }
     }
-    if (isLt2M && isJpgOrPng) {
-    }
-    return isJpgOrPng && isLt2M;
   };
-  const handleChange = ({ fileList }) => {
-    setFileList(fileList);
-  }
-
-
   return (
     <>
       {linkNewProduct && <h4> Click xem sản phẩm vừa được thêm <Link to={linkNewProduct}>Tại Đây</Link></h4>}
@@ -278,20 +327,19 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           label="Tải Ảnh Lên"
           hasFeedback
           name="poster"
-          rules={[{ required: (fileList.length < 1 || fileList.length < 4) ? true : false, message: 'Vui lòng tải 4 ảnh  lên  !' }]}
+          rules={[{ required: (fileListImage.length < 1 || fileListImage.length < 4) ? true : false, message: 'Vui lòng tải 4 ảnh  lên  !' }]}
         >
         </Form.Item>
         <Upload
-          beforeUpload={beforeUpload}
           listType="picture-card"
           accept=".jpg, .jpeg, .png"
-          fileList={fileList}
+          fileList={fileListImage}
           onPreview={handlePreview}
           onChange={handleChange}
           maxCount={4}
           multiple
         >
-          {fileList.length >= 4 ? null : <div>
+          {fileListImage.length >= 4 ? null : <div>
             <PlusOutlined />
             <div style={{ marginTop: 8 }}>Tải ảnh lên</div>
           </div>}
@@ -307,12 +355,20 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           label="Màu Sắc"
           hasFeedback
           name="color"
-          rules={[{ required: (color.length < 1) ? true : false, message: 'Vui lòng thêm màu cho sản phẩm !' }]}
+          rules={[{ required: (colorDefault.length < 1) ? true : false, message: 'Vui lòng thêm màu cho sản phẩm !' }]}
         >
-          {color.map((color, index) => (
-            <Tag key={index} closable onClose={() => onCloseColor(color)} maxTagCount={3}>{color}</Tag>
+
+          {colorDefault.map((color, index) => (
+            <Tag
+              key={index}
+              closable
+              onClose={() => onCloseColor(color)}
+              maxTagCount={3}
+            >
+              {color}
+            </Tag>
           ))}
-          {(inputVisible && color.length < 5) && (
+          {(inputVisible && colorDefault.length < 5) && (
             <Input
               type="text"
               size="small"
@@ -330,7 +386,7 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
               onPressEnter={handleInputConfirm}
             />
           )}
-          {(!inputVisible && color.length < 5) && (
+          {(!inputVisible && colorDefault.length < 5) && (
             <Tag
               style={
                 {

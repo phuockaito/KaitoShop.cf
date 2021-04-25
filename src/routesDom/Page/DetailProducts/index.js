@@ -59,6 +59,50 @@ export default function DetailProducts() {
       socket.emit("joinRoom", _id);
     }
   }, [socket, _id]);
+  // delete reply comment
+  useEffect(() => {
+    if (socket) {
+      socket.on("serverUserDeleteReplyComment", (msg) => {
+        const { comment, id_array } = msg;
+        const newReply = [...dataComment];
+        const index = newReply.findIndex(comment => comment._id === id_array);
+        if (index != -1) {
+          newReply[index] = comment;
+        }
+        setCheckDeleteCmt(false);
+        setDataComment(newReply);
+      });
+      return () => socket.off("serverUserDeleteReplyComment");
+    }
+  }, [socket, dataComment]);
+  // crete reply comment
+  useEffect(() => {
+    if (socket) {
+      socket.on("ServerUserCreateCommentReply", (msg) => {
+        const newReply = [...dataComment];
+        const index = newReply.findIndex(comment => comment._id === msg._id);
+        if (index != -1) {
+          newReply[index] = msg;
+        }
+        setDataComment(newReply);
+      });
+      return () => socket.off("ServerUserCreateCommentReply");
+    }
+  }, [socket, dataComment]);
+  // update reply comment
+  useEffect(() => {
+    if (socket) {
+      socket.on("serverUserUpdateReplyComment", (msg) => {
+        const newReply = [...dataComment];
+        const index = newReply.findIndex(comment => comment._id === msg._id);
+        if (index != -1) {
+          newReply[index] = msg;
+        }
+        setDataComment(newReply);
+      });
+      return () => socket.off("serverUserUpdateReplyComment");
+    }
+  }, [socket, dataComment]);
   // create Comment Socket
   useEffect(() => {
     if (socket) {
@@ -116,7 +160,7 @@ export default function DetailProducts() {
     }
     return () => socket.off("serverUserUpdateComment");
   }, [socket, dataComment]);
-  // // get comment
+  // get comment
   useEffect(() => {
     const fetchComment = async () => {
       const paramsComment = {
@@ -199,7 +243,6 @@ export default function DetailProducts() {
   return (
     <div className="container-detail-products">
       <div className="group-detail">
-
         <div className="link-group">
           <Link to="/">Trang chủ</Link>
           <Link to={`/product/${key}`}>{key}</Link>

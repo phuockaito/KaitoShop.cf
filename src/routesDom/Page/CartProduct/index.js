@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FileTextOutlined } from "@ant-design/icons";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 //dispatch
 import { deleteCartProduct, updateCartProduct } from "features/Cart/CartSlice";
 import { postCartAPI } from "features/Cart/pathAPI";
@@ -14,7 +14,6 @@ import CheckOut from "./CheckOut";
 import "./style.css";
 export default function CartProduct() {
   document.querySelector("title").innerHTML = "Giỏ hàng";
-  const history = useHistory();
   const dispatch = useDispatch();
 
   // dispatch API
@@ -24,7 +23,6 @@ export default function CartProduct() {
     dispatch(updateCartProduct(dataCart));
   // --Contexts
   const state = useContext(UserContext);
-  const [, setPatchCart] = state.patchCart;
   const [token,] = state.token;
   // create state
   const [visible, setVisible] = useState(false);
@@ -38,12 +36,7 @@ export default function CartProduct() {
       top: 0,
       behavior: "smooth",
     });
-    if (history && dataCart.length > 0) {
-      setPatchCart(history.location.pathname);
-    } else {
-      setPatchCart(null);
-    }
-  }, [dataCart.length]);
+  }, []);
   return (
     <div className="container-card">
       <div className="group-card">

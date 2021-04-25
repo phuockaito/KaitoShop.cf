@@ -5,7 +5,7 @@ export default function StarRatingUser({ starRating, sumStarRating, nameProduct,
   const { oneStars, twoStars, threeStars, fourStars, fiveStart } = starRating;
   return (
     <div className="ground-start-rating">
-      <h3>{sumStarRating} Đánh giá {nameProduct.replace(/-/g, " ").toUpperCase()}</h3>
+      <h3>{sumStarRating} Đánh Giá {nameProduct.replace(/-/g, " ").toUpperCase()}</h3>
       <div className="main-start-rating">
 
         <div className="start-rating">
@@ -138,10 +138,9 @@ export default function StarRatingUser({ starRating, sumStarRating, nameProduct,
               status="active"
             />
             <p><span>{fiveStart}</span> đánh giá</p>
-
           </div>
         </div>
       </div>
     </div>
   )
-}
+};

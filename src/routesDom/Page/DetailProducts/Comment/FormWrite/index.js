@@ -37,7 +37,6 @@ export default function FormWrite({
       );
     }
   };
-
   useEffect(() => {
     if (socket) {
       document.getElementById('message').addEventListener('focus', () => {
@@ -99,11 +98,12 @@ export default function FormWrite({
           <Form.Item name="content">
             <TextArea
               placeholder="Mời bạn để lại bình luận"
-              rows={5}
+              rows={8}
               max={20}
               onChange={onChangeTextArea}
               maxLength={700}
               id="message"
+              className="from-write"
             />
           </Form.Item>
           <Form.Item shouldUpdate={true}>

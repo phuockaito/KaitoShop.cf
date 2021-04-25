@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getListProduct, deleteToProduct } from './pathAPI';
+import { getListProduct, deleteToProduct, updateToProduct } from './pathAPI';
 const ProductSlice = createSlice({
   name: 'productAdmin',
   initialState: {
@@ -21,6 +21,7 @@ const ProductSlice = createSlice({
     [getListProduct.rejected]: state => {
       state.loading = false;
     },
+    // delete product
     [deleteToProduct.pending]: state => {
       state.loadingDelete = true
     },
@@ -35,6 +36,16 @@ const ProductSlice = createSlice({
     },
     [deleteToProduct.rejected]: state => {
       state.loadingDelete = false;
+    },
+    // put product
+    [updateToProduct.pending]: state => {
+
+    },
+    [updateToProduct.fulfilled]: (state, action) => {
+      console.log(action)
+    },
+    [updateToProduct.rejected]: state => {
+
     }
   }
 });

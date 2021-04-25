@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 // API
 import { getProductId } from "features/Product/pathAPI";
+import { updateToProduct } from 'features/Admin/Product/pathAPI';
 //Component
 import LoadingPage from 'loading/index';
 import FormProduct from '../FormProduct/index';
@@ -18,7 +19,9 @@ export default function EditProduct() {
   const loading = useSelector(state => state.productId.loading);
   // dispatch action
   const actionGetProductId = id => dispatch(getProductId(id));
+  const actionUpdateProduct = (data, token) => dispatch(updateToProduct(data, token));
   // useEffect
+
   useEffect(() => {
     actionGetProductId(id_product);
   }, []);
@@ -48,6 +51,7 @@ export default function EditProduct() {
         {(!loading && dataProductsEdit.length > 0) ? <FormProduct
           id_product={id_product}
           valuesEdit={valuesEdit}
+          actionUpdateProduct={actionUpdateProduct}
         />
           :
           <NotFount />
