@@ -73,7 +73,7 @@ export default function FromEdit({
         <TextArea
           name="content"
           placeholder="Mời bạn để lại bình luận"
-          rows={7}
+          rows={9}
           max={20}
           defaultValue={item.content}
           onChange={onChangeTextArea}

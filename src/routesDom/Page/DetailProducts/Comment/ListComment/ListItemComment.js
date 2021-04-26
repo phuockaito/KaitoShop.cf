@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { MessageOutlined } from '@ant-design/icons';
 import ItemComment from "./ItemComment";
 export default function ListItemComment({
   dataComment,
@@ -40,7 +41,7 @@ export default function ListItemComment({
               isForm={isForm}
               setIsForm={setIsForm}
             >
-              <p onClick={() => openFromReply(item._id)}>Trả Lời</p>
+              <p onClick={() => openFromReply(item._id)}> <MessageOutlined /> Trả Lời</p>
               {item.reply.map((rl) => (
                 <div className="ground-reply-item">
                   <ItemComment
@@ -58,7 +59,7 @@ export default function ListItemComment({
                     isForm={isForm}
                     setIsForm={setIsForm}
                   >
-                    <p onClick={() => openFromReply(item._id)}>Trả Lời</p>
+                    <p onClick={() => openFromReply(item._id)}><MessageOutlined /> Trả Lời</p>
                   </ItemComment>
                 </div>
               ))}

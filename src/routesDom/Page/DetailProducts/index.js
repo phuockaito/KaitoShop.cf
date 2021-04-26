@@ -66,7 +66,7 @@ export default function DetailProducts() {
         const { comment, id_array } = msg;
         const newReply = [...dataComment];
         const index = newReply.findIndex(comment => comment._id === id_array);
-        if (index != -1) {
+        if (index !== -1) {
           newReply[index] = comment;
         }
         setCheckDeleteCmt(false);
@@ -81,7 +81,7 @@ export default function DetailProducts() {
       socket.on("ServerUserCreateCommentReply", (msg) => {
         const newReply = [...dataComment];
         const index = newReply.findIndex(comment => comment._id === msg._id);
-        if (index != -1) {
+        if (index !== -1) {
           newReply[index] = msg;
         }
         setDataComment(newReply);
@@ -95,7 +95,7 @@ export default function DetailProducts() {
       socket.on("serverUserUpdateReplyComment", (msg) => {
         const newReply = [...dataComment];
         const index = newReply.findIndex(comment => comment._id === msg._id);
-        if (index != -1) {
+        if (index !== -1) {
           newReply[index] = msg;
         }
         setDataComment(newReply);
@@ -166,7 +166,7 @@ export default function DetailProducts() {
       const paramsComment = {
         _id_product: _id,
         page: pageComment,
-        limit: 10,
+        limit: 5,
       };
       const resultComment = await dispatch(getCommentOne(paramsComment));
       const comment = unwrapResult(resultComment);

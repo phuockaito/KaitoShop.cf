@@ -44,7 +44,6 @@ export default function Menu() {
       )}
       {isAdmin && (
         <MenuAdmin
-          CloseMenu={CloseMenu}
           Link={Link}
         />
       )}

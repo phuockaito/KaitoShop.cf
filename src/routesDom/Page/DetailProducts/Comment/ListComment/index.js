@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 // --Components
 import LoadingBtn from "component/LoadingBtn/index";
 import ListItemComment from './ListItemComment';

@@ -57,7 +57,7 @@ export default function FromReply({
         <Form.Item name="content">
           <TextArea
             placeholder="Mời bạn để lại bình luận"
-            rows={7}
+            rows={9}
             max={20}
             maxLength={700}
             className="input-reply"

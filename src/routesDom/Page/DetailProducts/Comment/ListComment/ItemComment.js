@@ -1,6 +1,6 @@
-import { useState, createElement } from 'react';
-import { MoreOutlined, DeleteOutlined, EditOutlined, DislikeOutlined, LikeOutlined, DislikeFilled, LikeFilled } from "@ant-design/icons";
-import { Comment, Tooltip, Popover, Button, List } from "antd";
+import { useState } from 'react';
+import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Popover, Button } from "antd";
 import StarRatings from 'react-star-ratings';
 import moment from "moment";
 import "moment/locale/vi";

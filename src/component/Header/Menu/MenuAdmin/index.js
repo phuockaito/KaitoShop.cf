@@ -7,9 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Menu } from 'antd';
 import './style.css';
-export default function MenuAdmin({ CloseMenu, Link }) {
-  const { SubMenu } = Menu;
-
+export default function MenuAdmin({ Link }) {
   const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
   const [openKeys, setOpenKeys] = useState(['sub1']);
   const onOpenChange = keys => {

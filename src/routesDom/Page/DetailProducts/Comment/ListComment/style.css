@@ -10,6 +10,26 @@
 	display: block;
 	padding-bottom: 20px;
 }
+.group-list-comment button.load-data-comment {
+	padding: 6px 36px;
+	border-radius: 15px;
+	background: transparent;
+	border: 1px solid rgb(24, 158, 255);
+	cursor: pointer;
+	font-size: 0.9em;
+	text-transform: capitalize;
+	color: rgb(24, 158, 255);
+	transition: 0.3s ease-out;
+	font-weight: 520;
+	margin: auto;
+	display: block;
+	margin-bottom: 20px;
+}
+.group-list-comment button.load-data-comment:hover {
+	background: rgb(24, 158, 255);
+	color: #fff;
+	border: 1px solid #f7f8f9;
+}
 .group-list-comment .group-length {
 	display: flex;
 	padding: 15px;
@@ -53,7 +73,9 @@
 	padding: 10px 5px 0px 10px;
 	position: relative;
 }
-
+.content-author .ground-content-name-start .group-avatar-logo-name {
+	display: inline-block;
+}
 .content-author .ground-content-name-start .group-avatar-logo-name h3 {
 	color: #242424;
 	font-size: 16px;
@@ -78,6 +100,9 @@
 	display: block;
 	text-align: center;
 	font-size: 12px;
+}
+.content-author .ground-content-name-start .time-content {
+	margin-top: 5px;
 }
 .content-author .ground-content-name-start .time-content span {
 	padding-right: 15px;
@@ -193,5 +218,34 @@
 @media screen and (max-width: 1000px) {
 	.group-list-comment {
 		margin: 10px;
+	}
+}
+@media screen and (max-width: 576px) {
+	.group-list-comment {
+		padding-bottom: 0;
+	}
+	.group-list-comment .list-item-comment .item-comment {
+		display: block;
+		border: 1px solid #b5b2b2;
+		border-radius: 8px;
+		margin: 0 10px 30px 10px;
+	}
+	.group-list-comment .list-item-comment {
+		padding-right: 0;
+	}
+	.ground-reply-item > .item-comment {
+		border: none !important;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
+	.group-list-comment .list-item-comment .item-comment .content-author {
+		border-radius: 0 0 8px 8px;
+	}
+	.list-item-comment .item-comment .avatar-author {
+		background: rgba(0, 0, 0, 0.15);
+		border-radius: 8px 8px 0 0;
+	}
+	.ground-reply-item > .item-comment .avatar-author {
+		border-radius: 0 !important;
 	}
 }
