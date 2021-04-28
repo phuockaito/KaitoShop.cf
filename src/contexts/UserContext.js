@@ -15,6 +15,21 @@ const UserContextProvider = ({ children }) => {
   const [patchCart, setPatchCart] = useState(null);
   const [idUser, setIdUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(admin);
+  const [countUserOnline, setCountUserOnline] = useState(0);
+  // Join room
+  useEffect(() => {
+    if (socket) {
+      socket.emit("countUserOnline", 8080);
+    }
+  }, [socket]);
+  useEffect(() => {
+    if (socket) {
+      socket.on("severCountUserOnline", (msg) => {
+        setCountUserOnline(msg)
+      });
+      return () => socket.off("severCountUserOnline");
+    }
+  }, [socket]);
   useEffect(async () => {
     const socketIo = io("https://api-kaito-shop.herokuapp.com", {
       withCredentials: true,
@@ -51,6 +66,7 @@ const UserContextProvider = ({ children }) => {
     idUser: [idUser, setIdUser],
     admin: [isAdmin, setIsAdmin],
     socket,
+    UserOnline: [countUserOnline]
   };
   return <UserContext.Provider value={state}>{children}</UserContext.Provider>;
 };

@@ -27,7 +27,6 @@ $(document).ready(function () {
   })
   btnCloseSearch.on('click', function () {
     CloseSearch();
-
   });
   function CloseSearch() {
     $('.search').removeClass('open');

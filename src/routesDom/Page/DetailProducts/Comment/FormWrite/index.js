@@ -2,6 +2,7 @@ import StarRatings from "react-star-ratings";
 import { useState, useEffect } from "react";
 import { Comment, Avatar, Form, Button, Input } from "antd";
 import ImageDefault from "image/Notoken.png";
+import { useHistory } from 'react-router-dom';
 import $ from "jquery";
 import { Link } from "react-router-dom";
 // --CSS
@@ -14,6 +15,7 @@ export default function FormWrite({
   socket,
 }) {
   // create State
+  const history = useHistory();
   const { TextArea } = Input;
   const [form] = Form.useForm();
   const [isFormValid, setIsFormValid] = useState(true);
@@ -32,7 +34,7 @@ export default function FormWrite({
       setStart(0);
       setContentCmt(0);
       $("body,html").animate(
-        { scrollTop: $(".item-comment").offset().top - 90 },
+        { scrollTop: $(".list-item-comment").offset().top - 120 },
         1500
       );
     }
@@ -40,7 +42,11 @@ export default function FormWrite({
   useEffect(() => {
     if (socket) {
       document.getElementById('message').addEventListener('focus', () => {
-        socket.emit('waitWriteComment', { idProduct, message: 'Ai đó đang viết bình luận...' });
+        if (token) {
+          socket.emit('waitWriteComment', { idProduct, message: 'Ai đó đang viết bình luận...' });
+        } else {
+          history.push('/login');
+        }
       });
       document.getElementById('message').addEventListener('blur', () => {
         socket.emit('waitWriteComment', { idProduct, message: '' });
@@ -136,7 +142,6 @@ export default function FormWrite({
           </Form.Item>
         </Comment>
       </Form>
-      <p id="waitWriteComment" style={{ color: "rgb(66 59 59)" }}></p>
     </div>
   );
 }

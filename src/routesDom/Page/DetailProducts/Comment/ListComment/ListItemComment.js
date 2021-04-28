@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MessageOutlined } from '@ant-design/icons';
 import ItemComment from "./ItemComment";
+import { useHistory } from 'react-router-dom';
 export default function ListItemComment({
   dataComment,
   token,
@@ -10,16 +11,21 @@ export default function ListItemComment({
   idProduct,
   actionCheckDeleteCmt
 }) {
+  const history = useHistory();
   const [idComment, setIdComment] = useState('');
   const [replyComment, setReplyComment] = useState(false);
   const [isForm, setIsForm] = useState(false);
   const openFromReply = (_id) => {
-    setReplyComment(true);
-    setIsForm(false);
-    setIdComment(_id);
-    setTimeout(() => {
-      document.querySelector('.main-reply-comment').scrollIntoView({ behavior: "smooth", block: "end" });
-    }, 100);
+    if (token) {
+      setReplyComment(true);
+      setIsForm(false);
+      setIdComment(_id);
+      setTimeout(() => {
+        document.querySelector('.main-reply-comment').scrollIntoView({ behavior: "smooth", block: "end" });
+      }, 100);
+    } else {
+      history.push('/login');
+    }
   };
   return (
     <div className="list-item-comment" >

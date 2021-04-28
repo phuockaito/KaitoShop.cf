@@ -1,12 +1,17 @@
-import React from 'react';
+import { useContext } from 'react';
+import { UserOutlined } from '@ant-design/icons';
 import cash from 'image/cash.jpg';
 import installment from 'image/installment.jpg';
 import internet_banking from 'image/internet_banking.jpg';
 import jcb from 'image/jcb.jpg';
 import mastercard from 'image/mastercard.jpg';
 import visa from 'image/visa.jpg';
+// Context
+import { UserContext } from 'contexts/UserContext';
 import './style.css';
 export default function Footer() {
+  const state = useContext(UserContext);
+  const [UserOnline] = state.UserOnline;
   return (
     <>
       <div className="frames-group-footer">
@@ -61,6 +66,9 @@ export default function Footer() {
                   <a href="http://kaitomovie.cf/" target="_blank" rel="noreferrer noopener"><i className="fa fa-external-link" /></a>
                 </li>
               </ul>
+              <div className="user-online">
+                <p>Online   <UserOutlined /> {UserOnline}</p>
+              </div>
             </div>
           </div>
         </div>
