@@ -33,10 +33,12 @@ export default function FormWrite({
       form.resetFields(["content"]);
       setStart(0);
       setContentCmt(0);
-      $("body,html").animate(
-        { scrollTop: $(".list-item-comment").offset().top - 120 },
-        1500
-      );
+      setTimeout(() => {
+        $("body,html").animate(
+          { scrollTop: $(".list-item-comment").offset().top - 110 },
+          1500
+        );
+      }, 200);
     }
   };
   useEffect(() => {
