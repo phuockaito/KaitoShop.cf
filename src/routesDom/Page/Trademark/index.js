@@ -19,6 +19,7 @@ export default function Trademark() {
   // state
   const [page, setPage] = useState(1);
   const [sort_price, sort_price_Set] = useState(1);
+  const [current, setCurrent] = useState(1);
   // store
   const dataProductsType = useSelector(state => state.type.listProductSlider);
   const loadingProductsType = useSelector(state => state.type.loading);
@@ -37,7 +38,8 @@ export default function Trademark() {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
-    })
+    });
+    setCurrent(page);
   }, [page, sort_price]);
   //function
   const onChangePage = (page) => {
@@ -53,6 +55,7 @@ export default function Trademark() {
           onChange={onChangePage}
           total={length}
           defaultPageSize={16}
+          current={current}
         />
       )
     }

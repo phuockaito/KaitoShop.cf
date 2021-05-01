@@ -183,10 +183,9 @@
 .group-information-detail .information-detail .name-detail h3 {
 	color: #4a5568;
 	font-size: 25px;
-	text-transform: capitalize;
 	text-align: center;
 	background: #288ad6;
-	padding: 15px 0;
+	padding: 10px 5px;
 	color: #ffff;
 	border-radius: 8px;
 }
@@ -433,6 +432,9 @@
 	.group-information-detail .information-detail .name-detail h3 {
 		font-size: 1.5em;
 	}
+	.group-form-comment {
+		padding: 10px 15px;
+	}
 	.container-detail-products .group-detail .link-group {
 		display: none;
 	}
@@ -461,7 +463,10 @@
 	.container-detail-products .group-detail-products .group-detail {
 		grid-template-columns: 100%;
 	}
-
+	.group-information-detail .group-description-more .description-more-info {
+		padding: 5px 0px 20px 10px;
+		margin-bottom: 10px;
+	}
 	.group-detail .group-information-detail .group-buys-detail {
 		grid-template-columns: repeat(1, 1fr);
 		grid-row-gap: 20px;

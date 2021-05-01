@@ -28,6 +28,7 @@ export default function UpdatePassword({
   };
   return (
     <Modal
+      centered
       visible={isInformation}
       title="Đổi mật khẩu"
       onCancel={() => setIsInformation(false)}
@@ -42,7 +43,7 @@ export default function UpdatePassword({
             type="primary"
             loading={loading}
           >
-            cập Nhật
+            Lưu mật khẩu
 					</Button>
         </Form>,
       ]}
@@ -73,7 +74,7 @@ export default function UpdatePassword({
           rules={[
             {
               required: true,
-              message: "Vui lòng xác nhận lại mật khẩu !",
+              message: "Vui lòng xác nhập lại mật khẩu !",
               type: "string",
             },
             ({ getFieldValue }) => ({
@@ -86,7 +87,7 @@ export default function UpdatePassword({
             }),
           ]}
         >
-          <Input.Password placeholder="Nhận lại mật khẩu" />
+          <Input.Password placeholder="Nhập lại mật khẩu" />
         </Form.Item>
       </Form>
     </Modal>

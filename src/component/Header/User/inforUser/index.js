@@ -62,7 +62,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
       socket.on("serverUpdateInformation", (data) => {
         try {
           const { id_user, user } = data;
-          if (idUser === id_user) {
+          if (idUser == id_user) {
             setUser(user);
           }
         } catch (e) {

@@ -16,6 +16,7 @@ import Comment from "./Comment/index";
 import Loading from "loading/index";
 import HistoryProduct from "./HistoryProduct/index";
 import LoadingPage from "component/LoadingPage/index";
+import NotFount from '../NotFount/index';
 // Context
 import { UserContext } from "contexts/UserContext";
 // --CSS
@@ -24,7 +25,7 @@ export default function DetailProducts() {
   let historyProduct = JSON.parse(localStorage.getItem("historyProduct")) || [];
   const { key, name, _id, nsx } = useRouteMatch().params;
   const history = useHistory();
-  document.querySelector("title").innerHTML = name.replace(/-/g, " ").toUpperCase();
+  document.querySelector("title").innerHTML = name.replace(/-/g, " ");
   const dispatch = useDispatch();
   // dispatch API
   const getProductTypeAPI = (param) => dispatch(getProductType(param));
@@ -241,57 +242,76 @@ export default function DetailProducts() {
     }
   };
   return (
-    <div className="container-detail-products">
-      <div className="group-detail">
-        <div className="link-group">
-          <Link to="/">Trang chủ</Link>
-          <Link to={`/product/${key}`}>{key}</Link>
-          <Link to={`/products/${key}/${nsx}`}>{nsx.replace(/-/g, " ")}</Link>
-          <span style={{ color: "#ec1839", fontWeight: '550' }}>{name.replace(/-/g, " ")}</span>
-        </div>
-        {loading && <Loading />}
-        {checkDeleteCmt && <LoadingPage />}
-        {loadingDeleteProduct && <LoadingPage />}
-        {isAdmin && <div className="ground-btn-admin">
-          <Popconfirm
-            title="Chắc chắn để xóa ?"
-            onConfirm={() => onDeleteProduct(_id)}
-            okText="Có"
-            cancelText="Không"
-            placement="bottom"
-          >
-            <Button type="primary" danger Popconfirm>
-              Xóa
-          </Button>
-          </Popconfirm>
-          <Button type="primary">
-            <Link to={`/admin-edit-product/${_id}`}> Chỉnh Sữa</Link>
-          </Button>
-        </div>}
-        <InForProduct dataProductsId={dataProductsId} actionAddToCart={actionAddToCart} />
-        <Comment
-          idProduct={_id}
-          lengthComment={lengthComment}
-          dataComment={dataComment}
-          onChangePageComment={onChangePageComment}
-          loadingComet={loadingComet}
-          socket={socket}
-          token={token}
-          user={user}
-          actionCheckDeleteCmt={actionCheckDeleteCmt}
-          sumStarRating={sumStarRating}
-          starRating={starRating}
-          nameProduct={name}
-          reviewRating={reviewRating}
-        />
-        <SeeMoreProduct
-          data={dataProductsType}
-          onChangePage={onChangePage}
-          lengthProductsType={lengthProductsType}
-          loading={loadingProductsType}
-        />
-        <HistoryProduct historyProduct={historyProduct} _id={_id} />
-      </div>
-    </div>
+    <>
+      {/* tải trang khi vô sản phẩm or thay đổi sản phẩm đó */}
+      {loading && <Loading />}
+      {/* xóa bình luận sẽ show loading */}
+      {checkDeleteCmt && <LoadingPage />}
+      {/* loading khi admin xóa sản phẩm đó */}
+      {loadingDeleteProduct && <LoadingPage />}
+      {
+        // kiểm tra sản phẩm có hay không
+        dataProductsId.length > 0 ?
+          <div className="container-detail-products">
+            <div className="group-detail">
+              {/* link nguồn sản phẩm */}
+              <div className="link-group">
+                <Link to="/">Trang chủ</Link>
+                <Link to={`/product/${key}`}>{key}</Link>
+                <Link to={`/products/${key}/${nsx}`}>{nsx.replace(/-/g, " ")}</Link>
+                <span style={{ color: "#ec1839", fontWeight: '550' }}>{name.replace(/-/g, " ")}</span>
+              </div>
+              {/* hiện chỉnh sữa và xóa kho nó là admin */}
+              {
+                isAdmin && <div className="ground-btn-admin">
+                  <Popconfirm
+                    title="Chắc chắn để xóa ?"
+                    onConfirm={() => onDeleteProduct(_id)}
+                    okText="Có"
+                    cancelText="Không"
+                    placement="bottom"
+                  >
+                    <Button type="primary" danger Popconfirm>
+                      Xóa
+                  </Button>
+                  </Popconfirm>
+                  <Button type="primary">
+                    <Link to={`/admin-edit-product/${_id}`}> Chỉnh Sữa</Link>
+                  </Button>
+                </div>
+              }
+              {/* hiện thông tin về sản phẩm */}
+              <InForProduct dataProductsId={dataProductsId} actionAddToCart={actionAddToCart} />
+              {/* show tất cả bình luận và from viết bình luận */}
+              <Comment
+                idProduct={_id}
+                lengthComment={lengthComment}
+                dataComment={dataComment}
+                onChangePageComment={onChangePageComment}
+                loadingComet={loadingComet}
+                socket={socket}
+                token={token}
+                user={user}
+                actionCheckDeleteCmt={actionCheckDeleteCmt}
+                sumStarRating={sumStarRating}
+                starRating={starRating}
+                nameProduct={name}
+                reviewRating={reviewRating}
+              />
+              {/* sản phẩm đề xuất */}
+              <SeeMoreProduct
+                data={dataProductsType}
+                onChangePage={onChangePage}
+                lengthProductsType={lengthProductsType}
+                loading={loadingProductsType}
+              />
+              {/* hiện các sản phẩm đã xem */}
+              <HistoryProduct historyProduct={historyProduct} _id={_id} />
+            </div>
+          </div>
+          // nếu sản phẩm không có sẽ hiện trang rỗng
+          : <NotFount />
+      }
+    </>
   );
 }

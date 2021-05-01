@@ -18,7 +18,7 @@ export default function UploadImage({
     if (socket) {
       socket.on('serverUserUploadAvatar', msg => {
         const { userId, user } = msg;
-        if (userId === idUser) {
+        if (userId == idUser) {
           setUser(user);
           setLoading(false);
         }

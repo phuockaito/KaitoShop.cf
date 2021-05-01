@@ -21,6 +21,19 @@ const userAPI = {
     const url = '/user/register';
     return axiosClient.post(url, data);
   },
+  activeEmail: accessToken => {
+    const url = '/user/active-email';
+    return axiosClient.post(url, accessToken);
+  },
+  forgotPassword: email => {
+    const url = '/user/forgot-password';
+    return axiosClient.post(url, email);
+  },
+  resetPassword: (data) => {
+    const url = '/user/reset-password';
+    return axiosClient.put(url, data);
+  }
+  ,
   updateInformationUser: (data, token) => {
     const url = '/user/update-information';
     return axiosClient.put(url, data, token);
@@ -32,7 +45,6 @@ const userAPI = {
   diaryComment: (data, token) => {
     const url = `/comments/history-comments?page=${data.page}&items=${data.items}`;
     return axiosClient.get(url, null, token);
-  }
-
+  },
 };
 export default userAPI;

@@ -1,16 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { notification } from 'antd';
 import {
   loginUser,
   getProfile,
   registerUser,
+  postActiveEmail,
   uploadImageUser,
   getDiaryComment,
-  loginGoogle
+  loginGoogle,
+  postForgotPassword,
+  putResetPassword
 } from "./patchAPI";
 import { deleteComment } from "features/Comment/pathAPI";
 import { message } from "antd";
 const UserSlice = createSlice({
-  name: "name",
+  name: "user",
   initialState: {
     userSlice: [],
     tokenSlice: null,
@@ -39,6 +43,36 @@ const UserSlice = createSlice({
     [loginUser.rejected]: (state) => {
       state.loadingSlice = false;
       message.error("Tài khoản hoặc mật khẩu không đúng !");
+    },// active email
+    [postActiveEmail.pending]: state => {
+      state.loadingSlice = true;
+    },
+    [postActiveEmail.fulfilled]: (state, action) => {
+      state.loadingSlice = false;
+      const { token, user } = action.payload;
+      state.userSlice = user;
+      if (user[0].role === 1) {
+        state.isAdmin = true;
+      }
+      state.tokenSlice = token;
+      localStorage.setItem("token", token);
+    },
+    [postActiveEmail.rejected]: (state) => {
+      state.loadingSlice = false;
+    },// for get password
+    [postForgotPassword.fulfilled]: (state, action) => {
+      notification['info']({
+        message: 'Thông báo',
+        description:
+          'Vui lòng kiểm tra email để tạo mật khẩu mới',
+      });
+    },
+    [postForgotPassword.rejected]: () => {
+      notification['error']({
+        message: 'Thông báo',
+        description:
+          'Email này không có trong hệ thống',
+      });
     },
     // login google
     [loginGoogle.pending]: (state) => {
@@ -58,8 +92,7 @@ const UserSlice = createSlice({
       state.tokenSlice = token;
       state.loadingSlice = false;
       localStorage.setItem("token", token);
-    },
-    // get when token
+    },// get when token
     [getProfile.pending]: (state) => {
       state.loadingGetProfile = true;
     },
@@ -81,21 +114,30 @@ const UserSlice = createSlice({
     [registerUser.pending]: (state) => {
       state.loadingSlice = true;
     },
+    [registerUser.fulfilled]: (state) => {
+      state.loadingSlice = false;
+      notification['info']({
+        message: 'Thông báo',
+        description: 'Vui lòng kiểm tra email để kích hoạt tài khoản',
+      });
+    },
     [registerUser.rejected]: (state) => {
       state.loadingSlice = false;
-      message.error("Tài khoản này đã tồn tại !");
-    },
-    [registerUser.fulfilled]: (state, action) => {
-      const { token, data } = action.payload;
+    },// reset password
+    [putResetPassword.fulfilled]: (state, action) => {
       state.loadingSlice = false;
-      localStorage.setItem("token", token);
-      state.userSlice = data;
+      const { token, user } = action.payload;
+      state.userSlice = user;
+      if (user[0].role === 1) {
+        state.isAdmin = true;
+      }
       state.tokenSlice = token;
-    }, //upload Image
+      localStorage.setItem("token", token);
+    },
+    //upload Image
     [uploadImageUser.fulfilled]: (state, action) => {
       state.userSlice = action.payload.data;
-    },
-    //  Diary Comment user
+    },//  Diary Comment user
     [getDiaryComment.pending]: (state) => {
       state.loadingDiaryComment = true;
     },
@@ -107,9 +149,7 @@ const UserSlice = createSlice({
     },
     [getDiaryComment.rejected]: state => {
       state.loadingDiaryComment = false;
-    },
-
-    // delete comment
+    },// delete comment
     [deleteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const index = state.diaryComment.findIndex(

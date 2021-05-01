@@ -15,7 +15,7 @@ const UserContextProvider = ({ children }) => {
   const [patchCart, setPatchCart] = useState(null);
   const [idUser, setIdUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(admin);
-  const [countUserOnline, setCountUserOnline] = useState(0);
+  const [countUserOnline, setCountUserOnline] = useState(null);
   // Join room
   useEffect(() => {
     if (socket) {

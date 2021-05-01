@@ -37,3 +37,18 @@ export const getDiaryComment = createAsyncThunk("getDiaryComment", async (data, 
   return response;
 }
 );
+
+export const postActiveEmail = createAsyncThunk("activeEmail", async (accessToken) => {
+  const response = await userAPI.activeEmail(accessToken);
+  return response;
+});
+
+export const postForgotPassword = createAsyncThunk("forgotPassword", async (email) => {
+  const response = await userAPI.forgotPassword(email);
+  return response;
+});
+
+export const putResetPassword = createAsyncThunk('resetPassword', async (data) => {
+  const response = await userAPI.resetPassword(data);
+  return response;
+});

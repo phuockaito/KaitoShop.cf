@@ -39,7 +39,7 @@
 }
 .ground-start-rating .main-start-rating .items-start-rating {
 	display: grid;
-	grid-template-columns: 15% 45% 40%;
+	grid-template-columns: 15% 45% 37%;
 	grid-column-gap: 10px;
 }
 .main-start-rating .items-start-rating .control-start {

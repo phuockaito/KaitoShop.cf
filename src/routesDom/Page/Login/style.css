@@ -54,6 +54,14 @@
 	color: #a9a9a9;
 	font-size: 15px;
 }
+.main-login .container-login .forgot-password {
+	text-align: center;
+}
+.main-login .container-login .forgot-password p {
+	font-size: 15px;
+	color: #ff6e70;
+	cursor: pointer;
+}
 .main-login .container-login .connect-link {
 	padding: 10px 0;
 	text-align: center;
@@ -65,7 +73,7 @@
 	font-size: 15px;
 }
 .main-login .container-login .connect-link a {
-	font-size: 16px;
+	font-size: 15px;
 }
 .group-login .main-login .group-login-link {
 	display: block;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Popover, Button } from "antd";
+import { Popover, Button, Tooltip } from "antd";
 import StarRatings from 'react-star-ratings';
 import moment from "moment";
 import "moment/locale/vi";
@@ -63,9 +63,11 @@ export default function ItemComment({
               {item.role === 1 && <p>Quản trị viên</p>}
             </div>
             <div className="time-content">
-              <span>
-                {moment(item.timeComment).fromNow()}
-              </span >
+              <Tooltip placement="topLeft" title={moment(item.timeComment).format('LLLL')}>
+                <span>
+                  {moment(item.timeComment).fromNow()}
+                </span >
+              </Tooltip>
               {item.editComment && <span className="edit">Đã chỉnh sửa</span>}
             </div>
             {/* show from delete comment */}

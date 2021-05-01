@@ -1,33 +1,33 @@
-import { useContext } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Form, Input, Button } from "antd";
-import { unwrapResult } from "@reduxjs/toolkit";
 // dispatch AP
 import { registerUser } from "features/User/patchAPI";
-// context
-import { UserContext } from "contexts/UserContext";
 import "./style.css";
 const tokenLocal = localStorage.getItem("token");
 document.querySelector("title").innerHTML = "Đăng Ký";
 export default function Register() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-  const loadingSubmit = useSelector((state) => state.user.loadingSlice);
-  const state = useContext(UserContext);
-  const [token, setToken] = state.token;
-  const [, setUser] = state.user;
-  const [, setIdUser] = state.idUser;
   const history = useHistory();
-  if (tokenLocal || token) {
-    history.push("/");
-  }
-
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-
+  const actionRegisterAccount = account => dispatch(registerUser(account));
+  //store
+  const loadingSubmit = useSelector((state) => state.user.loadingSlice);
+  //useEffect
+  useEffect(() => {
+    if (tokenLocal) {
+      history.push("/");
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    document.getElementById('email-register').addEventListener('blur', (e) => {
+      let email = e.target.value.toLowerCase();
+      form.setFieldsValue({ email: email });
+    })
+  }, []);
   //function
   const onFinish = async (values) => {
     const data = {
@@ -36,13 +36,7 @@ export default function Register() {
       password: values.password,
     };
     if (values) {
-      const actionResult = await dispatch(registerUser(data));
-      const currentUser = unwrapResult(actionResult);
-      if (currentUser) {
-        setToken(currentUser.token);
-        setUser(currentUser.data);
-        setIdUser(currentUser.data[0]._id);
-      }
+      actionRegisterAccount(data);
     }
   };
 
@@ -71,7 +65,7 @@ export default function Register() {
               ]}
               hasFeedback
             >
-              <Input placeholder="Email" />
+              <Input id="email-register" placeholder="Email" />
             </Form.Item>
             <Form.Item
               className="input-password"
@@ -163,4 +157,4 @@ export default function Register() {
       </div>
     </div>
   );
-}
+};

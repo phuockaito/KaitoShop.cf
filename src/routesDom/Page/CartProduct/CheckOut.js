@@ -197,6 +197,7 @@ export default function CheckOut({
                 ]}
               >
                 <TextArea
+                  maxLength={150}
                   placeholder="địa chỉ cụ thể: ấp, số nhà, tên đường..."
                   rows={4}
                 />
@@ -213,7 +214,7 @@ export default function CheckOut({
                   },
                 ]}
               >
-                <InputNumber type="number" />
+                <InputNumber min={0} type="number" max={999999999999} />
               </Form.Item>
 
               <Form.Item
@@ -239,7 +240,7 @@ export default function CheckOut({
                   htmlType="submit"
                   className="btn-register"
                 >
-                  Hoàn tất
+                  Đặt hàng ngay
 								</Button>
               </Form.Item>
             </Form>

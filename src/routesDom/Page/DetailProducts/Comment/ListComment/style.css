@@ -38,6 +38,7 @@
 .group-list-comment .group-length {
 	display: flex;
 	padding: 15px;
+	flex-wrap: wrap;
 	align-items: center;
 }
 .group-list-comment .group-length h3 {

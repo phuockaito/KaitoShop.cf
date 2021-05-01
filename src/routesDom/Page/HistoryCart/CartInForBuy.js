@@ -74,7 +74,7 @@ export default function CartInForBuy({
             onClick={() => { deleteCart(id_card) }}
           >
             <DeleteOutlined /> Xóa giỏ hàng
-           </Button>
+          </Button>
           {
             !data.status_order && (<Button
               type="primary"
@@ -160,7 +160,7 @@ export default function CartInForBuy({
             <p>
               {moment(data.timeCart).fromNow()}
             </p>
-            <p> {moment(data.timeCart).subtract(1, 'days').format('DD/MM/YYYY')}</p>
+            <p> {moment(data.timeCart).format('LLLL')}</p>
           </div>
         </div>
       </Drawer>

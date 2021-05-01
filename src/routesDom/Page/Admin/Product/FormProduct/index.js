@@ -88,9 +88,6 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
             const resProduct = unwrapResult(resultProduct);
             if (resProduct) {
               setLoading(false);
-              form.resetFields();
-              setFileListImage([]);
-              setColorDefault([]);
               window.scrollTo({
                 top: 0,
                 behavior: "smooth"
@@ -226,7 +223,7 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
   };
   return (
     <>
-      {linkNewProduct && <h4> Click xem sản phẩm vừa được thêm <Link to={linkNewProduct}>Tại Đây</Link></h4>}
+      {linkNewProduct && <h4> Click xem sản phẩm vừa  {id_product ? "cập nhật" : "thêm"} <Link to={linkNewProduct}>Tại Đây</Link></h4>}
       <h3>{id_product ? 'Chỉnh sữa' : 'Thêm mới'} sản phẩm </h3>
       <Form
         form={form}

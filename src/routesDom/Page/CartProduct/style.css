@@ -189,7 +189,8 @@
 	background-color: rgb(189, 189, 189);
 }
 .card-quantity .quantity-number p {
-	width: 40px;
+	width: 50px;
+	margin: 0;
 	height: 30px;
 	text-align: center;
 	display: inline-block;

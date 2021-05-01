@@ -9,6 +9,8 @@ const Register = lazy(() => import('./Page/Register/index'));
 const CartProduct = lazy(() => import('./Page/CartProduct/index'));
 const HistoryComment = lazy(() => import('./Page/HistoryComment/index'));
 const HistoryCart = lazy(() => import('./Page/HistoryCart/index'));
+const ActiveEmail = lazy(() => import('./Page/Register/ActiveEmail'));
+const ForgotPassword = lazy(() => import('./Page/Login/ForgotPassword'));
 const Page = [
 
   {
@@ -50,6 +52,16 @@ const Page = [
     path: '/register',
     exact: true,
     main: Register,
+  },
+  {
+    path: '/user/active-email/:accessToken',
+    expect: true,
+    main: ActiveEmail
+  },
+  {
+    path: '/user/reset-password/:accessToken',
+    expect: true,
+    main: ForgotPassword
   },
   {
     path: '/history-comment',
