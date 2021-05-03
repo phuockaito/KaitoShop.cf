@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { UserOutlined } from '@ant-design/icons';
+// image
 import cash from 'image/cash.jpg';
 import installment from 'image/installment.jpg';
 import internet_banking from 'image/internet_banking.jpg';

@@ -10,7 +10,7 @@ const UserContextProvider = ({ children }) => {
   const dispatch = useDispatch();
   const admin = useSelector(state => state.user.isAdmin);
   const [token, setToken] = useState(null);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
   const [socket, setSocket] = useState(null);
   const [patchCart, setPatchCart] = useState(null);
   const [idUser, setIdUser] = useState(null);
@@ -50,7 +50,7 @@ const UserContextProvider = ({ children }) => {
         if (currentUser) {
           setUser(currentUser.user);
           setToken(tokenLocal);
-          setIdUser(currentUser.user[0]._id);
+          setIdUser(currentUser.user._id);
         }
       } catch (e) {
         localStorage.removeItem("token");

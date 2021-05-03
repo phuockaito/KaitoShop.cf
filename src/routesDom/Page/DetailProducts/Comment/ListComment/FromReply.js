@@ -33,8 +33,8 @@ export default function FromReply({
   };
   const showIconImage = (image, data) => {
     let avatar = null;
-    if (data.length > 0) {
-      avatar = data[0].avatar;
+    if (data) {
+      avatar = data.avatar;
     } else {
       avatar = image;
     }
@@ -45,12 +45,12 @@ export default function FromReply({
     <div className="main-reply-comment">
       <div className="ground-user-reply">
         <img src={showIconImage(ImageDefault, user)} alt="" />
-        {user.length > 0 && <div className="group-avatar-logo-name">
-          <h3 className={user[0].role === 1 && 'admin'}>
-            {user[0].name}
-            {user[0].role === 1 && <img src={avatarLogo} alt={user[0].name} />}
+        {user && <div className="group-avatar-logo-name">
+          <h3 className={user.role === 1 && 'admin'}>
+            {user.name}
+            {user.role === 1 && <img src={avatarLogo} alt={user.name} />}
           </h3>
-          {user[0].role === 1 && <p>Quản trị viên</p>}
+          {user.role === 1 && <p>Quản trị viên</p>}
         </div>}
       </div>
       <Form form={form} onFinish={onFinishReplyComment} className="form-reply">

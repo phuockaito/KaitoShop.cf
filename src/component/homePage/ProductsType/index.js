@@ -78,7 +78,7 @@ function ProductsType({ data, loading }) {
         </div>
       )
     }
-  }
+  };
   return (
     <>
       <div className="group-products-type">

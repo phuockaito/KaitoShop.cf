@@ -69,8 +69,8 @@ export default function FormWrite({
   // state
   const showIconImage = (image, data) => {
     let avatar = null;
-    if (data.length > 0) {
-      avatar = data[0].avatar;
+    if (data) {
+      avatar = data.avatar;
     } else {
       avatar = image;
     }

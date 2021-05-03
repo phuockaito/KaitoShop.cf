@@ -3,6 +3,7 @@ const Cart = lazy(() => import('./Cart/index'));
 const ProductManagement = lazy(() => import('./Product/ProductManagement/index'));
 const EditProduct = lazy(() => import('./Product/EditProduct/index'));
 const NewProduct = lazy(() => import('./Product/NewProduct/index'));
+const UserManage = lazy(() => import('./User/index'));
 const Page = [
   {
     path: '/admin-cart',
@@ -24,6 +25,12 @@ const Page = [
     path: '/admin-new-product',
     exact: true,
     main: NewProduct
+  },
+  // user
+  {
+    path: '/admin-user',
+    exact: true,
+    main: UserManage
   }
 ];
 export default Page;

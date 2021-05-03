@@ -77,8 +77,8 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
       <div className="profile">
         <div className="avatar-user">
           <img
-            src={user[0].avatar}
-            alt={user[0].name}
+            src={user.avatar}
+            alt={user.name}
             onClick={() => setVisible(true)}
           />
         </div>
@@ -92,7 +92,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
           >
             <div className="information">
               <UploadImage
-                avatar={user[0].avatar}
+                avatar={user.avatar}
                 token={token}
                 actionUploadImageUser={actionUploadImageUser}
                 setUser={setUser}
@@ -100,7 +100,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
                 idUser={idUser}
               />
               <div className="create-account">
-                <span>{moment(user[0].createdAt).fromNow()}</span>
+                <span>{moment(user.createdAt).fromNow()}</span>
               </div>
               <div className="ground-information"><div className="group-name">
                 <div className="icon-name">
@@ -108,7 +108,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
                 </div>
                 <div className="name-information">
                   {!isNameUpdate && <>
-                    <p>{user[0].name}</p>
+                    <p>{user.name}</p>
                     <EditOutlined
                       className="i-edit"
                       onClick={() => { setIsNameUpdate(true) }
@@ -140,7 +140,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
                       >
                         <Input
                           onChange={onChangeInput}
-                          defaultValue={user[0].name}
+                          defaultValue={user.name}
                         />
                       </Form.Item>
                       <div className="group-edit-user">
@@ -169,7 +169,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
                     <MailOutlined className="icon-user-information" />
                   </div>
                   <div className="email-information">
-                    <p className="inForUser">{user[0].email}</p>
+                    <p className="inForUser">{user.email}</p>
                   </div>
                 </div>
                 <div className="group-buy-cart">

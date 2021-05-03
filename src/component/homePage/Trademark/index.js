@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import vans from 'image/vans.jpg';
 import './style.css';
 export default function Trademark() {
-
   return (
     <div className="group-trademark">
       <h3>THƯƠNG HIỆU</h3>

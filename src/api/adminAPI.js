@@ -1,6 +1,7 @@
 import axiosClient from "./axiosClient";
 
 const adminAPI = {
+  // cart
   getCart: (params) => {
     const url = '/admin/get-cart';
     return axiosClient.get(url, { params });
@@ -34,5 +35,10 @@ const adminAPI = {
     const url = "/admin/update-product";
     return axiosClient.put(url, data, token);
   },
+  // user
+  getAllUser: (params, token) => {
+    const url = "/admin/get-users";
+    return axiosClient.get(url, { params }, token);
+  }
 };
 export default adminAPI;

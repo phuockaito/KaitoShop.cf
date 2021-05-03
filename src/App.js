@@ -56,9 +56,9 @@ export default function App() {
           <div className="main-container">
             <Suspense fallback={<Loading />}>
               <Switch>
-                {/* // page user */}
+                {/*  page user */}
                 {showPageUser(pageUser)}
-                {/* // page admin */}
+                {/*  page admin */}
                 {isAdmin && showPageAdmin(pageAdmin)}
                 <Route path="/*" component={NotFount} exact />
                 <Redirect to="/" from="/" />

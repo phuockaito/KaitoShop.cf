@@ -39,7 +39,7 @@ export default function ProductManagement() {
     actionGetListProduct(params);
   }, [page, limit]);
   // function
-  const handleTableChange = (pagination, filters, sorter) => {
+  const handleTableChange = (pagination) => {
     const { current, pageSize } = pagination;
     setPage(current);
     setLimit(pageSize);
@@ -176,7 +176,7 @@ export default function ProductManagement() {
       }
     },
     {
-      title: 'hoạt động',
+      title: 'Hoạt Động',
       key: '_id',
       dataIndex: '_id',
       fixed: 'right',

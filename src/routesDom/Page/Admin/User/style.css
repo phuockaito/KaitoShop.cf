@@ -1,0 +1,40 @@
+.ground-user-manage {
+	padding-left: 270px;
+}
+.ground-user-manage .container-user-manage {
+	min-height: 50vh;
+	margin: 20px;
+	border-radius: 8px;
+	box-shadow: 0 1px 6px #efe9f2;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background: #ffff;
+}
+.ground-user-manage .container-user-manage h3 {
+	padding: 10px 0 0 10px;
+	font-family: 550;
+	font-size: 1.2em;
+}
+/* table */
+.ground-user-manage
+	.container-user-manage
+	.ground-table
+	.ant-table-thead
+	> tr
+	> th,
+.ground-user-manage
+	.container-user-manage
+	.ground-table
+	.ant-table-tbody
+	> tr
+	> td {
+	text-align: center;
+}
+/* Responsive */
+@media screen and (max-width: 1000px) {
+	.ground-user-manage {
+		padding-left: 0;
+	}
+	.ground-user-manage .container-user-manage {
+		margin: 20px 10px;
+	}
+}

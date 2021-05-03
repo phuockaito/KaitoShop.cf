@@ -38,7 +38,7 @@ export default function Comment({
           dataComment={dataComment}
           lengthComment={lengthComment}
           token={token}
-          id_user={user.length > 0 && user[0]._id}
+          id_user={user && user._id}
           idProduct={idProduct}
           socket={socket}
           actionCheckDeleteCmt={actionCheckDeleteCmt}

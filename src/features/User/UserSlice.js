@@ -35,7 +35,7 @@ const UserSlice = createSlice({
       state.userSlice = user;
       state.tokenSlice = accessToken;
       state.loadingSlice = false;
-      if (user[0].role === 1) {
+      if (user.role === 1) {
         state.isAdmin = true;
       }
       localStorage.setItem("token", accessToken);
@@ -51,7 +51,7 @@ const UserSlice = createSlice({
       state.loadingSlice = false;
       const { token, user } = action.payload;
       state.userSlice = user;
-      if (user[0].role === 1) {
+      if (user.role === 1) {
         state.isAdmin = true;
       }
       state.tokenSlice = token;
@@ -83,8 +83,9 @@ const UserSlice = createSlice({
       message.error("Tài khoản hoặc mật khẩu không đúng !");
     },
     [loginGoogle.fulfilled]: (state, action) => {
+
       const { accessToken, user } = action.payload;
-      if (user[0].role === 1) {
+      if (user.role === 1) {
         state.isAdmin = true;
       }
       const token = accessToken;
@@ -98,7 +99,7 @@ const UserSlice = createSlice({
     },
     [getProfile.fulfilled]: (state, action) => {
       const { user } = action.payload;
-      if (user[0].role === 1) {
+      if (user.role === 1) {
         state.isAdmin = true;
       }
       state.userSlice = user;
@@ -128,7 +129,7 @@ const UserSlice = createSlice({
       state.loadingSlice = false;
       const { token, user } = action.payload;
       state.userSlice = user;
-      if (user[0].role === 1) {
+      if (user.role === 1) {
         state.isAdmin = true;
       }
       state.tokenSlice = token;

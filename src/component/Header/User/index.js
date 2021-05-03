@@ -25,7 +25,7 @@ export default function User({
         {!loadingGetProfile && (
           <div className="main-user">
             <div className="profile-login">
-              {token && user.length > 0 ? (
+              {token && user ? (
                 <InForUser
                   user={user}
                   token={token}

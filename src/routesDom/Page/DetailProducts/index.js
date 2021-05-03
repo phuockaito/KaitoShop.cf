@@ -261,7 +261,7 @@ export default function DetailProducts() {
                 <Link to={`/products/${key}/${nsx}`}>{nsx.replace(/-/g, " ")}</Link>
                 <span style={{ color: "#ec1839", fontWeight: '550' }}>{name.replace(/-/g, " ")}</span>
               </div>
-              {/* hiện chỉnh sữa và xóa kho nó là admin */}
+              {/* hiện chỉnh sữa và xóa nếu nó là  admin */}
               {
                 isAdmin && <div className="ground-btn-admin">
                   <Popconfirm
@@ -314,4 +314,4 @@ export default function DetailProducts() {
       }
     </>
   );
-}
+};

@@ -40,7 +40,7 @@ export default function Login() {
     if (currentUser) {
       setToken(currentUser.accessToken);
       setUser(currentUser.user);
-      setIdUser(currentUser.user[0]._id);
+      setIdUser(currentUser.user._id);
     }
   };
   // show from forget password
@@ -74,7 +74,7 @@ export default function Login() {
       if (currentUser) {
         setToken(currentUser.accessToken);
         setUser(currentUser.user);
-        setIdUser(currentUser.user[0]._id);
+        setIdUser(currentUser.user._id);
       }
     } catch (err) {
       console.log(err)

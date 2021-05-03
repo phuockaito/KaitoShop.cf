@@ -30,7 +30,7 @@ export default function ActiveEmail() {
       if (currentUser) {
         setToken(currentUser.token);
         setUser(currentUser.user);
-        setIdUser(currentUser.user[0]._id);
+        setIdUser(currentUser.user._id);
         history.push("/");
       };
     };

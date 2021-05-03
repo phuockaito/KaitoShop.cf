@@ -14,7 +14,7 @@ import UserSlice from 'features/User/UserSlice';
 // admin
 import AdminCart from 'features/Admin/Cart/CartSlice';
 import AdminProduct from 'features/Admin/Product/ProductSlice';
-
+import AdminUser from 'features/Admin/User/UserSlice';
 const rootReducer = {
   ListProduct: listProductAPI,
   menu: ListMenuSlice,
@@ -28,7 +28,8 @@ const rootReducer = {
   user: UserSlice,
   // admin
   cartAdmin: AdminCart,
-  productAdmin: AdminProduct
+  productAdmin: AdminProduct,
+  userAdmin: AdminUser
 };
 const store = configureStore({
   reducer: rootReducer
