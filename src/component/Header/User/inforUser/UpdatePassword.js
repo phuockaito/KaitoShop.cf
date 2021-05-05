@@ -2,6 +2,8 @@ import { Button, Modal, Form, Input } from "antd";
 import formItemLayout from "./Style/style";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useState } from 'react';
+
+
 export default function UpdatePassword({
   isInformation,
   setIsInformation,

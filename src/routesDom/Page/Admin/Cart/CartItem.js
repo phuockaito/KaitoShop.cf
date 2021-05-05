@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import $ from 'jquery';
 const formatter = new Intl.NumberFormat('vn');
 export default function CartItem({ data }) {
   const { cart } = data;
@@ -14,7 +13,6 @@ export default function CartItem({ data }) {
             <div className="history-card-name">
               <Link
                 to={`/${items.product.key}/${items.product.NSX.replace(/ /g, '-')}/${items.product.name.replace(/ /g, '-')}/${items.product._id}`}
-                onClick={() => { $("html ,body").animate({ scrollTop: 0 }, 800); }}
               >
                 <p>{items.product.name} - <span>Size: {items.product.size}</span> </p>
               </Link>

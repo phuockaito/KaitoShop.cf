@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import $ from "jquery";
 import { Link } from 'react-router-dom';
 // image
 import logoWeb from 'image/logo.png';
@@ -21,10 +20,10 @@ export default function Menu() {
   }, []);
 
   const CloseMenu = () => {
-    $('.ground-menu').removeClass('open');
-    $('body').removeClass('active');
-    $('.main-container').removeClass('active');
-  }
+    document.querySelector('.ground-menu').classList.remove('open');
+    document.querySelector('body').classList.remove('active');
+    document.querySelector('.main-container').classList.remove('active');
+  };
   return (
     <div className="ground-menu">
       <div className="nav-toggle">

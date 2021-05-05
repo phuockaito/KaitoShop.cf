@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Button, Form, Input, Drawer } from "antd";
+import { Button, Form, Input, Drawer, Tooltip } from "antd";
 import "moment/locale/vi";
 import {
   UserOutlined,
@@ -30,12 +30,10 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
   const [isInformation, setIsInformation] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isNameUpdate, setIsNameUpdate] = useState(false);
-
   const LoginOutlinedUser = () => {
     localStorage.removeItem("token");
     window.location.reload();
   };
-
   const onChangeInformationUser = async (value) => {
     if (value) {
       socket.emit("userUpdateInformation", {
@@ -100,7 +98,9 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
                 idUser={idUser}
               />
               <div className="create-account">
-                <span>{moment(user.createdAt).fromNow()}</span>
+                <Tooltip placement="top" title={moment(user.createdAt).format('LLLL')}>
+                  <span>{moment(user.createdAt).fromNow()}</span>
+                </Tooltip>
               </div>
               <div className="ground-information"><div className="group-name">
                 <div className="icon-name">
@@ -146,7 +146,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
                       <div className="group-edit-user">
                         <Button key="back" onClick={() => setIsNameUpdate(false)}>
                           Hủy
-				      	    </Button>
+				      	        </Button>
                         <Button
                           type="primary"
                           htmlType="submit"

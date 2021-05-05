@@ -38,7 +38,6 @@ export default function HistoryCart() {
   const loadingUpdateCartStatus = useSelector(state => state.cart.loadingUpdateCartStatus);
   const loadingHistoryCart = useSelector(state => state.cart.loadingHistoryCart);
   const loadingDeleteCartAPI = useSelector(state => state.cart.loadingDeleteCartAPI);
-
   // useEffect
   useEffect(() => {
     window.scrollTo({
@@ -46,7 +45,7 @@ export default function HistoryCart() {
       behavior: "smooth"
     });
     actionGetCartAPI(token);
-  }, []);
+  }, [token]);
   const showProductsBuyCartAll = CartData => {
     return (
       CartData.map((itemCart, index) => (

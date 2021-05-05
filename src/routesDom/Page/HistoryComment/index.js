@@ -39,11 +39,11 @@ export default function HistoryComment() {
   // Effect
   useEffect(() => {
     if (token) {
-      const data = {
+      const params = {
         page: page,
-        items: 5,
+        item: 10,
       };
-      getDataComments(data, token);
+      getDataComments({ params }, token);
     }
   }, [page, token]);
   // scrollTo

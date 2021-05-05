@@ -32,8 +32,8 @@ export const uploadImageUser = createAsyncThunk("upload", async (image, token) =
 }
 );
 
-export const getDiaryComment = createAsyncThunk("getDiaryComment", async (data, token) => {
-  const response = await userAPI.diaryComment(data, token);
+export const getDiaryComment = createAsyncThunk("getDiaryComment", async (params, token) => {
+  const response = await userAPI.diaryComment(params, token);
   return response;
 }
 );

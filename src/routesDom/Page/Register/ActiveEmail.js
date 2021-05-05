@@ -18,10 +18,14 @@ export default function ActiveEmail() {
   const [token, setToken] = state.token;
   const [, setUser] = state.user;
   const [, setIdUser] = state.idUser;
+  const [patchCart,] = state.patchCart;
   const loading = useSelector(state => state.user.loadingSlice);
   //useEffect
   useEffect(async () => {
-    if (tokenLocal || token) {
+    if (token && patchCart) {
+      history.push(patchCart);
+    }
+    else if (tokenLocal || token) {
       history.push("/");
     }
     if (accessToken) {
@@ -31,10 +35,9 @@ export default function ActiveEmail() {
         setToken(currentUser.token);
         setUser(currentUser.user);
         setIdUser(currentUser.user._id);
-        history.push("/");
       };
     };
-  }, [accessToken])
+  }, [accessToken, token]);
   return (
     <>
       {loading && <LoadingPage />}

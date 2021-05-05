@@ -1,10 +1,34 @@
-import { Table, Image, Tag, Tooltip, Button, Popconfirm } from 'antd';
+import { DeleteOutlined, CommentOutlined } from '@ant-design/icons';
+import { Table, Image, Tag, Tooltip, Badge, Popconfirm } from 'antd';
 import moment from "moment";
 import "moment/locale/vi";
-export default function ListUser({ listAccount, length }) {
-
+export default function ListUser({
+  listAccount,
+  length,
+  setPage,
+  setLimit,
+  limit,
+  page,
+  setOpenFromComment,
+  setIdUser
+}) {
 
   const Columns = [
+    {
+      title: 'ID',
+      dataIndex: '_id',
+      key: '_id',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: _id => (
+        <Tooltip placement="top" title={_id}>
+          <Tag color="red-inverse" key={_id}>
+            {_id}
+          </Tag>
+        </Tooltip>
+      )
+    },
     {
       title: 'Hình Ảnh',
       dataIndex: 'avatar',
@@ -79,8 +103,42 @@ export default function ListUser({ listAccount, length }) {
           </Tag>}
         </>
       )
-    }
-    ,
+    },
+    {
+      title: 'Bình Luận',
+      dataIndex: '_id',
+      key: '_id',
+      fixed: 'right',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (_id, item) => (
+        <>
+          <span
+            style={{ paddingRight: '5px' }}
+          >
+            <Badge
+              style={{ backgroundColor: '#1890ff' }}
+              count={item.__v}
+            // overflowCount={99}
+            >
+            </Badge>
+          </span>
+          <CommentOutlined
+            onClick={
+              () => {
+                setIdUser(_id);
+                setOpenFromComment(true)
+              }
+            }
+            style={{
+              color: '#1890ff',
+              fontSize: '1.2em'
+            }}
+          />
+        </>
+      )
+    },
     {
       title: 'Hành Động',
       key: '_id',
@@ -89,7 +147,6 @@ export default function ListUser({ listAccount, length }) {
       render: _id => {
         return (
           <>
-            <Button type="primary">Chỉnh Sữa</Button>
             <Popconfirm
               title="Chắc chắn để xóa ?"
               onConfirm={() => deleteProduct(_id)}
@@ -97,25 +154,36 @@ export default function ListUser({ listAccount, length }) {
               cancelText="Không"
               placement="leftTop"
             >
-              <Button
-                type="primary" danger
+              <DeleteOutlined
                 style={{
-                  margin: '5px'
+                  color: 'red',
+                  fontSize: '1.3em'
                 }}
-              >Xóa</Button>
+              />
             </Popconfirm>
           </>
         );
-      }
+      },
+
     }
   ];
+
   const deleteProduct = _id => {
     console.log({ _id })
   };
+
+  const handleTableChange = (pagination) => {
+    const { current, pageSize } = pagination;
+    setPage(current);
+    setLimit(pageSize);
+  };
   const pagination = {
     total: length,
+    current: page,
+    pageSize: limit,
     position: ['bottomCenter']
   };
+
   return (
     <>
       <Table
@@ -123,7 +191,8 @@ export default function ListUser({ listAccount, length }) {
         columns={Columns}
         dataSource={listAccount}
         pagination={pagination}
-        // onChange={handleTableChange}
+        onChange={handleTableChange}
+        position={'bottomCenter'}
         scroll={{ x: 1000 }}
       />
     </>

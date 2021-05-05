@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import $ from "jquery";
 import { Modal } from "antd";
 import StarRatings from "react-star-ratings";
 import moment from "moment";
@@ -43,17 +42,7 @@ export default function ListItem({
             </div>
             <div className="margin-history-comment name-history-comment">
               <Link
-                to={`/${
-                  comment.array_product[0].key
-                }/${comment.array_product[0].NSX.replace(
-                  / /g,
-                  "-"
-                )}/${comment.array_product[0].name.replace(/ /g, "-")}/${
-                  comment.array_product[0]._id
-                }`}
-                onClick={() => {
-                  $("html ,body").animate({ scrollTop: 0 }, 500);
-                }}
+                to={`/${comment.array_product[0].key}/${comment.array_product[0].NSX.replace(/ /g, "-")}/${comment.array_product[0].name.replace(/ /g, "-")}/${comment.array_product[0]._id}`}
               >
                 {comment.array_product[0].name}
               </Link>
@@ -71,9 +60,7 @@ export default function ListItem({
             </div>
             <div className="margin-history-comment delete-comment-history-comment">
               <button
-                onClick={() => {
-                  deleteComment(comment._id, comment.id_product);
-                }}
+                onClick={() => { deleteComment(comment._id, comment.id_product) }}
               >
                 Xóa bình luận
               </button>
@@ -119,7 +106,7 @@ export default function ListItem({
             <h3>Thời gian:</h3>
             <span>{moment(time).fromNow()}</span>
             <span>
-              {moment(time).subtract(1, "days").format("h:mm:ss, DD/MM/YYYY")}
+              {moment(time).format("LLLL")}
             </span>
           </div>
           <div className="group-content-modal">

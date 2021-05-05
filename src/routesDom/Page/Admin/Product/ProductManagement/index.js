@@ -43,14 +43,18 @@ export default function ProductManagement() {
     const { current, pageSize } = pagination;
     setPage(current);
     setLimit(pageSize);
-  }
+  };
+
   const pagination = {
     total: length,
+    current: page,
+    pageSize: limit,
     position: ['bottomCenter']
   };
+
   const deleteProduct = id => {
     actionDeleteProduct(id, token);
-  }
+  };
 
   const Columns = [
     {
@@ -211,14 +215,13 @@ export default function ProductManagement() {
         {dataProducts.length > 0 && <h3>Có tất cả {length} sản phẩm</h3>}
         {loading && <Loading />}
         {loadingDelete && <LoadingPage />}
-        {dataProducts.length > 0 &&
+        {!loading && dataProducts.length > 0 &&
           <Table
             className="ground-table"
             columns={Columns}
             dataSource={dataProducts}
             pagination={pagination}
             onChange={handleTableChange}
-            position={'bottomCenter'}
             scroll={{ x: 1100 }}
           />
         }

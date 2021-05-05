@@ -31,7 +31,6 @@ export default function ListProduct() {
   const actionDeleteCart = (id_cart, token) => dispatch(deleteCart(id_cart, token));
   const actionMessagesCart = (data, token) => dispatch(messagesCart(data, token));
   const actionGetCart = param => dispatch(getCart(param));
-  console.log({ data })
   useEffect(() => {
     const param = {
       success: success,

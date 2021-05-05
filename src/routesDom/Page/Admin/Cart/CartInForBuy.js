@@ -122,7 +122,7 @@ export default function CartInForBuy({ data, token, id_cart, actionCheckOutCart,
             <p>
               {moment(data.timeCart).fromNow()}
             </p>
-            <p> {moment(data.timeCart).subtract(1, 'days').format('DD/MM/YYYY')}</p>
+            <p> {moment(data.timeCart).format('LLLL')}</p>
           </div>
         </div>
       </Drawer>

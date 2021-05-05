@@ -28,9 +28,7 @@ export default function CartProduct() {
   const [visible, setVisible] = useState(false);
   // store
   const dataCart = useSelector((state) => state.cart.dataCart);
-  const loadingPostCartAPI = useSelector(
-    (state) => state.cart.loadingPostCartAPI
-  );
+  const loadingPostCartAPI = useSelector((state) => state.cart.loadingPostCartAPI);
   useEffect(() => {
     window.scrollTo({
       top: 0,

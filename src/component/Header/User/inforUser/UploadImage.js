@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Upload, Image, message } from "antd";
 import ImgCrop from "antd-img-crop";
-import { UploadOutlined } from "@ant-design/icons";
+import { CameraOutlined } from "@ant-design/icons";
 
 export default function UploadImage({
   avatar,
@@ -69,7 +69,11 @@ export default function UploadImage({
             accept=".jpg, .jpeg, .png"
             listType="listTyp"
           >
-            <Button icon={<UploadOutlined />} type="upload" loading={loading}>
+            <Button
+              icon={<CameraOutlined />}
+              type="upload"
+              loading={loading}
+            >
               Tải ảnh lên
 						</Button>
           </Upload>

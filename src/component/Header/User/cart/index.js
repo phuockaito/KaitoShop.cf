@@ -32,4 +32,4 @@ export default function Cart({ setPatchCart, dataCart }) {
       </div>
     </>
   )
-}
+};

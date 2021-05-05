@@ -39,6 +39,10 @@ const adminAPI = {
   getAllUser: (params, token) => {
     const url = "/admin/get-users";
     return axiosClient.get(url, { params }, token);
+  },
+  getListCommentsUser: (params, token) => {
+    const url = "/admin/get-list-comments-user";
+    return axiosClient.get(url, { params }, token);
   }
 };
 export default adminAPI;

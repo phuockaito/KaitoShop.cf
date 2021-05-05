@@ -15,19 +15,32 @@
 	font-size: 1.2em;
 }
 /* table */
-.ground-user-manage
-	.container-user-manage
-	.ground-table
-	.ant-table-thead
-	> tr
-	> th,
-.ground-user-manage
-	.container-user-manage
-	.ground-table
-	.ant-table-tbody
-	> tr
-	> td {
+.ground-table .ant-table-thead > tr > th,
+.ground-table .ant-table-tbody > tr > td {
 	text-align: center;
+}
+/* list-ground-comment-user */
+.list-ground-comment-user .ant-modal-body {
+	padding: 0 0 20px 0;
+}
+.list-ground-comment-user .load-data-comment {
+	padding: 6px 36px;
+	border-radius: 15px;
+	background: transparent;
+	border: 1px solid #189eff;
+	cursor: pointer;
+	font-size: 0.9em;
+	text-transform: capitalize;
+	color: #189eff;
+	transition: 0.3s ease-out;
+	font-weight: 520;
+	display: block;
+	margin: 10px auto 0 auto;
+}
+.list-ground-comment-user .load-data-comment:hover {
+	background: #189eff;
+	color: #fff;
+	border: 1px solid #f7f8f9;
 }
 /* Responsive */
 @media screen and (max-width: 1000px) {

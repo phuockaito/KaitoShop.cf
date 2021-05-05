@@ -21,10 +21,18 @@ export default function ForgotPassword() {
   const [token, setToken] = state.token;
   const [, setUser] = state.user;
   const [, setIdUser] = state.idUser;
+  const [patchCart,] = state.patchCart;
   // useEffect
   useEffect(async () => {
-    if (tokenLocal || token) {
-      history.push("/");
+    try {
+      if (token && patchCart) {
+        history.push(patchCart);
+      }
+      else if (tokenLocal || token) {
+        history.push("/");
+      }
+    } catch (error) {
+      console.log(error)
     }
   }, [accessToken, token]);
   const onchangeResetPassword = async (value) => {
@@ -38,7 +46,6 @@ export default function ForgotPassword() {
         setToken(currentUser.token);
         setUser(currentUser.user);
         setIdUser(currentUser.user._id);
-        history.push("/");
       };
     }
   };

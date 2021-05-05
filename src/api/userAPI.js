@@ -42,9 +42,9 @@ const userAPI = {
     const url = '/user/update-image';
     return axiosClient.put(url, image, token);
   },
-  diaryComment: (data, token) => {
-    const url = `/comments/history-comments?page=${data.page}&items=${data.items}`;
-    return axiosClient.get(url, null, token);
+  diaryComment: (params, token) => {
+    const url = '/comments/history-comments';
+    return axiosClient.get(url, params, token);
   },
 };
 export default userAPI;

@@ -89,7 +89,8 @@ const CartSlice = createSlice({
     },
     [getCartAPI.fulfilled]: (state, action) => {
       state.loadingHistoryCart = false;
-      state.historyCart = action.payload.data;
+      const { cart } = action.payload;
+      state.historyCart = cart;
     },
     // upload data status oder cart
     [putCartStatusOrderAPI.pending]: state => {
