@@ -1,8 +1,8 @@
-import { Suspense } from 'react';
+import { Suspense, useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { useSelector } from 'react-redux';
-// --Contexts
-import { UserContextProvider } from 'contexts/UserContext';
+// -- Context
+import { UserContext } from "contexts/UserContext";
 // --Components
 import Header from 'component/Header';
 import Loading from "loading/index";
@@ -18,7 +18,11 @@ import 'aos/dist/aos.css';
 
 // socket
 export default function App() {
+  // create State
+  const state = useContext(UserContext);
   const isAdmin = useSelector(state => state.user.isAdmin);
+  const [token,] = state.token;
+  // function
   const showPageUser = page => {
     if (page.length > 0) {
       return (
@@ -41,7 +45,7 @@ export default function App() {
             key={index}
             exact={page.exact}
             path={page.path}
-            component={isAdmin ? page.main : NotFount}
+            component={(isAdmin && token) ? page.main : NotFount}
           />
         ))
       )
@@ -49,25 +53,23 @@ export default function App() {
   };
   return (
     <Router>
-      <UserContextProvider>
-        <Header />
-        <Menu />
-        <div className="ground-container">
-          <div className="main-container">
-            <Suspense fallback={<Loading />}>
-              <Switch>
-                {/*  page user */}
-                {showPageUser(pageUser)}
-                {/*  page admin */}
-                {isAdmin && showPageAdmin(pageAdmin)}
-                <Route path="/*" component={NotFount} exact />
-                <Redirect to="/" from="/" />
-              </Switch>
-              <Footer />
-            </Suspense>
-          </div>
+      <Header />
+      <Menu token={token} />
+      <div className="ground-container">
+        <div className="main-container">
+          <Suspense fallback={<Loading />}>
+            <Switch>
+              {/*  page user */}
+              {showPageUser(pageUser)}
+              {/*  page admin */}
+              {(isAdmin && token) && showPageAdmin(pageAdmin)}
+              <Route path="/*" component={NotFount} exact />
+              <Redirect to="/" from="/" />
+            </Switch>
+            <Footer />
+          </Suspense>
         </div>
-      </UserContextProvider>
+      </div>
     </Router>
   );
 };

@@ -8,6 +8,7 @@ import { getDiaryComment } from "features/User/patchAPI";
 import ListItem from "./ListItem";
 import Loading from "component/LoadingBtn/index";
 import LoadingPage from "component/LoadingPage/index";
+import NotFount from "../NotFount/index";
 // dispatch API
 import { deleteComment } from "features/Comment/pathAPI";
 // Context
@@ -23,9 +24,6 @@ export default function HistoryComment() {
   // create State
   const [page, setPage] = useState(1);
   const [loadingCmt, setLoadingCmt] = useState(false);
-  if (!token && !tokenLocal) {
-    history.push("/");
-  }
   // dispatch API
   const getDataComments = (data, token) =>
     dispatch(getDiaryComment(data, token));
@@ -60,46 +58,54 @@ export default function HistoryComment() {
     setLoadingCmt(true);
     setPage(page + 1);
   };
+  useEffect(() => {
+    if (!token && !tokenLocal) {
+      history.push("/");
+    }
+  }, [token, tokenLocal]);
   return (
-    <div className="group-history-comment">
-      <div className="main-history-comment">
-        <div className="group-title-rewvie">
-          <h3>HOẠT ĐỘNG GẦN ĐÂY</h3>
-          <p>
-            ({dataHistoryComment.length} / {lengthSumHistoryComment} Bình luận)
+    token ? (
+      <div className="group-history-comment">
+        <div className="main-history-comment">
+          <div className="group-title-rewvie">
+            <h3>HOẠT ĐỘNG GẦN ĐÂY</h3>
+            <p>
+              ({dataHistoryComment.length} / {lengthSumHistoryComment} Bình luận)
           </p>
-          {loadingDeleteCmtAPI && <LoadingPage />}
-        </div>
-        <ListItem
-          dataHistoryComment={dataHistoryComment}
-          actionDeleteComment={actionDeleteComment}
-          token={token}
-        />
-        <div className="group-loading-see-more">
-          {loadingHistoryComment && !loadingCmt && <Loading />}
-          {!loadingCmt && dataHistoryComment.length < lengthSumHistoryComment && (
-            <button
-              onClick={() => {
-                onChangeLoadingCmt(page);
-              }}
-            >
-              xem thêm
-            </button>
-          )}
-          {loadingCmt && <Loading />}
-        </div>
-        {lengthSumHistoryComment === 0 && !loadingHistoryComment && (
-          <div className="noData-history-comment">
-            <FileTextOutlined
-              style={{
-                fontSize: "2em",
-                margin: "15px auto",
-              }}
-            />
-            <h3>Không có gì để hiển thị</h3>
+            {loadingDeleteCmtAPI && <LoadingPage />}
           </div>
-        )}
+          <ListItem
+            dataHistoryComment={dataHistoryComment}
+            actionDeleteComment={actionDeleteComment}
+            token={token}
+          />
+          <div className="group-loading-see-more">
+            {loadingHistoryComment && !loadingCmt && <Loading />}
+            {!loadingCmt && dataHistoryComment.length < lengthSumHistoryComment && (
+              <button
+                onClick={() => {
+                  onChangeLoadingCmt(page);
+                }}
+              >
+                xem thêm
+              </button>
+            )}
+            {loadingCmt && <Loading />}
+          </div>
+          {lengthSumHistoryComment === 0 && !loadingHistoryComment && (
+            <div className="noData-history-comment">
+              <FileTextOutlined
+                style={{
+                  fontSize: "2em",
+                  margin: "15px auto",
+                }}
+              />
+              <h3>Không có gì để hiển thị</h3>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-}
+    )
+      : (<NotFount />)
+  )
+};

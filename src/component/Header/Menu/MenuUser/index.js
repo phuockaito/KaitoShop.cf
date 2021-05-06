@@ -6,153 +6,171 @@ import logoNewBanner from "image/iconMenu/newBalance.png";
 import logoPuma from "image/iconMenu/puma.png";
 import logoConverse from "image/iconMenu/converse.png";
 import homePage from "image/iconMenu/home.png";
-export default function MenuUser({ list_menu, CloseMenu, Link }) {
-	const { Adidas } = list_menu.listMenu;
-	const { Nike } = list_menu.listMenu;
-	const { Vans } = list_menu.listMenu;
-	const { NewBalance } = list_menu.listMenu;
-	const { Puma } = list_menu.listMenu;
-	const { Converse } = list_menu.listMenu;
-	return (
-		<nav>
-			<ul className="menu">
-				<li style={{ "--i": "1" }}>
-					<Link to="/" className="active" onClick={CloseMenu}>
-						<div className="icon-menu">
-							<img src={homePage} alt="homePage" />
-						</div>
+export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
+  const { Adidas } = list_menu.listMenu;
+  const { Nike } = list_menu.listMenu;
+  const { Vans } = list_menu.listMenu;
+  const { NewBalance } = list_menu.listMenu;
+  const { Puma } = list_menu.listMenu;
+  const { Converse } = list_menu.listMenu;
+  return (
+    <nav>
+      <ul className="menu">
+        <li style={{ "--i": "1" }}>
+          <Link to="/" className="active" onChange={onClickCloseMenu}>
+            <div className="icon-menu">
+              <img src={homePage} alt="homePage" />
+            </div>
 						trang chủ
 					</Link>
-				</li>
-				<li className="active-menu" style={{ "--i": "2" }}>
-					<a rel="noreferrer noopener">
-						<div className="icon-menu">
-							<img src={logoAdidas} alt="logoAdidas" />
-						</div>
+        </li>
+        <li
+          className="active-menu"
+          style={{ "--i": "2" }}
+        >
+          <a rel="noreferrer noopener">
+            <div className="icon-menu">
+              <img src={logoAdidas} alt="logoAdidas" />
+            </div>
 						Adidas
 						<i className="fa fa-caret-down" />
-					</a>
-					<ul className="sub-menu">
-						{Adidas &&
-							Adidas.map((menu, key) => (
-								<li key={key}>
-									<Link
-										to={`/products/adidas/${menu.replace(/ /g, "-")}`}
-										onClick={CloseMenu}
-									>
-										{menu}
-									</Link>
-								</li>
-							))}
-					</ul>
-				</li>
-				<li className="active-menu" style={{ "--i": "3" }}>
-					<a rel="noreferrer noopener">
-						<div className="icon-menu">
-							<img src={logoNike} alt="logoNike" />
-						</div>
+          </a>
+          <ul className="sub-menu">
+            {Adidas &&
+              Adidas.map((menu, key) => (
+                <li key={key} >
+                  <Link
+                    to={`/products/adidas/${menu.replace(/ /g, "-")}`}
+                    onClick={onClickCloseMenu}
+                  >
+                    {menu}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </li>
+        <li
+          className="active-menu"
+          style={{ "--i": "3" }}
+        >
+          <a rel="noreferrer noopener">
+            <div className="icon-menu">
+              <img src={logoNike} alt="logoNike" />
+            </div>
 						Nike
 						<i className="fa fa-caret-down" />
-					</a>
-					<ul className="sub-menu">
-						{Nike &&
-							Nike.map((menu, key) => (
-								<li key={key}>
-									<Link
-										to={`/products/nike/${menu.replace(/ /g, "-")}`}
-										onClick={CloseMenu}
-									>
-										{menu}
-									</Link>
-								</li>
-							))}
-					</ul>
-				</li>
-				<li className="active-menu" style={{ "--i": "4" }}>
-					<a rel="noreferrer noopener">
-						<div className="icon-menu">
-							<img src={logoVans} alt="logoVans" />
-						</div>
+          </a>
+          <ul className="sub-menu">
+            {Nike &&
+              Nike.map((menu, key) => (
+                <li key={key} >
+                  <Link
+                    to={`/products/nike/${menu.replace(/ /g, "-")}`}
+                    onClick={onClickCloseMenu}
+                  >
+                    {menu}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </li>
+        <li
+          className="active-menu"
+          style={{ "--i": "4" }}
+        >
+          <a rel="noreferrer noopener">
+            <div className="icon-menu">
+              <img src={logoVans} alt="logoVans" />
+            </div>
 						Vans <i className="fa fa-caret-down" />
-					</a>
-					<ul className="sub-menu">
-						{Vans &&
-							Vans.map((menu, key) => (
-								<li key={key}>
-									<Link
-										to={`/products/vans/${menu.replace(/ /g, "-")}`}
-										onClick={CloseMenu}
-									>
-										{menu}
-									</Link>
-								</li>
-							))}
-					</ul>
-				</li>
-				<li className="active-menu" style={{ "--i": "5" }}>
-					<a rel="noreferrer noopener">
-						<div className="icon-menu">
-							<img src={logoNewBanner} alt="logoNewBanner" />
-						</div>
+          </a>
+          <ul className="sub-menu">
+            {Vans &&
+              Vans.map((menu, key) => (
+                <li key={key} >
+                  <Link
+                    to={`/products/vans/${menu.replace(/ /g, "-")}`}
+                    onClick={onClickCloseMenu}
+                  >
+                    {menu}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </li>
+        <li
+          className="active-menu"
+          style={{ "--i": "5" }}
+        >
+          <a rel="noreferrer noopener">
+            <div className="icon-menu">
+              <img src={logoNewBanner} alt="logoNewBanner" />
+            </div>
 						new balance <i className="fa fa-caret-down" />
-					</a>
-					<ul className="sub-menu">
-						{NewBalance &&
-							NewBalance.map((menu, key) => (
-								<li key={key}>
-									<Link
-										to={`/products/new-balance/${menu.replace(/ /g, "-")}`}
-										onClick={CloseMenu}
-									>
-										{menu}
-									</Link>
-								</li>
-							))}
-					</ul>
-				</li>
-				<li className="active-menu" style={{ "--i": "6" }}>
-					<a rel="noreferrer noopener">
-						<div className="icon-menu">
-							<img src={logoPuma} alt="logoPuma" />
-						</div>
+          </a>
+          <ul className="sub-menu">
+            {NewBalance &&
+              NewBalance.map((menu, key) => (
+                <li key={key} >
+                  <Link
+                    to={`/products/new-balance/${menu.replace(/ /g, "-")}`}
+                    onClick={onClickCloseMenu}
+                  >
+                    {menu}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </li>
+        <li
+          className="active-menu"
+          style={{ "--i": "6" }}
+        >
+          <a rel="noreferrer noopener">
+            <div className="icon-menu">
+              <img src={logoPuma} alt="logoPuma" />
+            </div>
 						puma <i className="fa fa-caret-down" />
-					</a>
-					<ul className="sub-menu">
-						{Puma &&
-							Puma.map((menu, key) => (
-								<li key={key}>
-									<Link
-										to={`/products/puma/${menu.replace(/ /g, "-")}`}
-										onClick={CloseMenu}
-									>
-										{menu}
-									</Link>
-								</li>
-							))}
-					</ul>
-				</li>
-				<li className="active-menu" style={{ "--i": "7" }}>
-					<a rel="noreferrer noopener">
-						<div className="icon-menu">
-							<img src={logoConverse} alt="logoConverse" />
-						</div>
+          </a>
+          <ul className="sub-menu">
+            {Puma &&
+              Puma.map((menu, key) => (
+                <li key={key} >
+                  <Link
+                    to={`/products/puma/${menu.replace(/ /g, "-")}`}
+                    onClick={onClickCloseMenu}
+                  >
+                    {menu}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </li>
+        <li
+          className="active-menu"
+          style={{ "--i": "7" }}
+        >
+          <a rel="noreferrer noopener">
+            <div className="icon-menu">
+              <img src={logoConverse} alt="logoConverse" />
+            </div>
 						converse <i className="fa fa-caret-down" />
-					</a>
-					<ul className="sub-menu">
-						{Converse &&
-							Converse.map((menu, key) => (
-								<li key={key}>
-									<Link
-										to={`/products/converse/${menu.replace(/ /g, "-")}`}
-										onClick={CloseMenu}
-									>
-										{menu}
-									</Link>
-								</li>
-							))}
-					</ul>
-				</li>
-			</ul>
-		</nav>
-	);
-}
+          </a>
+          <ul className="sub-menu">
+            {Converse &&
+              Converse.map((menu, key) => (
+                <li key={key} >
+                  <Link
+                    to={`/products/converse/${menu.replace(/ /g, "-")}`}
+                    onClick={onClickCloseMenu}
+                  >
+                    {menu}
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  );
+};

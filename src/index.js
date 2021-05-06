@@ -8,11 +8,14 @@ import 'antd/dist/antd.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './index.css';
-
+// --Contexts
+import { UserContextProvider } from 'contexts/UserContext';
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

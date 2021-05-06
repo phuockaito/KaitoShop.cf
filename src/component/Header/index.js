@@ -16,8 +16,8 @@ export default function Header() {
   const state = useContext(UserContext);
   const { socket } = state;
   const [user, setUser] = state.user;
-  const [idUser,] = state.idUser;
-  const [token] = state.token;
+  const [idUser, setIdUser] = state.idUser;
+  const [token, setToken] = state.token;
   const [, setPatchCart] = state.patchCart;
   //  store
   const dataCart = useSelector(state => state.cart.dataCart);
@@ -30,6 +30,11 @@ export default function Header() {
       initClassName: 'aos-init',
     })
   }, []);
+  const onClickOpenMenu = () => {
+    document.querySelector('.ground-menu').classList.add('open');
+    document.querySelector('body').classList.add('active');
+    document.querySelector('.main-container').classList.add('active');
+  }
   return (
     <>
       <button className="scrollTop">
@@ -47,7 +52,7 @@ export default function Header() {
           </div>
           <Search />
           <div style={{ 'display': 'none' }} className="totle-menu">
-            <i className="fa fa-bars" />
+            <i className="fa fa-bars" onClick={onClickOpenMenu} />
           </div>
           <Cart setPatchCart={setPatchCart} dataCart={dataCart} />
           <User
@@ -55,7 +60,9 @@ export default function Header() {
             user={user}
             setUser={setUser}
             idUser={idUser}
+            setIdUser={setIdUser}
             token={token}
+            setToken={setToken}
             loadingGetProfile={loadingGetProfile}
           />
         </div>

@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Tag, Table, Tooltip, Avatar, Image, Button, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 //API
 import { getListProduct, deleteToProduct } from 'features/Admin/Product/pathAPI';
 // context
@@ -188,7 +189,14 @@ export default function ProductManagement() {
         return (
           <>
             <Link to={`/admin-edit-product/${_id}`}>
-              <Button type="primary">Chỉnh Sữa</Button></Link>
+              <EditOutlined
+                style={{
+                  fontSize: '1.5em',
+                  padding: '0 7px',
+                  color: '#1890ff'
+                }}
+              />
+            </Link>
             <Popconfirm
               title="Chắc chắn để xóa ?"
               onConfirm={() => deleteProduct(_id)}
@@ -196,12 +204,14 @@ export default function ProductManagement() {
               cancelText="Không"
               placement="leftTop"
             >
-              <Button
-                type="primary" danger
+
+              <DeleteOutlined
                 style={{
-                  margin: '5px'
+                  fontSize: '1.5em',
+                  padding: '0 7px',
+                  color: '#f5222d'
                 }}
-              >Xóa</Button>
+              />
             </Popconfirm>
           </>
         );

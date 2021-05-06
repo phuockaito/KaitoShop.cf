@@ -38,6 +38,9 @@ const UserSlice = createSlice({
       if (user.role === 1) {
         state.isAdmin = true;
       }
+      if (user.role === 0) {
+        state.isAdmin = false;
+      }
       localStorage.setItem("token", accessToken);
     },
     [loginUser.rejected]: (state) => {
@@ -53,6 +56,9 @@ const UserSlice = createSlice({
       state.userSlice = user;
       if (user.role === 1) {
         state.isAdmin = true;
+      }
+      if (user.role === 0) {
+        state.isAdmin = false;
       }
       state.tokenSlice = token;
       localStorage.setItem("token", token);
@@ -78,22 +84,25 @@ const UserSlice = createSlice({
     [loginGoogle.pending]: (state) => {
       state.loadingSlice = true;
     },
-    [loginGoogle.rejected]: (state) => {
-      state.loadingSlice = false;
-      message.error("Tài khoản hoặc mật khẩu không đúng !");
-    },
     [loginGoogle.fulfilled]: (state, action) => {
-
       const { accessToken, user } = action.payload;
       if (user.role === 1) {
         state.isAdmin = true;
+      }
+      if (user.role === 0) {
+        state.isAdmin = false;
       }
       const token = accessToken;
       state.userSlice = user;
       state.tokenSlice = token;
       state.loadingSlice = false;
       localStorage.setItem("token", token);
-    },// get when token
+    },
+    [loginGoogle.rejected]: (state) => {
+      state.loadingSlice = false;
+      message.error("Tài khoản hoặc mật khẩu không đúng !");
+    },
+    // get when token
     [getProfile.pending]: (state) => {
       state.loadingGetProfile = true;
     },
@@ -101,6 +110,9 @@ const UserSlice = createSlice({
       const { user } = action.payload;
       if (user.role === 1) {
         state.isAdmin = true;
+      }
+      if (user.role === 0) {
+        state.isAdmin = false;
       }
       state.userSlice = user;
       state.loadingGetProfile = false;
@@ -131,6 +143,9 @@ const UserSlice = createSlice({
       state.userSlice = user;
       if (user.role === 1) {
         state.isAdmin = true;
+      }
+      if (user.role === 0) {
+        state.isAdmin = false;
       }
       state.tokenSlice = token;
       localStorage.setItem("token", token);

@@ -3,22 +3,29 @@ import { FileSearchOutlined } from '@ant-design/icons';
 import { Table, Avatar, Tag, Tooltip, Popconfirm } from 'antd';
 import StarRatings from "react-star-ratings";
 import { DeleteOutlined } from '@ant-design/icons';
-
 import { Link } from 'react-router-dom';
 import moment from "moment";
 import "moment/locale/vi";
 export default function CommentUser({
+  token,
   openFromComment,
   setOpenFromComment,
   listCommentUser,
   loadingComments,
   LoadingPage,
   lengthComment,
-  pageCMT,
-  setPageCMT,
   limitCMT,
   setLimitCMT,
+  actionDeleteCommentUser
 }) {
+  const deleteComment = (idComment, item) => {
+    const params = {
+      _id_comment: idComment,
+      _id_product: item.id_product,
+      _id_user: item.id_user
+    };
+    actionDeleteCommentUser(params, token);
+  };
   const Columns = [
     {
       title: 'ID',
@@ -133,10 +140,10 @@ export default function CommentUser({
       ellipsis: {
         showTitle: false,
       },
-      render: _id => (
+      render: (_id, item) => (
         <Popconfirm
           title="Bạn có chắc chắn xóa bình luận này không ?"
-          // onConfirm={() => deleteProduct(_id)}
+          onConfirm={() => deleteComment(_id, item)}
           okText="Có"
           cancelText="Không"
           placement="leftTop"

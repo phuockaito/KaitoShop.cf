@@ -108,7 +108,6 @@ export default function ListUser({
       title: 'Bình Luận',
       dataIndex: '_id',
       key: '_id',
-      fixed: 'right',
       ellipsis: {
         showTitle: false,
       },

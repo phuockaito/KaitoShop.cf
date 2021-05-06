@@ -10,6 +10,7 @@ import CartItem from './CartItem';
 import CartInForBuy from './CartInForBuy';
 import Loading from 'component/LoadingBtn/index';
 import LoadingPage from 'component/LoadingPage/index';
+import NotFount from "../NotFount/index";
 // Context
 import { UserContext } from 'contexts/UserContext';
 // CSS
@@ -24,9 +25,12 @@ export default function HistoryCart() {
   const [idUser,] = state.idUser;
   const [token,] = state.token;
   const { socket } = state;
-  if (!tokenLocal && !token) {
-    history.push("/");
-  };
+  // useEffect
+  useEffect(() => {
+    if (!token && !tokenLocal) {
+      history.push("/");
+    }
+  }, [token, tokenLocal]);
 
   // dispatch API
   const actionGetCartAPI = token => dispatch(getCartAPI(token));
@@ -153,53 +157,56 @@ export default function HistoryCart() {
   };
 
   return (
-    <div className="group-history-cart">
-      <div className="container-history-cart">
-        {loadingDeleteCartAPI && <LoadingPage />}
-        <h3>LỊCH SỬ MUA HÀNG <span>{dataHistoryCart.length} sản phẩm</span></h3>
-        {loadingHistoryCart && <Loading />}
-        {
-          (!loadingHistoryCart && dataHistoryCart.length > 0) && (
-            <Tabs defaultActiveKey="1"  >
-              <TabPane
-                tab="Tất Cả"
-                key="1"
-              >
-                {showProductsBuyCartAll(dataHistoryCart)}
-              </TabPane>
-              <TabPane
-                tab="Chờ Duyệt"
-                key="2"
-              >
-                {showProductsBuyCartAllPending(dataHistoryCart)}
-              </TabPane>
-              <TabPane
-                tab="Đã Xét Duyệt"
-                key="3"
-              >
-                {showProductsBuyCartAllFinish(dataHistoryCart)}
-              </TabPane>
-              <TabPane
-                tab="Đã Hủy"
-                key="4"
-              >
-                {showProductsBuyCartStatusOrder(dataHistoryCart)}
-              </TabPane>
-            </Tabs>
-          )
-        }
-        {
-          (dataHistoryCart.length === 0 && !loadingHistoryCart) && (
-            <div className="no-history-cart">
-              <FileTextOutlined style={{
-                fontSize: '2em',
-                margin: '15px auto',
-              }} />
-              <h4>Không có gì để hiển thị</h4>
-            </div>
-          )
-        }
+    token ? (
+      <div className="group-history-cart">
+        <div className="container-history-cart">
+          {loadingDeleteCartAPI && <LoadingPage />}
+          <h3>LỊCH SỬ MUA HÀNG <span>{dataHistoryCart.length} sản phẩm</span></h3>
+          {loadingHistoryCart && <Loading />}
+          {
+            (!loadingHistoryCart && dataHistoryCart.length > 0) && (
+              <Tabs defaultActiveKey="1"  >
+                <TabPane
+                  tab="Tất Cả"
+                  key="1"
+                >
+                  {showProductsBuyCartAll(dataHistoryCart)}
+                </TabPane>
+                <TabPane
+                  tab="Chờ Duyệt"
+                  key="2"
+                >
+                  {showProductsBuyCartAllPending(dataHistoryCart)}
+                </TabPane>
+                <TabPane
+                  tab="Đã Xét Duyệt"
+                  key="3"
+                >
+                  {showProductsBuyCartAllFinish(dataHistoryCart)}
+                </TabPane>
+                <TabPane
+                  tab="Đã Hủy"
+                  key="4"
+                >
+                  {showProductsBuyCartStatusOrder(dataHistoryCart)}
+                </TabPane>
+              </Tabs>
+            )
+          }
+          {
+            (dataHistoryCart.length === 0 && !loadingHistoryCart) && (
+              <div className="no-history-cart">
+                <FileTextOutlined style={{
+                  fontSize: '2em',
+                  margin: '15px auto',
+                }} />
+                <h4>Không có gì để hiển thị</h4>
+              </div>
+            )
+          }
+        </div>
       </div>
-    </div>
+    ) :
+      (<NotFount />)
   )
-}
+};

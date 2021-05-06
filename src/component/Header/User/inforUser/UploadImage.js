@@ -71,7 +71,7 @@ export default function UploadImage({
           >
             <Button
               icon={<CameraOutlined />}
-              type="upload"
+              type="dashed"
               loading={loading}
             >
               Tải ảnh lên

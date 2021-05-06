@@ -51,6 +51,7 @@ const UserContextProvider = ({ children }) => {
           setIdUser(currentUser.user._id);
         }
       } catch (e) {
+        console.log(e)
         localStorage.removeItem("token");
         window.location.reload();
       }

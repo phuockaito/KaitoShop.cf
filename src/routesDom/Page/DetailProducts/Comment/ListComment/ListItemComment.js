@@ -15,6 +15,7 @@ export default function ListItemComment({
   const [idComment, setIdComment] = useState('');
   const [replyComment, setReplyComment] = useState(false);
   const [isForm, setIsForm] = useState(false);
+
   const openFromReply = (_id) => {
     if (token) {
       setReplyComment(true);

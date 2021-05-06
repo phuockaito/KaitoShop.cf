@@ -188,6 +188,7 @@
 	padding: 10px 5px;
 	color: #ffff;
 	border-radius: 8px;
+	text-transform: capitalize;
 }
 .group-information-detail .group-description-more .description-more-info {
 	margin-top: 20px;

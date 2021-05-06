@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -10,42 +9,45 @@ import { getMenu } from 'features/Menu/pathAPI';
 import MenuUser from './MenuUser/index';
 import MenuAdmin from './MenuAdmin/index';
 import './style.css';
-export default function Menu() {
+export default function Menu({ token }) {
   const dispatch = useDispatch();
+  // dispatch API
   const actionGetMenu = () => dispatch(getMenu());
+  //store
   const list_menu = useSelector(state => state.menu);
   const isAdmin = useSelector(state => state.user.isAdmin);
+  //useEffect
   useEffect(() => {
     actionGetMenu();
   }, []);
 
-  const CloseMenu = () => {
+  //function
+  const onClickCloseMenu = () => {
     document.querySelector('.ground-menu').classList.remove('open');
     document.querySelector('body').classList.remove('active');
     document.querySelector('.main-container').classList.remove('active');
-  };
+  }
   return (
     <div className="ground-menu">
       <div className="nav-toggle">
         <span>
-          <i className="fa fa-times" />
-          <Link to="/" className="logo" onClick={CloseMenu}>
+          <i className="fa fa-times" onClick={onClickCloseMenu} />
+          <Link to="/" className="logo" onClick={onClickCloseMenu}>
             <img src={logoWeb} alt="logo" />
           </Link>
         </span>
       </div>
-      {!isAdmin && (
-        <MenuUser
+      {
+        (isAdmin && token) ? (
+          <MenuAdmin
+            Link={Link}
+          />
+        ) : (<MenuUser
           list_menu={list_menu}
-          CloseMenu={CloseMenu}
+          onClickCloseMenu={onClickCloseMenu}
           Link={Link}
-        />
-      )}
-      {isAdmin && (
-        <MenuAdmin
-          Link={Link}
-        />
-      )}
+        />)
+      }
     </div>
   )
 };

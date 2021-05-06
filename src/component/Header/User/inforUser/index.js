@@ -15,11 +15,12 @@ import {
 // API
 import { uploadImageUser, ChangePassword } from "features/User/patchAPI";
 // Component
+import LoadingPage from "component/LoadingPage/index";
 import UpdatePassword from "./UpdatePassword";
 import UploadImage from "./UploadImage";
 import "./Style/style.css";
 moment.locale("vi");
-export default function InForUser({ user, token, setUser, socket, idUser }) {
+export default function InForUser({ user, token, setToken, setUser, socket, idUser, setIdUser }) {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   // dispatch API
@@ -30,9 +31,21 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
   const [isInformation, setIsInformation] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isNameUpdate, setIsNameUpdate] = useState(false);
+  const [loading, setLoading] = useState(false);
   const LoginOutlinedUser = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
+    setLoading(true);
+    setVisible(false);
+    setTimeout(() => {
+      setToken(null);
+      setUser(null);
+      setIdUser(null)
+      localStorage.removeItem("token");
+      setLoading(false);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 1500);
   };
   const onChangeInformationUser = async (value) => {
     if (value) {
@@ -72,6 +85,10 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
   }, [socket, idUser]);
   return (
     <>
+      {/* loading khi đăng xuất */}
+      {loading && <LoadingPage />}
+      {/* <LoadingPage /> */}
+      {/* show thông tin tài khoản */}
       <div className="profile">
         <div className="avatar-user">
           <img
@@ -111,8 +128,7 @@ export default function InForUser({ user, token, setUser, socket, idUser }) {
                     <p>{user.name}</p>
                     <EditOutlined
                       className="i-edit"
-                      onClick={() => { setIsNameUpdate(true) }
-                      }
+                      onClick={() => { setIsNameUpdate(true) }}
                     />
                   </>}
                   {

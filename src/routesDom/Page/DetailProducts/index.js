@@ -263,7 +263,7 @@ export default function DetailProducts() {
               </div>
               {/* hiện chỉnh sữa và xóa nếu nó là  admin */}
               {
-                isAdmin && <div className="ground-btn-admin">
+                isAdmin && token && <div className="ground-btn-admin">
                   <Popconfirm
                     title="Chắc chắn để xóa ?"
                     onConfirm={() => onDeleteProduct(_id)}

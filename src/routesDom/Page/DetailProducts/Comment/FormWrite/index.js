@@ -53,7 +53,7 @@ export default function FormWrite({
       });
     }
     return () => socket.off("waitWriteComment");
-  }, [contentCmt]);
+  }, [contentCmt, token]);
 
   const onChangeTextArea = (e) => {
     setContentCmt(e.target.value.length);

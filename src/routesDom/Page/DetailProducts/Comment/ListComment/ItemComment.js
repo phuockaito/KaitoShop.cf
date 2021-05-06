@@ -68,11 +68,11 @@ export default function ItemComment({
                   {moment(item.timeComment).fromNow()}
                 </span >
               </Tooltip>
-              {item.editComment && <span className="edit">Đã chỉnh sửa</span>}
+              {item.editComment && <span className="edit" >(đã chỉnh sửa)</span>}
             </div>
             {/* show from delete comment */}
             {
-              (isForm && item._id === idComment) ? (
+              (isForm && item._id === idComment && token) ? (
                 // if right show from edit comment
                 <FromEdit
                   item={item}
@@ -147,7 +147,7 @@ export default function ItemComment({
             {children}
           </div>
           {
-            (idComment === item._id && replyComment) && (
+            (idComment === item._id && replyComment && token) && (
               <FromReply
                 setReplyComment={setReplyComment}
                 socket={socket}

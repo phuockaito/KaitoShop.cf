@@ -10,3 +10,8 @@ export const getListCommentsUser = createAsyncThunk('listCommentUser', async (pa
   const response = await UserSlice.getListCommentsUser(params, token);
   return response;
 });
+
+export const deleteCommentUser = createAsyncThunk('deleteCommentUser', async (params, token) => {
+  const response = await UserSlice.deleteCommentUser(params, token);
+  return response;
+});

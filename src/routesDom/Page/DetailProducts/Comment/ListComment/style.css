@@ -107,14 +107,11 @@
 	text-align: center;
 	font-size: 12px;
 }
-.content-author .ground-content-name-start .time-content {
-	margin-top: 5px;
-}
 .content-author .ground-content-name-start .time-content span {
-	padding-right: 15px;
+	padding-right: 5px;
 	color: #e87a5a;
 	font-weight: 400;
-	font-size: 14px;
+	font-size: 13px;
 }
 .content-author .ground-content-name-start .ground-content p {
 	font-size: 14px;

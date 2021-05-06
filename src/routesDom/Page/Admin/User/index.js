@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // patch API
-import { getUser, getListCommentsUser } from 'features/Admin/User/pathAPI';
+import { getUser, getListCommentsUser, deleteCommentUser } from 'features/Admin/User/pathAPI';
 // Context
 import { UserContext } from 'contexts/UserContext';
 // Component
@@ -16,6 +16,7 @@ export default function UserManage() {
   // dispatch API
   const actionGetUsers = (params, token) => dispatch(getUser(params, token));
   const actionGetListCommentsUser = (params, token) => dispatch(getListCommentsUser(params, token));
+  const actionDeleteCommentUser = (params, token) => dispatch(deleteCommentUser(params, token));
   // create state
   const state = useContext(UserContext);
   const [token] = state.token;
@@ -81,16 +82,16 @@ export default function UserManage() {
             }
             {idUser &&
               <CommentUser
+                token={token}
                 openFromComment={openFromComment}
                 setOpenFromComment={setOpenFromComment}
                 listCommentUser={listCommentUser}
                 loadingComments={loadingComments}
                 LoadingPage={LoadingPage}
                 lengthComment={lengthComment}
-                pageCMT={pageCMT}
-                setPageCMT={setPageCMT}
                 limitCMT={limitCMT}
                 setLimitCMT={setLimitCMT}
+                actionDeleteCommentUser={actionDeleteCommentUser}
               />
             }
           </div>
