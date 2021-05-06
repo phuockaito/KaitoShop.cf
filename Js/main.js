@@ -1,11 +1,10 @@
 $(document).ready(function () {
-
+  const scrollMenu = $('.ground-header');
   const btnShowSearch = $('.btn-show-search');
   const btnCloseSearch = $('.btn-search');
-  $("ul.menu").find('li.active-menu a').on('click', function () {
-    $(this).parent('li.active-menu').toggleClass('open');
-  });
-  const scrollMenu = $('.ground-header');
+  // $("ul.menu").find('li.active-menu a').on('click', function () {
+  //   $(this).parent('li.active-menu').toggleClass('open');
+  // });
   //
   btnShowSearch.on('click', function () {
     toggleShowSearch();
