@@ -1,26 +1,9 @@
 $(document).ready(function () {
-  const onClickCloseMenu = $('i.fa.fa-times')
-  const onClickOpenMenu = $('i.fa.fa-bars');
+
   const btnShowSearch = $('.btn-show-search');
   const btnCloseSearch = $('.btn-search');
-  const btnShowLogin = $('.btn-show-login');
-  const btnCloseLogin = $('.btn-close-login');
+
   const scrollMenu = $('.ground-header');
-  // open menu window   1000 px
-  $("ul.menu").find('li.active-menu a').on('click', function () {
-    $(this).parent('li.active-menu').toggleClass('open');
-  });
-  //
-  onClickOpenMenu.on('click', function () {
-    toggleMenu();
-  })
-  onClickCloseMenu.on('click', function () {
-    toggleMenu();
-  })
-  function toggleMenu() {
-    $('.ground-menu').toggleClass('open');
-    hiddenBody();
-  }
   //
   btnShowSearch.on('click', function () {
     toggleShowSearch();
@@ -35,19 +18,6 @@ $(document).ready(function () {
   }
   function toggleShowSearch() {
     $('.search').toggleClass('open');
-    hiddenBody();
-  }
-  // show login
-  btnShowLogin.on('click', function () {
-    toggleShowLogin();
-  })
-  btnCloseLogin.on('click', function () {
-    $('.show-login').removeClass('open');
-    $('body').removeClass('active');
-    $('.main-container').removeClass('active');
-  })
-  function toggleShowLogin() {
-    $('.show-login').toggleClass('open');
     hiddenBody();
   }
 
@@ -82,10 +52,8 @@ $(document).ready(function () {
     if ($(this).scrollTop() > 400) {
       $('.scrollTop').addClass('active');
     } else {
-
       $('.scrollTop').removeClass('active');
     }
-
   });
 
 
