@@ -58,10 +58,10 @@ export default function Footer() {
                   <a href="https://www.facebook.com/PhuocKaito1410" target="_blank" rel="noreferrer noopener"><i className="fa fa-facebook" /></a>
                 </li>
                 <li>
-                  <a href="https://twitter.com/phuockaito" target="_blank" rel="noreferrer noopener"><i className="fa fa-twitter" /></a>
+                  <a href="https://www.linkedin.com/in/phuockaito" target="_blank" rel="noreferrer noopener"><i className="fa fa-linkedin" /></a>
                 </li>
                 <li>
-                  <a href="https://www.youtube.com/channel/UC-AkfAZivVZFBQTQPh7hx2w" target="_blank" rel="noreferrer noopener"><i className="fa fa-youtube-play" /></a>
+                  <a href="https://github.com/phuockaito" target="_blank" rel="noreferrer noopener"><i class="fa fa-github" /> </a>
                 </li>
                 <li>
                   <a href="http://kaitomovie.cf/" target="_blank" rel="noreferrer noopener"><i className="fa fa-external-link" /></a>

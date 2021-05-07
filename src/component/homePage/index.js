@@ -28,7 +28,7 @@ export default function HomePage() {
   //effApi
   useEffect(() => {
     actionGetProductType({ name: 'Puma', page: 1, sort_price: 0 });
-    actionGetProductSlider({ name: 'Converse' });
+    actionGetProductSlider({ name: 'Converse', items: 12 });
     actionGetProductAll({ page: '1', limit: '24' })
   }, []);
   return (

@@ -45,6 +45,7 @@ const UserSlice = createSlice({
     // delete comments user
     [deleteCommentUser.fulfilled]: (state, action) => {
       const { length, id_comment, id_user } = action.payload;
+      console.log(action)
       const { comment } = state;
       state.lengthComment = length;
       const indexCmt = comment.findIndex(cmt => cmt._id === id_comment);
@@ -53,7 +54,7 @@ const UserSlice = createSlice({
         comment.splice(indexCmt, 1);
         message.success('Xóa Thành Công', 1.5);
       }
-      if (indexUser) {
+      if (indexUser !== -1) {
         state.user[indexUser].__v = length;
       }
     },

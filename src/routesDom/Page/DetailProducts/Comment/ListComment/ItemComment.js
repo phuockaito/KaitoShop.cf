@@ -45,8 +45,6 @@ export default function ItemComment({
     setStart(start);
     setReplyComment(false);
   };
-
-
   return (
     <div className="item-comment" >
       <div className="avatar-author">

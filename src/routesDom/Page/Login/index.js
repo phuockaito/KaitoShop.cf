@@ -50,8 +50,6 @@ export default function Login() {
   }
   //useEffect
   useEffect(() => {
-    console.log({ tokenLocal })
-    console.log({ token })
     window.scrollTo({
       top: 0,
       behavior: "smooth",

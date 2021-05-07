@@ -32,7 +32,10 @@
 	font-size: 14px;
 	text-transform: capitalize;
 	font-weight: 520;
+	position: relative;
+	cursor: pointer;
 }
+
 .group-footer .footer .group-payment > ul {
 	position: relative;
 	display: grid;
@@ -89,13 +92,14 @@
 	background: #1c9cea;
 }
 .group-footer .footer .group-connect-us ul li:nth-child(3) {
-	background: #f70000;
+	background: #28282d;
 	border-radius: 4px;
 }
 .group-footer .footer .group-connect-us ul li:nth-child(4) {
 	background: #28282d;
 	border-radius: 4px;
 }
+
 .group-footer .footer .user-online p {
 	color: #b0acad;
 	text-align: center;

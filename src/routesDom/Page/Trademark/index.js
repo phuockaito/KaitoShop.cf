@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useRouteMatch } from 'react-router-dom';
 import { Pagination, Select } from 'antd';
-import StarRatings from "react-star-ratings";
 // API
 import { getProductType } from 'features/Product/pathAPI';
 // Component
 import Loading from 'loading/index';
+import CartItems from './CartItems';
 // CSS
 import './style.css';
 const { Option } = Select;
@@ -15,10 +14,10 @@ export default function Trademark() {
   const { name_Trademark } = useRouteMatch().params;
   const dispatch = useDispatch();
   document.querySelector('title').innerHTML = name_Trademark.toUpperCase();
-  const formatter = new Intl.NumberFormat('vn');
+
   // state
   const [page, setPage] = useState(1);
-  const [sort_price, sort_price_Set] = useState(1);
+  const [sortPrice, setSortPrice] = useState(0);
   const [current, setCurrent] = useState(1);
   // store
   const dataProductsType = useSelector(state => state.type.listProductSlider);
@@ -27,12 +26,13 @@ export default function Trademark() {
   //useEffect
   useEffect(() => {
     const fetchTypeAPI = () => {
-      const paramsType = {
-        name: name_Trademark,
+      const params = {
         page: page,
-        sort_Price: sort_price
-      }
-      dispatch(getProductType(paramsType));
+        sort_price: sortPrice,
+        items: 20,
+        name: name_Trademark,
+      };
+      dispatch(getProductType(params));
     }
     fetchTypeAPI();
     window.scrollTo({
@@ -40,13 +40,13 @@ export default function Trademark() {
       behavior: "smooth"
     });
     setCurrent(page);
-  }, [page, sort_price]);
+  }, [page, sortPrice]);
   //function
   const onChangePage = (page) => {
     setPage(page);
   }
-  const onChangeFilter = value => {
-    sort_price_Set(value.value)
+  const onChangeSortPrice = (e) => {
+    setSortPrice(e.value);
   }
   const showPagination = length => {
     if (length > 0) {
@@ -60,109 +60,33 @@ export default function Trademark() {
       )
     }
   }
-  const showReview = (rating, numReviews) => {
-    const rate = (rating / numReviews);
-    if (numReviews > 0) {
-      return (
-        <div className="revews-products">
-          <div className="start-review">
-            <StarRatings
-              starDimension="20px"
-              starRatedColor="#fed330"
-              starHoverColor="#fed330"
-              rating={rate}
-              starEmptyColor="white"
-            />
+
+  return (
+    <>
+      {loadingProductsType && <Loading />}
+      <div className="group-product-trademark">
+        <div className="container-product-trademark">
+          <h3> {name_Trademark}</h3>
+          <div className="filter-price">
+            <Select
+              labelInValue
+              defaultValue={{ value: 'Mới nhất' }}
+              style={{ width: 150 }}
+              onChange={onChangeSortPrice}
+            >
+              <Option value={0}>Mới nhất</Option>
+              <Option value={1}>Giá  thấp đến cao</Option>
+              <Option value={-1}>Giá  cao đến thấp</Option>
+            </Select>
           </div>
-          <p>{numReviews} đánh giá</p>
-
-        </div >
-      )
-    }
-    else {
-
-      return (
-        <>
-          <StarRatings
-            starDimension="20px"
-            starRatedColor="#fed330"
-            starHoverColor="#fed330"
-            starEmptyColor="none"
-            numberOfStars={5}
-          />
-          <p > Chưa có đánh giá !</p>
-        </>
-      )
-    }
-  }
-  const ShowProducts = data => {
-    if (data.length > 0) {
-      return (
-        <div className="product-trademark">
           {
-            data.map((listProduct) => (
-              <div className="item-products-trademark" key={listProduct._id} data-aos="zoom-in">
-                <Link
-                  to={`/${listProduct.key}/${listProduct.NSX.replace(/ /g, '-')}/${listProduct.name.replace(/ /g, '-')}/${listProduct._id}`}
-                >
-                  <div className="ig-products-trademark">
-                    <LazyLoadImage
-                      effect="blur"
-                      src={listProduct.poster[0].url}
-                      alt={listProduct._id}
-                      key={listProduct._id}
-                      height="100%"
-                      width="100%"
-                    />
-                  </div>
-                  <div className="name-products-trademark">
-                    <p>{listProduct.name}</p>
-                  </div>
-                </Link>
-                <div className="price-products-trademark">
-                  <div className="group-price">
-                    <span>{formatter.format(listProduct.price)} <u>đ</u></span>
-                  </div>
-                </div>
-                <div className="group-start-review">
-                  {
-                    showReview(listProduct.rating, listProduct.numReviews)
-                  }
-                </div>
-              </div>
-            ))
+            !loadingProductsType && dataProductsType.length > 0 && <CartItems items={dataProductsType} />
+          }
+          {
+            !loadingProductsType && dataProductsType.length > 0 && showPagination(lengthProductsType)
           }
         </div>
-      )
-    }
-  }
-  return (
-    <div className="group-product-trademark">
-      <div className="container-product-trademark">
-        {!loadingProductsType &&
-          <>
-            <h3> {name_Trademark}</h3>
-            <div className="filter-price">
-              <Select
-                labelInValue
-                defaultValue={{ value: 'Giá tăng dần' }}
-                style={{ width: 140 }}
-                onChange={onChangeFilter}
-              >
-                <Option value={1}>Giá tăng dần</Option>
-                <Option value={-1}>Giá giảm dần</Option>
-              </Select>
-            </div>
-          </>
-        }
-        {
-          !loadingProductsType && ShowProducts(dataProductsType)
-        }
-        {
-          !loadingProductsType && showPagination(lengthProductsType)
-        }
-        {loadingProductsType && <Loading />}
       </div>
-    </div>
+    </>
   )
-}
+};

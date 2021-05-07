@@ -5,7 +5,6 @@ import logoVans from "image/iconMenu/Vans.png";
 import logoNewBanner from "image/iconMenu/newBalance.png";
 import logoPuma from "image/iconMenu/puma.png";
 import logoConverse from "image/iconMenu/converse.png";
-import homePage from "image/iconMenu/home.png";
 export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
   const { Adidas } = list_menu.listMenu;
   const { Nike } = list_menu.listMenu;
@@ -18,10 +17,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
       <ul className="menu">
         <li style={{ "--i": "1" }}>
           <Link to="/" className="active" onChange={onClickCloseMenu}>
-            <div className="icon-menu">
-              <img src={homePage} alt="homePage" />
-            </div>
-						trang chủ
+            trang chủ
 					</Link>
         </li>
         <li

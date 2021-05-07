@@ -72,7 +72,6 @@ function ProductsType({ data, loading }) {
                   }
                 </div>
               </div>
-
             ))
           }
         </div>

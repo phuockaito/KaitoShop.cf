@@ -354,7 +354,6 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
           name="color"
           rules={[{ required: (colorDefault.length < 1) ? true : false, message: 'Vui lòng thêm màu cho sản phẩm !' }]}
         >
-
           {colorDefault.map((color, index) => (
             <Tag
               key={index}
