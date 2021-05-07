@@ -15,3 +15,8 @@ export const deleteCommentUser = createAsyncThunk('deleteCommentUser', async (pa
   const response = await UserSlice.deleteCommentUser(params, token);
   return response;
 });
+
+export const deleteAccountUser = createAsyncThunk('deleteAccount', async (params, token) => {
+  const response = await UserSlice.deleteAccountUser(params, token);
+  return response;
+});

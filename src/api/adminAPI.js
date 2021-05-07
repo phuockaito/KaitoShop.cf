@@ -1,7 +1,7 @@
 import axiosClient from "./axiosClient";
 
 const adminAPI = {
-  // cart
+  //------------------cart------------------
   getCart: (params) => {
     const url = '/admin/get-cart';
     return axiosClient.get(url, { params });
@@ -18,7 +18,7 @@ const adminAPI = {
     const url = `/admin/messages-cart?id_cart=${id_cart}`;
     return axiosClient.post(url, { message }, token);
   },
-  // Product
+  //------------------Product------------------
   listProduct: (params, token) => {
     const url = "/admin/list-product";
     return axiosClient.get(url, { params }, token);
@@ -35,7 +35,7 @@ const adminAPI = {
     const url = "/admin/update-product";
     return axiosClient.put(url, data, token);
   },
-  // user
+  //------------------user------------------
   getAllUser: (params, token) => {
     const url = "/admin/get-users";
     return axiosClient.get(url, { params }, token);
@@ -47,6 +47,10 @@ const adminAPI = {
   deleteCommentUser: (params, token) => {
     const url = "/admin/delete-comments-user";
     return axiosClient.delete(url, { params }, token);
+  },
+  deleteAccountUser: (params, token) => {
+    const url = "/admin/delete-account-user";
+    return axiosClient.delete(url, params, token);
   }
 };
 export default adminAPI;

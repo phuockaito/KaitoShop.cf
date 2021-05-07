@@ -1,14 +1,15 @@
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // patch API
-import { getUser, getListCommentsUser, deleteCommentUser } from 'features/Admin/User/pathAPI';
+import { getUser, getListCommentsUser, deleteCommentUser, deleteAccountUser } from 'features/Admin/User/pathAPI';
 // Context
 import { UserContext } from 'contexts/UserContext';
 // Component
 import ListUser from './ListUser';
 import Loading from 'loading/index';
 import CommentUser from './CommentUser';
-import LoadingPage from 'component/LoadingBtn/index';
+import LoadingBtn from 'component/LoadingBtn/index';
+import LoadingPage from 'component/LoadingPage/index';
 // Css
 import './style.css';
 export default function UserManage() {
@@ -17,6 +18,7 @@ export default function UserManage() {
   const actionGetUsers = (params, token) => dispatch(getUser(params, token));
   const actionGetListCommentsUser = (params, token) => dispatch(getListCommentsUser(params, token));
   const actionDeleteCommentUser = (params, token) => dispatch(deleteCommentUser(params, token));
+  const actionDeleteAccountUser = (params, token) => dispatch(deleteAccountUser(params, token));
   // create state
   const state = useContext(UserContext);
   const [token] = state.token;
@@ -25,12 +27,12 @@ export default function UserManage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   // list comments
-  const [pageCMT, setPageCMT] = useState(1);
   const [limitCMT, setLimitCMT] = useState(5);
   // store
   const listAccount = useSelector(state => state.userAdmin.user);
   const length = useSelector(state => state.userAdmin.lengthUser);
   const loading = useSelector(state => state.userAdmin.loading);
+  const loadingDeleteAccount = useSelector(state => state.userAdmin.loadingDeleteAccount);
   // data comment list user
   const listCommentUser = useSelector(state => state.userAdmin.comment);
   const loadingComments = useSelector(state => state.userAdmin.loadingComments);
@@ -51,18 +53,19 @@ export default function UserManage() {
   useEffect(() => {
     if (idUser) {
       const paramComment = {
-        page: pageCMT,
+        page: 1,
         limit: limitCMT,
         id_user: idUser
       };
       actionGetListCommentsUser(paramComment);
     }
-  }, [idUser, pageCMT, limitCMT]);
+  }, [idUser, limitCMT]);
   useEffect(() => {
     setLimitCMT(5);
   }, [idUser]);
   return (
     <>
+      {loadingDeleteAccount && <LoadingPage />}
       {loading && <Loading />}
       <div className="ground-user-manage">
         <div className="container-user-manage">
@@ -78,6 +81,8 @@ export default function UserManage() {
                 limit={limit}
                 setOpenFromComment={setOpenFromComment}
                 setIdUser={setIdUser}
+                token={token}
+                actionDeleteAccountUser={actionDeleteAccountUser}
               />
             }
             {idUser &&
@@ -87,7 +92,7 @@ export default function UserManage() {
                 setOpenFromComment={setOpenFromComment}
                 listCommentUser={listCommentUser}
                 loadingComments={loadingComments}
-                LoadingPage={LoadingPage}
+                LoadingBtn={LoadingBtn}
                 lengthComment={lengthComment}
                 limitCMT={limitCMT}
                 setLimitCMT={setLimitCMT}

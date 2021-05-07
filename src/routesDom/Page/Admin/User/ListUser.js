@@ -10,8 +10,17 @@ export default function ListUser({
   limit,
   page,
   setOpenFromComment,
-  setIdUser
+  setIdUser,
+  token,
+  actionDeleteAccountUser
 }) {
+
+  const deleteAccountUser = _id => {
+    const params = {
+      _id_user: _id,
+    }
+    actionDeleteAccountUser({ params }, token);
+  };
 
   const Columns = [
     {
@@ -147,8 +156,8 @@ export default function ListUser({
         return (
           <>
             <Popconfirm
-              title="Chắc chắn để xóa ?"
-              onConfirm={() => deleteProduct(_id)}
+              title="Bạn Chắc chắn để xóa tài khoản này không ?"
+              onConfirm={() => deleteAccountUser(_id)}
               okText="Có"
               cancelText="Không"
               placement="leftTop"
@@ -166,11 +175,6 @@ export default function ListUser({
 
     }
   ];
-
-  const deleteProduct = _id => {
-    console.log({ _id })
-  };
-
   const handleTableChange = (pagination) => {
     const { current, pageSize } = pagination;
     setPage(current);

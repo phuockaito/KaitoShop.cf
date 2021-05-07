@@ -65,46 +65,46 @@ export default function HistoryComment() {
   }, [token, tokenLocal]);
   return (
     token ? (
-      <div className="group-history-comment">
-        <div className="main-history-comment">
-          <div className="group-title-rewvie">
-            <h3>HOẠT ĐỘNG GẦN ĐÂY</h3>
-            <p>
-              ({dataHistoryComment.length} / {lengthSumHistoryComment} Bình luận)
-          </p>
-            {loadingDeleteCmtAPI && <LoadingPage />}
-          </div>
-          <ListItem
-            dataHistoryComment={dataHistoryComment}
-            actionDeleteComment={actionDeleteComment}
-            token={token}
-          />
-          <div className="group-loading-see-more">
-            {loadingHistoryComment && !loadingCmt && <Loading />}
-            {!loadingCmt && dataHistoryComment.length < lengthSumHistoryComment && (
-              <button
-                onClick={() => {
-                  onChangeLoadingCmt(page);
-                }}
-              >
-                xem thêm
-              </button>
-            )}
-            {loadingCmt && <Loading />}
-          </div>
-          {lengthSumHistoryComment === 0 && !loadingHistoryComment && (
-            <div className="noData-history-comment">
-              <FileTextOutlined
-                style={{
-                  fontSize: "2em",
-                  margin: "15px auto",
-                }}
-              />
-              <h3>Không có gì để hiển thị</h3>
+      <>
+        {loadingDeleteCmtAPI && <LoadingPage />}
+        <div className="group-history-comment">
+          <div className="main-history-comment">
+            <div className="group-title-rewvie">
+              <h3>HOẠT ĐỘNG GẦN ĐÂY</h3>
+              <p>({dataHistoryComment.length} / {lengthSumHistoryComment} Bình luận)</p>
             </div>
-          )}
+            <ListItem
+              dataHistoryComment={dataHistoryComment}
+              actionDeleteComment={actionDeleteComment}
+              token={token}
+            />
+            <div className="group-loading-see-more">
+              {loadingHistoryComment && !loadingCmt && <Loading />}
+              {!loadingCmt && dataHistoryComment.length < lengthSumHistoryComment && (
+                <button
+                  onClick={() => {
+                    onChangeLoadingCmt(page);
+                  }}
+                >
+                  xem thêm
+                </button>
+              )}
+              {loadingCmt && <Loading />}
+            </div>
+            {lengthSumHistoryComment === 0 && !loadingHistoryComment && (
+              <div className="noData-history-comment">
+                <FileTextOutlined
+                  style={{
+                    fontSize: "2em",
+                    margin: "15px auto",
+                  }}
+                />
+                <h3>Không có gì để hiển thị</h3>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </>
     )
       : (<NotFount />)
   )

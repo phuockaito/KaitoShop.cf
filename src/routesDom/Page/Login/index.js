@@ -28,7 +28,6 @@ export default function Login() {
   const loadingSubmit = useSelector((state) => state.user.loadingSlice);
   // dispatch api
   const actionPostForgotPassword = email => dispatch(postForgotPassword(email));
-
   // from login
   const onFinish = async (values) => {
     const data = {
@@ -51,6 +50,8 @@ export default function Login() {
   }
   //useEffect
   useEffect(() => {
+    console.log({ tokenLocal })
+    console.log({ token })
     window.scrollTo({
       top: 0,
       behavior: "smooth",

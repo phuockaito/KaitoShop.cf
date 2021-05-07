@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Button, Form, Input, Drawer, Tooltip } from "antd";
+import { Button, Form, Input, Drawer, Tooltip, notification } from "antd";
 import "moment/locale/vi";
 import {
   UserOutlined,
@@ -41,9 +41,10 @@ export default function InForUser({ user, token, setToken, setUser, socket, idUs
       setIdUser(null)
       localStorage.removeItem("token");
       setLoading(false);
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
+      notification['success']({
+        message: 'Thông Báo',
+        description:
+          'Đăng xuất thành công.',
       });
     }, 1500);
   };

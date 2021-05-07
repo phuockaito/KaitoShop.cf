@@ -41,6 +41,11 @@ const UserSlice = createSlice({
       if (user.role === 0) {
         state.isAdmin = false;
       }
+      notification['success']({
+        message: 'Thông báo',
+        description:
+          'Đăng nhập thành công',
+      });
       localStorage.setItem("token", accessToken);
     },
     [loginUser.rejected]: (state) => {
@@ -60,13 +65,18 @@ const UserSlice = createSlice({
       if (user.role === 0) {
         state.isAdmin = false;
       }
+      notification['success']({
+        message: 'Thông báo',
+        description:
+          'Đăng nhập thành công',
+      });
       state.tokenSlice = token;
       localStorage.setItem("token", token);
     },
     [postActiveEmail.rejected]: (state) => {
       state.loadingSlice = false;
     },// for get password
-    [postForgotPassword.fulfilled]: (state, action) => {
+    [postForgotPassword.fulfilled]: () => {
       notification['info']({
         message: 'Thông báo',
         description:
@@ -96,6 +106,11 @@ const UserSlice = createSlice({
       state.userSlice = user;
       state.tokenSlice = token;
       state.loadingSlice = false;
+      notification['success']({
+        message: 'Thông báo',
+        description:
+          'Đăng nhập thành công',
+      });
       localStorage.setItem("token", token);
     },
     [loginGoogle.rejected]: (state) => {
@@ -147,6 +162,11 @@ const UserSlice = createSlice({
       if (user.role === 0) {
         state.isAdmin = false;
       }
+      notification['success']({
+        message: 'Thông báo',
+        description:
+          'Đổi mật khẩu thành công',
+      });
       state.tokenSlice = token;
       localStorage.setItem("token", token);
     },

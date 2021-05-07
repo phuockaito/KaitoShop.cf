@@ -27,19 +27,19 @@ const CommentSlice = createSlice({
     [deleteComment.pending]: (state) => {
       state.loadingDeleteCmtAPI = true;
     },
-    [deleteComment.rejected]: (state) => {
-      state.loadingDeleteCmtAPI = false;
-    },
     [deleteComment.fulfilled]: (state, action) => {
       const id = action.payload.data._id;
       const index = state.data.findIndex(comment => comment._id === id);
       if (index !== -1) {
         state.data.splice(index, 1);
         state.length = action.payload.length;
-        state.loadingDeleteCmtAPI = false;
         message.success('Xóa Thành Công', 1.5);
       }
-    }
+      state.loadingDeleteCmtAPI = false;
+    },
+    [deleteComment.rejected]: (state) => {
+      state.loadingDeleteCmtAPI = false;
+    },
   }
 
 });

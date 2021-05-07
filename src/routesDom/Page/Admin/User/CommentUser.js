@@ -12,7 +12,7 @@ export default function CommentUser({
   setOpenFromComment,
   listCommentUser,
   loadingComments,
-  LoadingPage,
+  LoadingBtn,
   lengthComment,
   limitCMT,
   setLimitCMT,
@@ -173,7 +173,7 @@ export default function CommentUser({
         {
           loadingComments &&
           <div style={{ padding: '20px 0' }}>
-            <LoadingPage />
+            <LoadingBtn />
           </div>
         }
         {/* nếu có bình luận */}
