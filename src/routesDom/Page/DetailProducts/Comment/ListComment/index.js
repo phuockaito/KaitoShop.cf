@@ -26,9 +26,7 @@ export default function ListComment({
         <div className="group-list-comment">
           <div className="group-length">
             <h3>Khách Hàng Nhận Xét</h3>
-            <p>
-              {dataComment.length} /{lengthComment} bình luận
-     		    </p>
+            <p>{dataComment.length} /{lengthComment} bình luận</p>
           </div>
           <ListItemComment
             dataComment={dataComment}

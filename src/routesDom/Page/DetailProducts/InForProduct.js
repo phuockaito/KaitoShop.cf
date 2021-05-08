@@ -32,7 +32,6 @@ export default function InForProduct({ dataProductsId, actionAddToCart }) {
           },
           quantity: quantity,
         };
-        console.log({ dataCart })
         actionAddToCart(dataCart);
       }
     } catch (error) {
@@ -66,6 +65,7 @@ export default function InForProduct({ dataProductsId, actionAddToCart }) {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        infinite: false,
         autoplaySpeed: 3000,
         nextArrow: (
           <div>

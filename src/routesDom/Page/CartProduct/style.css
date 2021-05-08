@@ -166,8 +166,8 @@
 }
 .card-quantity .quantity-number button {
 	display: inline-block;
-	width: 30px;
-	height: 30px;
+	width: 35px;
+	height: 35px;
 	cursor: pointer;
 	font-size: 13px;
 	font-weight: 550;
@@ -177,6 +177,19 @@
 	color: black;
 	transition: 0.1s ease-out;
 }
+.card-quantity .quantity-number {
+	display: flex;
+}
+.card-quantity .quantity-number div {
+	width: 40px;
+	height: 35px;
+	line-height: 35px;
+	border-bottom: 1px solid rgb(236, 236, 236);
+	border-top: 1px solid rgb(236, 236, 236);
+	font-size: 14px;
+	color: rgb(23, 23, 23);
+}
+
 .card-quantity .quantity-number button.click-left {
 	border-top-left-radius: 4px;
 	border-bottom-left-radius: 4px;
@@ -187,18 +200,6 @@
 }
 .card-quantity .quantity-number button:hover {
 	background-color: rgb(189, 189, 189);
-}
-.card-quantity .quantity-number p {
-	width: 50px;
-	margin: 0;
-	height: 30px;
-	text-align: center;
-	display: inline-block;
-	line-height: 28px;
-	font-size: 13px;
-	color: rgb(23, 23, 23);
-	font-weight: 550;
-	border: 1px solid rgb(236, 236, 236);
 }
 
 /* ---------card-total-money----------*/

@@ -30,12 +30,27 @@ const CartSlice = createSlice({
       };
       const index = fileIndex(dataCart, sizeCart, product._id);
       if (index !== -1) {
-        dataCart[index].quantity += quantity;
-        message.success('Cập nhật Số Lượng Thành Công', 1.5);
-      } else {
+        if (dataCart[index].quantity < 5) {
+          if (quantity > 5) {
+            dataCart[index].quantity = 5;
+          }
+          else {
+            let newQuantity = dataCart[index].quantity + quantity;
+            if (newQuantity > 5) {
+              dataCart[index].quantity = 5;
+            } else {
+              dataCart[index].quantity += quantity;
+            }
+          }
+          message.success('Cập nhật Số Lượng Thành Công', 1.5);
+        } else {
+          message.error('Bạn được phép thêm tối đa số lượng là 5 ', 1.5);
+        }
+      }
+      else {
         dataCart.unshift({
           product,
-          quantity
+          quantity: quantity > 5 ? 5 : quantity
         });
         message.success('Đã Thêm Vào Vỏ Hàng Thành Công', 1.5);
       }
@@ -116,10 +131,6 @@ const CartSlice = createSlice({
     [putCartAddressesAPI.pending]: state => {
       state.loadingUpdateCartStatus = true;
     },
-    [putCartAddressesAPI.rejected]: (state, action) => {
-      state.loadingUpdateCartStatus = false;
-      console.log('ero', action);
-    },
     [putCartAddressesAPI.fulfilled]: (state, action) => {
       const { historyCart } = state;
       state.loadingUpdateCartStatus = false;
@@ -131,6 +142,10 @@ const CartSlice = createSlice({
         message: 'Thao tác Thành công',
         description: 'Thông tin chi tiết trong lịch sử mua hàng'
       });
+    },
+    [putCartAddressesAPI.rejected]: (state, action) => {
+      state.loadingUpdateCartStatus = false;
+      console.log('ero', action);
     },
     // delete cart
     [deleteCartAPI.pending]: state => {
