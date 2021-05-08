@@ -36,6 +36,7 @@ export default function ItemComment({
       _id: _id,
       id_product: idProduct,
       token: token,
+      idUser: idUser
     });
   };
   const onEditComment = (id, start) => {
@@ -78,6 +79,7 @@ export default function ItemComment({
                   start={start}
                   setStart={setStart}
                   token={token}
+                  idUser={idUser}
                   socket={socket}
                   idComment={idComment}
                   idProduct={idProduct}
@@ -150,6 +152,7 @@ export default function ItemComment({
                 setReplyComment={setReplyComment}
                 socket={socket}
                 user={user}
+                idUser={idUser}
                 idProduct={idProduct}
                 idComment={idComment}
                 token={token}

@@ -8,6 +8,7 @@ export default function FromReply({
   socket,
   token,
   user,
+  idUser,
   idProduct,
   idComment,
 }) {
@@ -23,6 +24,7 @@ export default function FromReply({
           idComment: idComment,
           content: value.content.trim(),
           token: token,
+          idUser: idUser,
           send: 'repLyComment'
         });
         setReplyComment(false)
@@ -74,6 +76,6 @@ export default function FromReply({
       </Form>
     </div>
   )
-}
+};
 
 

@@ -29,6 +29,7 @@ export default function FormWrite({
         content: values.content.trim(),
         start,
         token: token,
+        idUser: user._id
       });
       form.resetFields(["content"]);
       setStart(0);

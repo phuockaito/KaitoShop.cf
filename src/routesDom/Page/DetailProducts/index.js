@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Popconfirm } from 'antd';
+import $ from 'jquery';
 // API
 import { getProductId, getProductType } from "features/Product/pathAPI";
 import { getCommentOne } from "features/Comment/pathAPI";
@@ -37,7 +38,6 @@ export default function DetailProducts() {
   const { socket } = state;
   const [user,] = state.user;
   const [token,] = state.token;
-  const [idUser,] = state.idUser;
   const items = 20;
   // Data Product ID
   const loading = useSelector((state) => state.productId.loading);
@@ -130,7 +130,7 @@ export default function DetailProducts() {
       });
       return () => socket.off("ServerUserCreateComment");
     }
-  }, [socket, dataComment, idUser]);
+  }, [socket, dataComment]);
   // delete Comment Socket
   useEffect(() => {
     if (socket) {
@@ -151,7 +151,7 @@ export default function DetailProducts() {
       });
       return () => socket.off("serverUserDeleteComment");
     }
-  }, [socket, dataComment, idUser]);
+  }, [socket, dataComment]);
   // up date comment
   useEffect(() => {
     if (socket) {
@@ -172,7 +172,7 @@ export default function DetailProducts() {
       });
     }
     return () => socket.off("serverUserUpdateComment");
-  }, [socket, dataComment, idUser]);
+  }, [socket, dataComment]);
   // get comment
   useEffect(() => {
     const fetchComment = async () => {

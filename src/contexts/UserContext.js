@@ -27,8 +27,10 @@ const UserContextProvider = ({ children }) => {
     if (socket) {
       socket.on("serverDeleteAccount", (msg) => {
         const { accountDelete, _id_user } = msg;
-        if (accountDelete) {
+        console.log(msg)
+        if (msg) {
           if (_id_user == idUser) {
+            console.log(accountDelete)
             setToken(null);
             setUser(null);
             setIdUser(null)

@@ -28,7 +28,7 @@ export default function ListComment({
             <h3>Khách Hàng Nhận Xét</h3>
             <p>
               {dataComment.length} /{lengthComment} bình luận
-     		  </p>
+     		    </p>
           </div>
           <ListItemComment
             dataComment={dataComment}

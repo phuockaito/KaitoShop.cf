@@ -8,6 +8,7 @@ export default function FromEdit({
   setStart,
   token,
   socket,
+  idUser,
   idComment,
   idProduct,
   setIsForm
@@ -36,6 +37,7 @@ export default function FromEdit({
           content: content,
           start: start,
           token: token,
+          idUser: idUser,
           idProduct: idProduct,
         });
         setTimeout(() => {
