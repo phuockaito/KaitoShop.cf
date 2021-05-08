@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
+import { notification } from 'antd';
 import io from "socket.io-client";
 // dispatch API
 import { getProfile } from "features/User/patchAPI";
@@ -20,6 +21,30 @@ const UserContextProvider = ({ children }) => {
       socket.emit("countUserOnline", 8080);
     }
   }, [socket]);
+
+  // remove user if user account delete because admin
+  useEffect(() => {
+    if (socket) {
+      socket.on("serverDeleteAccount", (msg) => {
+        const { accountDelete, _id_user } = msg;
+        if (accountDelete) {
+          if (_id_user === idUser) {
+            setToken(null);
+            setUser(null);
+            setIdUser(null)
+            localStorage.removeItem("token");
+            notification['error']({
+              message: 'Thông báo',
+              description:
+                'Tài khoản này đã bị xóa',
+            });
+          }
+        }
+      });
+      return () => socket.off("serverDeleteAccount");
+    }
+  }, [socket, idUser]);
+  // sum account online
   useEffect(() => {
     if (socket) {
       socket.on("severCountUserOnline", (msg) => {
@@ -28,6 +53,7 @@ const UserContextProvider = ({ children }) => {
       return () => socket.off("severCountUserOnline");
     }
   }, [socket]);
+  // connect and get user if have token
   useEffect(async () => {
     const socketIo = io("https://api-kaito-shop.herokuapp.com", {
       withCredentials: true,

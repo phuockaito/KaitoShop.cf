@@ -3,7 +3,7 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { Button, Popconfirm, notification } from 'antd';
+import { Button, Popconfirm } from 'antd';
 // API
 import { getProductId, getProductType } from "features/Product/pathAPI";
 import { getCommentOne } from "features/Comment/pathAPI";
@@ -35,9 +35,9 @@ export default function DetailProducts() {
   const [pageComment, setPageComment] = useState(1);
   const state = useContext(UserContext);
   const { socket } = state;
-  const [user, setUser] = state.user;
-  const [token, setToken] = state.token;
-  const [, setIdUser] = state.idUser;
+  const [user,] = state.user;
+  const [token,] = state.token;
+  const [idUser,] = state.idUser;
   const items = 20;
   // Data Product ID
   const loading = useSelector((state) => state.productId.loading);
@@ -66,14 +66,16 @@ export default function DetailProducts() {
   useEffect(() => {
     if (socket) {
       socket.on("serverUserDeleteReplyComment", (msg) => {
-        const { comment, id_array } = msg;
-        const newReply = [...dataComment];
-        const index = newReply.findIndex(comment => comment._id === id_array);
-        if (index !== -1) {
-          newReply[index] = comment;
+        if (msg) {
+          const { comment, id_array } = msg;
+          const newReply = [...dataComment];
+          const index = newReply.findIndex(comment => comment._id === id_array);
+          if (index !== -1) {
+            newReply[index] = comment;
+          }
+          setCheckDeleteCmt(false);
+          setDataComment(newReply);
         }
-        setCheckDeleteCmt(false);
-        setDataComment(newReply);
       });
       return () => socket.off("serverUserDeleteReplyComment");
     }
@@ -82,12 +84,14 @@ export default function DetailProducts() {
   useEffect(() => {
     if (socket) {
       socket.on("ServerUserCreateCommentReply", (msg) => {
-        const newReply = [...dataComment];
-        const index = newReply.findIndex(comment => comment._id === msg._id);
-        if (index !== -1) {
-          newReply[index] = msg;
+        if (msg) {
+          const newReply = [...dataComment];
+          const index = newReply.findIndex(comment => comment._id === msg._id);
+          if (index !== -1) {
+            newReply[index] = msg;
+          }
+          setDataComment(newReply);
         }
-        setDataComment(newReply);
       });
       return () => socket.off("ServerUserCreateCommentReply");
     }
@@ -96,12 +100,14 @@ export default function DetailProducts() {
   useEffect(() => {
     if (socket) {
       socket.on("serverUserUpdateReplyComment", (msg) => {
-        const newReply = [...dataComment];
-        const index = newReply.findIndex(comment => comment._id === msg._id);
-        if (index !== -1) {
-          newReply[index] = msg;
+        if (msg) {
+          const newReply = [...dataComment];
+          const index = newReply.findIndex(comment => comment._id === msg._id);
+          if (index !== -1) {
+            newReply[index] = msg;
+          }
+          setDataComment(newReply);
         }
-        setDataComment(newReply);
       });
       return () => socket.off("serverUserUpdateReplyComment");
     }
@@ -111,37 +117,26 @@ export default function DetailProducts() {
     if (socket) {
       socket.on("ServerUserCreateComment", (msg) => {
         document.getElementById('waitWriteComment').innerHTML = "";
-        const { comment, length, product, starRating, sumStarRating, reviewRating, error } = msg;
-        setStarRating(starRating);
-        setSumStarRating(sumStarRating);
-        setReviewRating(reviewRating);
-        if (msg && !error) {
+        const { comment, length, product, starRating, sumStarRating, reviewRating } = msg;
+        if (msg) {
+          setStarRating(starRating);
+          setSumStarRating(sumStarRating);
+          setReviewRating(reviewRating);
           setLengthComment(length);
           setDataComment([comment, ...dataComment]);
           setCheckDeleteCmt(false);
           setDataProductsId(product);
         }
-        if (error) {
-          setToken(null);
-          setUser(null);
-          setIdUser(null)
-          localStorage.removeItem("token");
-          notification['error']({
-            message: 'Thông báo',
-            description:
-              'Tài khoản này đã bị xóa',
-          });
-        }
       });
       return () => socket.off("ServerUserCreateComment");
     }
-  }, [socket, dataComment]);
+  }, [socket, dataComment, idUser]);
   // delete Comment Socket
   useEffect(() => {
     if (socket) {
       socket.on("serverUserDeleteComment", (msg) => {
-        const { error, comment, length, product, starRating, sumStarRating, reviewRating } = msg;
-        if (msg && !error) {
+        const { comment, length, product, starRating, sumStarRating, reviewRating } = msg;
+        if (msg) {
           const dataCommentNew = [...dataComment];
           const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
           dataCommentNew.splice(index, 1);
@@ -153,28 +148,16 @@ export default function DetailProducts() {
           setSumStarRating(sumStarRating);
           setReviewRating(reviewRating);
         }
-        if (error) {
-          setToken(null);
-          setUser(null);
-          setIdUser(null)
-          localStorage.removeItem("token");
-          notification['error']({
-            message: 'Thông báo',
-            description:
-              'Tài khoản này đã bị xóa',
-          });
-          setCheckDeleteCmt(false);
-        }
       });
       return () => socket.off("serverUserDeleteComment");
     }
-  }, [socket, dataComment]);
+  }, [socket, dataComment, idUser]);
   // up date comment
   useEffect(() => {
     if (socket) {
       socket.on("serverUserUpdateComment", (msg) => {
-        const { error, comment, product, starRating, sumStarRating, reviewRating } = msg;
-        if (msg && !error) {
+        const { comment, product, starRating, sumStarRating, reviewRating } = msg;
+        if (msg) {
           const dataCommentNew = [...dataComment];
           const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
           if (index !== -1) {
@@ -186,21 +169,10 @@ export default function DetailProducts() {
           setSumStarRating(sumStarRating);
           setReviewRating(reviewRating);
         }
-        if (error) {
-          setToken(null);
-          setUser(null);
-          setIdUser(null)
-          localStorage.removeItem("token");
-          notification['error']({
-            message: 'Thông báo',
-            description:
-              'Tài khoản này đã bị xóa',
-          });
-        }
       });
     }
     return () => socket.off("serverUserUpdateComment");
-  }, [socket, dataComment]);
+  }, [socket, dataComment, idUser]);
   // get comment
   useEffect(() => {
     const fetchComment = async () => {
