@@ -6,7 +6,7 @@ import { Pagination, Select } from 'antd';
 import { getProductTrademarkType } from 'features/Product/pathAPI';
 // Component
 import Loading from 'loading/index';
-import CartItems from './CartItems';
+import ListItems from './ListItems';
 // Css
 import './style.css';
 const { Option } = Select;
@@ -19,6 +19,7 @@ export default function TrademarkType() {
   const [page, setPage] = useState(1);
   const [sortPrice, setSortPrice] = useState(0);
   const [current, setCurrent] = useState(1);
+  const items = 20;
   // store
   const dataTrademarkType = useSelector(state => state.trademarkType.data);
   const loadingTrademarkType = useSelector(state => state.trademarkType.loading);
@@ -26,7 +27,7 @@ export default function TrademarkType() {
   const params = {
     page: page,
     sort_price: sortPrice,
-    items: 20,
+    items: items,
     nsx: NSX,
   };
   //useEffect
@@ -65,7 +66,7 @@ export default function TrademarkType() {
         <Pagination
           onChange={onChangePagination}
           total={length}
-          defaultPageSize={12}
+          defaultPageSize={items}
           current={current}
         />
       )
@@ -86,13 +87,13 @@ export default function TrademarkType() {
                 style={{ width: 150 }}
                 onChange={onChangeFilter}
               >
-                <Option value={0}>Mới nhất1</Option>
+                <Option value={0}>Mới nhất</Option>
                 <Option value={1}>Giá  thấp đến cao</Option>
                 <Option value={-1}>Giá  cao đến thấp</Option>
               </Select>
             </div>
             {
-              !loadingTrademarkType && dataTrademarkType.length > 0 && <CartItems items={dataTrademarkType} />
+              !loadingTrademarkType && dataTrademarkType.length > 0 && <ListItems items={dataTrademarkType} />
             }
             {
               !loadingTrademarkType && dataTrademarkType.length > 0 && showPagination(lengthTrademarkType)

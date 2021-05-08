@@ -150,6 +150,10 @@ const UserSlice = createSlice({
       });
     },
     [registerUser.rejected]: (state) => {
+      notification['error']({
+        message: 'Thông báo',
+        description: 'Email này đã có người dùng !',
+      });
       state.loadingSlice = false;
     },// reset password
     [putResetPassword.fulfilled]: (state, action) => {

@@ -5,7 +5,7 @@ const SearchProductSlice = createSlice({
   name: 'search',
   initialState: {
     data: [],
-    lenght: 0,
+    length: 0,
     loading: true,
   },
   extraReducers: {
@@ -17,7 +17,7 @@ const SearchProductSlice = createSlice({
     },
     [getSearch.fulfilled]: (state, action) => {
       state.data = action.payload.data;
-      state.lenght = action.payload.lengthProducts;
+      state.length = action.payload.lengthProducts;
       state.loading = false;
     }
   }

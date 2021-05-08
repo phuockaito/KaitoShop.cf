@@ -3,7 +3,7 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm, notification } from 'antd';
 // API
 import { getProductId, getProductType } from "features/Product/pathAPI";
 import { getCommentOne } from "features/Comment/pathAPI";
@@ -35,8 +35,10 @@ export default function DetailProducts() {
   const [pageComment, setPageComment] = useState(1);
   const state = useContext(UserContext);
   const { socket } = state;
-  const [user] = state.user;
-  const [token] = state.token;
+  const [user, setUser] = state.user;
+  const [token, setToken] = state.token;
+  const [, setIdUser] = state.idUser;
+  const items = 20;
   // Data Product ID
   const loading = useSelector((state) => state.productId.loading);
   const [dataProductsId, setDataProductsId] = useState([]);
@@ -109,15 +111,26 @@ export default function DetailProducts() {
     if (socket) {
       socket.on("ServerUserCreateComment", (msg) => {
         document.getElementById('waitWriteComment').innerHTML = "";
-        const { comment, length, product, starRating, sumStarRating, reviewRating } = msg;
+        const { comment, length, product, starRating, sumStarRating, reviewRating, error } = msg;
         setStarRating(starRating);
         setSumStarRating(sumStarRating);
         setReviewRating(reviewRating);
-        if (msg) {
+        if (msg && !error) {
           setLengthComment(length);
           setDataComment([comment, ...dataComment]);
           setCheckDeleteCmt(false);
           setDataProductsId(product);
+        }
+        if (error) {
+          setToken(null);
+          setUser(null);
+          setIdUser(null)
+          localStorage.removeItem("token");
+          notification['error']({
+            message: 'Thông báo',
+            description:
+              'Tài khoản này đã bị xóa',
+          });
         }
       });
       return () => socket.off("ServerUserCreateComment");
@@ -127,17 +140,31 @@ export default function DetailProducts() {
   useEffect(() => {
     if (socket) {
       socket.on("serverUserDeleteComment", (msg) => {
-        const { comment, length, product, starRating, sumStarRating, reviewRating } = msg;
-        const dataCommentNew = [...dataComment];
-        const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
-        dataCommentNew.splice(index, 1);
-        setLengthComment(length);
-        setDataComment(dataCommentNew);
-        setCheckDeleteCmt(false);
-        setDataProductsId(product);
-        setStarRating(starRating);
-        setSumStarRating(sumStarRating);
-        setReviewRating(reviewRating);
+        const { error, comment, length, product, starRating, sumStarRating, reviewRating } = msg;
+        if (msg && !error) {
+          const dataCommentNew = [...dataComment];
+          const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
+          dataCommentNew.splice(index, 1);
+          setLengthComment(length);
+          setDataComment(dataCommentNew);
+          setCheckDeleteCmt(false);
+          setDataProductsId(product);
+          setStarRating(starRating);
+          setSumStarRating(sumStarRating);
+          setReviewRating(reviewRating);
+        }
+        if (error) {
+          setToken(null);
+          setUser(null);
+          setIdUser(null)
+          localStorage.removeItem("token");
+          notification['error']({
+            message: 'Thông báo',
+            description:
+              'Tài khoản này đã bị xóa',
+          });
+          setCheckDeleteCmt(false);
+        }
       });
       return () => socket.off("serverUserDeleteComment");
     }
@@ -146,17 +173,30 @@ export default function DetailProducts() {
   useEffect(() => {
     if (socket) {
       socket.on("serverUserUpdateComment", (msg) => {
-        const { comment, product, starRating, sumStarRating, reviewRating } = msg;
-        const dataCommentNew = [...dataComment];
-        const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
-        if (index !== -1) {
-          dataCommentNew[index] = comment;
+        const { error, comment, product, starRating, sumStarRating, reviewRating } = msg;
+        if (msg && !error) {
+          const dataCommentNew = [...dataComment];
+          const index = dataCommentNew.findIndex((cmt) => cmt._id === comment._id);
+          if (index !== -1) {
+            dataCommentNew[index] = comment;
+          }
+          setDataComment(dataCommentNew);
+          setDataProductsId(product);
+          setStarRating(starRating);
+          setSumStarRating(sumStarRating);
+          setReviewRating(reviewRating);
         }
-        setDataComment(dataCommentNew);
-        setDataProductsId(product);
-        setStarRating(starRating);
-        setSumStarRating(sumStarRating);
-        setReviewRating(reviewRating);
+        if (error) {
+          setToken(null);
+          setUser(null);
+          setIdUser(null)
+          localStorage.removeItem("token");
+          notification['error']({
+            message: 'Thông báo',
+            description:
+              'Tài khoản này đã bị xóa',
+          });
+        }
       });
     }
     return () => socket.off("serverUserUpdateComment");
@@ -212,6 +252,7 @@ export default function DetailProducts() {
   // onClick
   const onChangePage = (_page) => {
     const param = {
+      items: items,
       name: key,
       page: _page,
       sort_price: 0,
@@ -300,6 +341,7 @@ export default function DetailProducts() {
               />
               {/* sản phẩm đề xuất */}
               <SeeMoreProduct
+                items={items}
                 data={dataProductsType}
                 onChangePage={onChangePage}
                 lengthProductsType={lengthProductsType}

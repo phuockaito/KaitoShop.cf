@@ -6,7 +6,7 @@ import $ from "jquery";
 import Loading from 'component/LoadingBtn/index';
 import './style.css';
 const formatter = new Intl.NumberFormat('vn');
-export default function SeeMoreProduct({ data, onChangePage, lengthProductsType, loading }) {
+export default function SeeMoreProduct({ items, data, onChangePage, lengthProductsType, loading }) {
   // state
   const onChangePagination = (page) => {
     onChangePage(page);
@@ -18,7 +18,7 @@ export default function SeeMoreProduct({ data, onChangePage, lengthProductsType,
         <Pagination
           onChange={onChangePagination}
           total={length}
-          defaultPageSize={16}
+          defaultPageSize={items}
         />
       )
     }

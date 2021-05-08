@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import StarRatings from "react-star-ratings";
 const formatter = new Intl.NumberFormat('vn');
-export default function CartItems({ items }) {
+export default function ListItems({ items }) {
   const showReview = (rating, numReviews) => {
     const rate = (rating / numReviews);
     if (numReviews > 0) {
@@ -72,6 +72,6 @@ export default function CartItems({ items }) {
         ))}
     </div>
   )
-}
+};
 
 

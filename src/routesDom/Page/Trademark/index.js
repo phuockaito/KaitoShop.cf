@@ -6,7 +6,7 @@ import { Pagination, Select } from 'antd';
 import { getProductType } from 'features/Product/pathAPI';
 // Component
 import Loading from 'loading/index';
-import CartItems from './CartItems';
+import ListItems from './ListItems';
 // CSS
 import './style.css';
 const { Option } = Select;
@@ -19,6 +19,7 @@ export default function Trademark() {
   const [page, setPage] = useState(1);
   const [sortPrice, setSortPrice] = useState(0);
   const [current, setCurrent] = useState(1);
+  const items = 20;
   // store
   const dataProductsType = useSelector(state => state.type.listProductSlider);
   const loadingProductsType = useSelector(state => state.type.loading);
@@ -29,7 +30,7 @@ export default function Trademark() {
       const params = {
         page: page,
         sort_price: sortPrice,
-        items: 20,
+        items: items,
         name: name_Trademark,
       };
       dispatch(getProductType(params));
@@ -54,7 +55,7 @@ export default function Trademark() {
         <Pagination
           onChange={onChangePage}
           total={length}
-          defaultPageSize={16}
+          defaultPageSize={items}
           current={current}
         />
       )
@@ -80,7 +81,7 @@ export default function Trademark() {
             </Select>
           </div>
           {
-            !loadingProductsType && dataProductsType.length > 0 && <CartItems items={dataProductsType} />
+            !loadingProductsType && dataProductsType.length > 0 && <ListItems items={dataProductsType} />
           }
           {
             !loadingProductsType && dataProductsType.length > 0 && showPagination(lengthProductsType)
