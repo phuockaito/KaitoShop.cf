@@ -63,9 +63,11 @@ export default function ListUser({
         showTitle: false,
       },
       render: name => (
-        <Tag color="#096dd9" key={name}>
-          {name}
-        </Tag>
+        <Tooltip placement="top" title={name} color="pink" key="volcano">
+          <Tag color="#096dd9" key={name}>
+            {name}
+          </Tag>
+        </Tooltip>
       )
     },
     {
@@ -76,9 +78,11 @@ export default function ListUser({
         showTitle: false,
       },
       render: email => (
-        <Tag color="#092b00" key={email}>
-          {email}
-        </Tag>
+        <Tooltip color="pink" key="#f50" placement="top" title={email}>
+          <Tag color="#092b00" key={email}>
+            {email}
+          </Tag>
+        </Tooltip>
       )
     },
     {
@@ -89,7 +93,7 @@ export default function ListUser({
         showTitle: false,
       },
       render: createdAt => (
-        <Tooltip placement="bottom" title={moment(createdAt).format('LLLL')}>
+        <Tooltip placement="top" title={moment(createdAt).format('LLLL')}>
           <Tag color="#237804" key={createdAt}>
             {moment(createdAt).fromNow()}
           </Tag>
