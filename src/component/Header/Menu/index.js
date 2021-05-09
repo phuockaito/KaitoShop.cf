@@ -29,17 +29,12 @@ export default function Menu({ token }) {
     <div className="ground-menu">
       <div className="nav-toggle">
         <i className="fa fa-times" onClick={onClickCloseMenu} />
-        {/* <span>
-          <i className="fa fa-times" onClick={onClickCloseMenu} />
-          <Link to="/" className="logo" onClick={onClickCloseMenu}>
-            <img src={logoWeb} alt="logo" />
-          </Link>
-        </span> */}
       </div>
       {
         (isAdmin && token) ? (
           <MenuAdmin
             Link={Link}
+            onClickCloseMenu={onClickCloseMenu}
           />
         ) : (<MenuUser
           list_menu={list_menu}

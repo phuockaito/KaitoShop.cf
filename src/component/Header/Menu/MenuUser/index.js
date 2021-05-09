@@ -16,7 +16,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
     <nav>
       <ul className="menu">
         <li style={{ "--i": "1" }}>
-          <Link to="/" className="active" onChange={onClickCloseMenu}>
+          <Link to="/" className="active" onClick={onClickCloseMenu}>
             trang chủ
 					</Link>
         </li>
