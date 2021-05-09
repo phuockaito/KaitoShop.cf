@@ -1,8 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// image
-import logoWeb from 'image/logo.png';
 // API
 import { getMenu } from 'features/Menu/pathAPI';
 // component
@@ -30,12 +28,13 @@ export default function Menu({ token }) {
   return (
     <div className="ground-menu">
       <div className="nav-toggle">
-        <span>
+        <i className="fa fa-times" onClick={onClickCloseMenu} />
+        {/* <span>
           <i className="fa fa-times" onClick={onClickCloseMenu} />
           <Link to="/" className="logo" onClick={onClickCloseMenu}>
             <img src={logoWeb} alt="logo" />
           </Link>
-        </span>
+        </span> */}
       </div>
       {
         (isAdmin && token) ? (

@@ -2,10 +2,10 @@
 	width: 270px;
 	background-color: #fff;
 	position: fixed;
-	z-index: 101;
+	z-index: 105;
 	height: 100%;
 	left: 0;
-	top: 0;
+	top: 75px;
 	transition: 0.3s ease-in-out;
 	overflow-y: overlay;
 	overflow-x: hidden;
@@ -51,78 +51,40 @@
 	font-weight: 450;
 	line-height: 37px;
 }
-/* --------------------------------logo-------------------------------- */
-.ground-menu .nav-toggle a.logo {
-	line-height: 75px;
-	top: 15px;
-	z-index: 11;
-	position: relative;
-	max-width: 230px;
-	margin: auto;
-	display: none;
-	font-family: "Nerko One", cursive;
-}
-.ground-menu .nav-toggle a.logo::after,
-.ground-menu .nav-toggle a.logo::before {
-	position: absolute;
-	content: "";
-	height: 20px;
-	width: 20px;
-}
-.ground-menu .nav-toggle a.logo::after {
-	left: 0;
-	top: 0;
-	border-left: 4px solid #ec1839;
-	border-top: 4px solid #ec1839;
-}
-.ground-menu .nav-toggle a.logo::before {
-	border-right: 4px solid #ec1839;
-	border-bottom: 4px solid #ec1839;
-	right: 0;
-	bottom: 0;
-}
-.ground-menu .nav-toggle a.logo img {
-	max-width: 150px;
-	height: auto;
-	position: relative;
-}
+
 /*--------------------nav-toggle--------------------*/
 .ground-menu .nav-toggle {
-	position: relative;
-	display: block;
-	width: 270px;
-	height: 76px;
-	transition: 0.3s ease-in-out;
-	z-index: 16;
-}
-.ground-menu .nav-toggle span {
 	position: fixed;
-	width: 270px;
-	height: 76px;
-	font-size: 25px;
-	display: none;
-	color: #ffff;
-	z-index: 14;
-	transition: 0.3s ease-in-out;
-	background: #05042c;
-	justify-items: center;
-	align-items: center;
+	display: flex;
+	z-index: 16;
+	background: #fff;
+	height: 30px;
+	width: 30px;
 	text-align: center;
+	justify-content: center;
+	align-items: center;
+	left: 0;
+	top: 5px;
+	border-radius: 4px;
+	opacity: 0;
+	visibility: hidden;
 }
-/* open menu */
+.ground-menu .nav-toggle i.fa-times {
+	cursor: pointer;
+	color: red;
+}
 .ground-menu.open {
 	left: 0;
 }
-.ground-menu .nav-toggle span i {
-	position: absolute;
-	padding: 8px 17px;
-	margin: 0px 4px;
-	display: none;
-	z-index: 15;
-	right: 0;
-	top: 0;
-	cursor: pointer;
+.ground-menu.open .nav-toggle {
+	opacity: 1;
+	left: 280px;
+	visibility: visible;
 }
+.ground-menu.open + .ground-container {
+	z-index: 15;
+}
+
 /*--------------------------------Menu-------------------------------- */
 .ground-menu nav .menu {
 	z-index: 10;
@@ -303,18 +265,11 @@
 	.ground-menu nav .menu > li:hover > a:not(.active) {
 		color: #302e4d;
 	}
-	.ground-menu nav {
-		position: relative;
-		top: 15px;
-	}
 	.ground-menu {
 		left: -300px;
+		top: 0;
 	}
-	.ground-menu.open .nav-toggle span,
-	.ground-menu .nav-toggle {
-		display: block;
-		height: 100px;
-	}
+
 	.ground-menu .nav-toggle .login-sin {
 		opacity: 1;
 		visibility: visible;

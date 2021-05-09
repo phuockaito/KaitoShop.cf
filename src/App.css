@@ -30,7 +30,7 @@
 		margin: 0 auto 40px auto;
 	}
 	.ground-container .main-container.active::before {
-		background-color: rgba(0, 0, 0, 0.45);
+		background-color: rgb(5 5 5 / 80%);
 		position: fixed;
 		content: "";
 		left: 0;
