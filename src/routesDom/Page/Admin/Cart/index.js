@@ -45,7 +45,7 @@ export default function ListProduct() {
   return (
     <div className="ground-admin-list">
       <div className="container-admin-list">
-        <h3>Tất Cả {!length === 0 && length} Danh Sách Mua Hàng </h3>
+        <h3>Tất Cả {length === 0 ? '' : length} Danh Sách Mua Hàng </h3>
         <div className="filter-success">
           <Select
             labelInValue

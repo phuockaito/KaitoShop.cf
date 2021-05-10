@@ -1,10 +1,10 @@
-import { memo } from 'react';
+
 import { Link } from 'react-router-dom';
 import StarRatings from "react-star-ratings";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import './style.css';
 import Loading from 'component/LoadingBtn/index';
-function LatestProduct({ data, loading }) {
+export default function LatestProduct({ data, loading }) {
   const formatter = new Intl.NumberFormat('vn');
   const showReview = (rating, numReviews) => {
     const rate = (rating / numReviews);
@@ -85,12 +85,6 @@ function LatestProduct({ data, loading }) {
       {
         showListProducts(data)
       }
-      {/* <button
-        className="load-data"
-      >
-        xem tất cả
-      </button> */}
     </div>
   )
 };
-export default memo(LatestProduct);
