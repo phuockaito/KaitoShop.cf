@@ -42,9 +42,13 @@ const CartSlice = createSlice({
               dataCart[index].quantity += quantity;
             }
           }
-          message.success('Cập nhật Số Lượng Thành Công', 1.5);
+          message.success('Cập nhật Số Lượng Thành Công', 2);
         } else {
-          message.error('Bạn được phép thêm tối đa số lượng là 5 ', 1.5);
+          notification['error']({
+            message: 'Thông báo',
+            description:
+              'Bạn được phép thêm tối đa số lượng là 5',
+          });
         }
       }
       else {
@@ -52,7 +56,7 @@ const CartSlice = createSlice({
           product,
           quantity: quantity > 5 ? 5 : quantity
         });
-        message.success('Đã Thêm Vào Vỏ Hàng Thành Công', 1.5);
+        message.success('Đã Thêm Vào Vỏ Hàng Thành Công', 2);
       }
       localStorage.setItem("cart", JSON.stringify(dataCart));
     },

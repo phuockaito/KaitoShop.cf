@@ -40,7 +40,7 @@ export default function InForProduct({ dataProductsId, actionAddToCart }) {
   };
   const onFinishFailed = () => {
     notification['error']({
-      message: 'Không Thể Thêm Vào Giỏ Hành !',
+      message: 'Không Thể Thêm Vào Giỏ Hành',
       description:
         'Vui lòng chọn kích cỡ sản phẩm đó ?'
     });

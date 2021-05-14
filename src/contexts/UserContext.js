@@ -15,6 +15,7 @@ const UserContextProvider = ({ children }) => {
   const [patchCart, setPatchCart] = useState(null);
   const [idUser, setIdUser] = useState(null);
   const [countUserOnline, setCountUserOnline] = useState(null);
+  const [view, setView] = useState(null);
   // Join room
   useEffect(() => {
     if (socket) {
@@ -27,7 +28,6 @@ const UserContextProvider = ({ children }) => {
     if (socket) {
       socket.on("serverDeleteAccount", (msg) => {
         const { accountDelete, _id_user } = msg;
-        console.log(msg)
         if (msg) {
           if (_id_user == idUser) {
             console.log(accountDelete)
@@ -50,14 +50,17 @@ const UserContextProvider = ({ children }) => {
   useEffect(() => {
     if (socket) {
       socket.on("severCountUserOnline", (msg) => {
-        setCountUserOnline(msg)
+        const { accountOnline, view } = msg;
+        if (msg)
+          setView(view);
+        setCountUserOnline(accountOnline);
       });
       return () => socket.off("severCountUserOnline");
     }
   }, [socket]);
   // connect and get user if have token
   useEffect(async () => {
-    const socketIo = io("", {
+    const socketIo = io("https://api-kaito-shop.herokuapp.com", {
       withCredentials: true,
       extraHeaders: {
         "Access-Control-Allow-Origin": "*",
@@ -92,7 +95,8 @@ const UserContextProvider = ({ children }) => {
     user: [user, setUser],
     idUser: [idUser, setIdUser],
     socket,
-    UserOnline: [countUserOnline]
+    UserOnline: [countUserOnline],
+    view: [view]
   };
   return <UserContext.Provider value={state}>{children}</UserContext.Provider>;
 };

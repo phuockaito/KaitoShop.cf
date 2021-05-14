@@ -31,7 +31,7 @@
 	color: hsla(0, 0%, 100%, 0.7);
 	font-size: 14px;
 	text-transform: capitalize;
-	font-weight: 520;
+	font-weight: 500;
 	position: relative;
 	cursor: pointer;
 }
@@ -76,8 +76,9 @@
 	display: block;
 	text-align: center;
 	margin: auto;
-	line-height: 55px;
-	border-radius: 4px;
+	line-height: 50px;
+	border-radius: 50%;
+  font-size: 1.2em;
 }
 .group-footer .footer .group-connect-us ul li:nth-child(1) {
 	background: #4064ac;
@@ -86,18 +87,13 @@
 .group-footer .footer .group-connect-us ul li i:nth-child(2),
 .group-footer .footer .group-connect-us ul li i:nth-child(3) {
 	color: #fff;
-	font-size: 1.6em;
 }
 .group-footer .footer .group-connect-us ul li:nth-child(2) {
 	background: #1c9cea;
 }
-.group-footer .footer .group-connect-us ul li:nth-child(3) {
-	background: #28282d;
-	border-radius: 4px;
-}
+.group-footer .footer .group-connect-us ul li:nth-child(3),
 .group-footer .footer .group-connect-us ul li:nth-child(4) {
 	background: #28282d;
-	border-radius: 4px;
 }
 
 .group-footer .footer .user-online p {

@@ -132,6 +132,8 @@
 	padding: 10px;
 	background: #fdf9ff;
 	position: relative;
+  justify-content: center;
+  border-radius: 8px;
 }
 .group-array-image > li {
 	position: relative;
@@ -448,6 +450,7 @@
 	}
 	.container-detail-products .group-detail-products .group-detail {
 		margin: 20px auto;
+		grid-template-columns: 100%;
 	}
 	.group-detail .group-information-detail .buys-detail button:hover i {
 		color: #fff;
@@ -468,9 +471,6 @@
 	}
 }
 @media screen and (max-width: 650px) {
-	.container-detail-products .group-detail-products .group-detail {
-		grid-template-columns: 100%;
-	}
 	.group-information-detail .group-description-more .description-more-info {
 		padding: 5px 0px 20px 10px;
 		margin-bottom: 10px;

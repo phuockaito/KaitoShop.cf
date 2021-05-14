@@ -18,17 +18,23 @@
 	border-radius: 10px;
 	position: relative;
 	background: #ffff;
-	padding: 120px 30px 40px 30px;
+	padding: 60px 30px 20px 30px;
 	box-shadow: 0 0 1px 0 #c850c0, 0 16px 16px -1px #4158d0;
 }
-
+.main-register .container-register .form-register .ant-form-item-label{
+  padding:0;
+}
+.main-register .container-register .form-register .ant-form-item{
+  margin-bottom:10px;
+}
 .group-register .main-register .container-register .btn-register {
 	font-size: 1em;
 	color: #ffff;
-	background: linear-gradient(-135deg, #c850c0, #4158d0);
-	padding: 7px 18px;
+	background: #05042c;
+	padding: 5px 18px;
 	height: 40px;
 	border-radius: 4px;
+  width: 100%;
 }
 .group-register .main-register .container-register h3 {
 	color: rgb(51, 51, 51);
@@ -45,17 +51,22 @@
 	transform: translate(-50%, -50%);
 	left: 50%;
 }
+ .container-register .form-register .height-min{
+	height: 40px;
+}
 .group-register .main-register .group-register-link {
 	text-align: center;
+  margin-top: 20px;
 }
 
 .main-register .container-register .connect-link {
 	text-align: center;
+  margin:15px 0;
 }
 .main-register .container-register .connect-link p {
 	color: #a9a9a9;
 	display: inline;
-	padding-right: 10px;
+	/* padding-right: 10px; */
 	font-size: 15px;
 }
 .main-register .container-register .connect-link a {

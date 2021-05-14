@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Popconfirm } from 'antd';
-import $ from 'jquery';
 // API
 import { getProductId, getProductType } from "features/Product/pathAPI";
 import { getCommentOne } from "features/Comment/pathAPI";
@@ -194,20 +193,20 @@ export default function DetailProducts() {
     fetchComment();
   }, [pageComment, _id]);
   //  get one product
-  useEffect(() => {
-    const fetchProductIdAPI = async () => {
-      const paramsType = {
-        name: key,
-        page: 1,
-        sort_price: 0,
-      };
-      // fetch API Product See More
-      const resultProduct = await dispatch(getProductId(_id));
-      dispatch(getProductType(paramsType));
-      const currentProduct = unwrapResult(resultProduct);
-      setDataProductsId(currentProduct.data);
+  const fetchProductIdAPI = async () => {
+    const paramsType = {
+      name: key,
+      page: 1,
+      sort_price: 0,
     };
-    fetchProductIdAPI();
+    // fetch API Product See More
+    const resultProduct = await dispatch(getProductId(_id));
+    dispatch(getProductType(paramsType));
+    const currentProduct = unwrapResult(resultProduct);
+    setDataProductsId(currentProduct.data);
+  };
+  // historyProductOld
+  const showHistoryProduct = () => {
     const historyProductOld = [...historyProduct];
     historyProductOld.forEach((product, index) => {
       if (product === null || product._id === _id) {
@@ -216,10 +215,14 @@ export default function DetailProducts() {
     });
     historyProductOld.unshift(dataProductsId[0]);
     localStorage.setItem("historyProduct", JSON.stringify(historyProductOld));
+  }
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
+    fetchProductIdAPI();
+    showHistoryProduct();
   }, [_id, key]);
   // onClick
   const onChangePage = (_page) => {

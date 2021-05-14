@@ -1,7 +1,6 @@
 import { useEffect, useContext } from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
-import $ from "jquery";
 import AOS from 'aos';
 import Search from './Search/index';
 import Cart from './User/cart/index';
@@ -45,7 +44,6 @@ export default function Header() {
           <div className="main-item-logo">
             <Link
               to="/"
-              onClick={() => { $("html ,body").animate({ scrollTop: 0 }, 800); }}
             >
               <img src={logo} alt="logo" />
             </Link>

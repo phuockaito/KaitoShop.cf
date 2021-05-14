@@ -1,6 +1,5 @@
 const settings = {
   infinite: false,
-  autoplay: true,
   lazyLoad: 'ondemand',
   speed: 500,
   slidesToShow: 5,

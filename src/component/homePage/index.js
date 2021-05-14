@@ -27,6 +27,10 @@ export default function HomePage() {
   const lengthProductsList = useSelector(state => state.ListProduct.length);
   //effApi
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     actionGetProductType({ name: 'Puma', page: 1, sort_price: 0 });
     actionGetProductSlider({ name: 'Converse', items: 12 });
     actionGetProductAll({ page: '1', limit: '24' })

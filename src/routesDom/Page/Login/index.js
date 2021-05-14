@@ -3,7 +3,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { Form, Input, Button, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { UserOutlined, LockOutlined, GooglePlusOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, GooglePlusOutlined, GoogleOutlined } from "@ant-design/icons";
 import { GoogleLogin } from 'react-google-login';
 // Context
 import { UserContext } from "contexts/UserContext";
@@ -12,6 +12,23 @@ import { loginUser, loginGoogle, postForgotPassword } from "features/User/patchA
 import "./style.css";
 document.querySelector("title").innerHTML = "Đăng Nhập";
 const tokenLocal = localStorage.getItem("token");
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+      pd: 0
+    },
+    sm: {
+      span: 24,
+    },
+    lg: {
+      span: 24,
+    },
+    xl: {
+      span: 24,
+    },
+  }
+};
 export default function Login() {
   const [form] = Form.useForm();
   const [formForget] = Form.useForm();
@@ -86,6 +103,7 @@ export default function Login() {
           <div className="container-login">
             <h3>Chào Mừng</h3>
             <Form
+              {...formItemLayout}
               form={form}
               name="normal_login"
               className="login-form"
@@ -95,6 +113,7 @@ export default function Login() {
               onFinish={onFinish}
             >
               <Form.Item
+                label="Email"
                 name="email"
                 className="input-email"
                 rules={[
@@ -111,11 +130,12 @@ export default function Login() {
               >
                 <Input
                   prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="Email"
+                  placeholder="Nhập email"
                   id="email-login"
                 />
               </Form.Item>
               <Form.Item
+                label="Mật khẩu"
                 className="input-password"
                 name="password"
                 rules={[
@@ -129,7 +149,7 @@ export default function Login() {
                 <Input.Password
                   prefix={<LockOutlined className="site-form-item-icon" />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="nhập mật khẩu"
                 />
               </Form.Item>
               <div className="group-login-link">
@@ -154,18 +174,21 @@ export default function Login() {
               </div>
             </Form>
             <div className="connect-with-internet">
-              <p>hoặc đăng nhập bằng</p>
+              <p>Hoặc đăng nhập bằng</p>
               <GoogleLogin
                 className="btn-google-login"
                 clientId="122492016743-0svnvv3husl2v3mo7kpcvuaubt2t10t6.apps.googleusercontent.com"
                 onSuccess={responseGoogle}
                 cookiePolicy={'single_host_origin'}
+                buttonText={false}
+                icon={true}
+              // buttonText={<GoogleOutlined style={{ fontSize: '1.3em', textAlign: 'center' }} />}
               />
             </div>
             <div className="connect-link">
-              <p>Bạn chưa có tài khoản?</p>
+              <p>Bạn chưa có tài khoản đăng ký </p>
               <Link to="/register" className="btn-register">
-                Đăng ký ngay
+                tại đây
 							</Link>
             </div>
             <div className="forgot-password">

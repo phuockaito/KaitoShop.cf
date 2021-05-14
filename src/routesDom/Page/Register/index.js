@@ -7,6 +7,22 @@ import { registerUser } from "features/User/patchAPI";
 import "./style.css";
 const tokenLocal = localStorage.getItem("token");
 document.querySelector("title").innerHTML = "Đăng Ký";
+const formItemLayout = {
+  labelCol: {
+    xs: {
+      span: 24,
+    },
+    sm: {
+      span: 24,
+    },
+    lg: {
+      span: 24,
+    },
+    xl: {
+      span: 24,
+    },
+  }
+};
 export default function Register() {
   const history = useHistory();
   const [form] = Form.useForm();
@@ -45,8 +61,14 @@ export default function Register() {
       <div className="main-register">
         <div className="container-register">
           <h3>Đăng Ký</h3>
-          <Form form={form} onFinish={onFinish}>
+          <Form
+            {...formItemLayout}
+            form={form}
+            onFinish={onFinish}
+            className="form-register"
+          >
             <Form.Item
+              label="Email"
               className="input-email"
               name="email"
               rules={[
@@ -65,9 +87,10 @@ export default function Register() {
               ]}
               hasFeedback
             >
-              <Input id="email-register" placeholder="Email" />
+              <Input id="email-register" className="height-min" placeholder="Nhập email" />
             </Form.Item>
             <Form.Item
+              label="Mật khẩu"
               className="input-password"
               name="password"
               rules={[
@@ -83,9 +106,10 @@ export default function Register() {
               ]}
               hasFeedback
             >
-              <Input.Password placeholder="Mật khẩu" />
+              <Input.Password className="height-min" placeholder="Nhập mật khẩu" />
             </Form.Item>
             <Form.Item
+              label="Nhập lại mật khẩu"
               name="confirm"
               dependencies={["password"]}
               hasFeedback
@@ -105,10 +129,11 @@ export default function Register() {
                 }),
               ]}
             >
-              <Input.Password placeholder="Nhận lại mật khẩu" />
+              <Input.Password placeholder="Nhận lại mật khẩu" className="height-min" />
             </Form.Item>
             <Form.Item
               name="name"
+              label="Họ và tên"
               pattern={[/^[a-z0-9]+$/]}
               rules={[
                 {
@@ -124,7 +149,7 @@ export default function Register() {
                 },
               ]}
             >
-              <Input placeholder="Họ và tên" />
+              <Input placeholder="Nhập họ và tên" className="height-min" />
             </Form.Item>
             <div className="group-register-link">
               <Form.Item shouldUpdate={true}>
@@ -148,9 +173,9 @@ export default function Register() {
             </div>
           </Form>
           <div className="connect-link">
-            <p>Bạn đã có tài khoản?</p>
+            <p>Bạn đã có tài khoản đăng nhập ngay </p>
             <Link to="/login" className="Login-form">
-              Đăng nhập
+              tại đây
 							</Link>
           </div>
         </div>

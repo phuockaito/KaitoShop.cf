@@ -1,5 +1,6 @@
 import { useContext } from 'react';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, EyeOutlined } from '@ant-design/icons';
+
 // image
 import cash from 'image/cash.jpg';
 import installment from 'image/installment.jpg';
@@ -10,9 +11,12 @@ import visa from 'image/visa.jpg';
 // Context
 import { UserContext } from 'contexts/UserContext';
 import './style.css';
+var format = new Intl.NumberFormat();
+
 export default function Footer() {
   const state = useContext(UserContext);
   const [UserOnline] = state.UserOnline;
+  const [view] = state.view;
   return (
     <>
       <div className="frames-group-footer">
@@ -69,6 +73,7 @@ export default function Footer() {
               </ul>
               <div className="user-online">
                 <p>Online   <UserOutlined /> {UserOnline}</p>
+                <p><EyeOutlined /> {view > 1000 ? format.format(view) : view} lượt xem</p>
               </div>
             </div>
           </div>
