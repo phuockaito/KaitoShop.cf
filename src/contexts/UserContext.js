@@ -22,7 +22,6 @@ const UserContextProvider = ({ children }) => {
       socket.emit("countUserOnline", 8080);
     }
   }, [socket]);
-
   // remove user if user account delete because admin
   useEffect(() => {
     if (socket) {
