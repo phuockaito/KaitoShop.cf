@@ -57,6 +57,10 @@
 	width: 150px;
 	height: auto;
 }
+/*  */
+.ground-header .main-header .toggle-menu{
+  display:none;
+}
 /* --------------Responsive--------------- */
 @media screen and (max-width: 1300px) {
 	.ground-header .main-header {
@@ -102,7 +106,9 @@
 		padding: 10px 15px;
 		grid-template-rows: 100%;
 	}
-
+  .ground-header .main-header .toggle-menu{
+    display:block;
+  }
 	.main-item-logo {
 		grid-column: 3/4;
 		grid-row: 1/3;

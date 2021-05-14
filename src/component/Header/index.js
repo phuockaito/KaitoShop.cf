@@ -1,7 +1,9 @@
 import { useEffect, useContext } from 'react';
 import { useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
+import { AlignLeftOutlined } from '@ant-design/icons'
 import AOS from 'aos';
+// --Component
 import Search from './Search/index';
 import Cart from './User/cart/index';
 import User from './User/index';
@@ -10,7 +12,7 @@ import logo from 'image/logo.png';
 import { UserContext } from "contexts/UserContext";
 // Css
 import './style.css';
-export default function Header() {
+export default function Header({ setOpenMenu }) {
   // create State
   const state = useContext(UserContext);
   const { socket } = state;
@@ -29,11 +31,7 @@ export default function Header() {
       initClassName: 'aos-init',
     })
   }, []);
-  const onClickOpenMenu = () => {
-    document.querySelector('.ground-menu').classList.add('open');
-    document.querySelector('body').classList.add('active');
-    document.querySelector('.main-container').classList.add('active');
-  }
+
   return (
     <>
       <button className="scrollTop">
@@ -49,8 +47,14 @@ export default function Header() {
             </Link>
           </div>
           <Search />
-          <div style={{ 'display': 'none' }} className="totle-menu">
-            <i className="fa fa-bars" onClick={onClickOpenMenu} />
+          <div className="toggle-menu">
+            <AlignLeftOutlined
+              onClick={() => setOpenMenu(true)}
+              style={{
+                fontSize: '1.2em',
+                color: 'white'
+              }}
+            />
           </div>
           <Cart setPatchCart={setPatchCart} dataCart={dataCart} />
           <User

@@ -7,7 +7,7 @@ import { getMenu } from 'features/Menu/pathAPI';
 import MenuUser from './MenuUser/index';
 import MenuAdmin from './MenuAdmin/index';
 import './style.css';
-export default function Menu({ token }) {
+export default function Menu({ token, openMenu, setOpenMenu }) {
   const dispatch = useDispatch();
   // dispatch API
   const actionGetMenu = () => dispatch(getMenu());
@@ -21,27 +21,25 @@ export default function Menu({ token }) {
 
   //function
   const onClickCloseMenu = () => {
-    document.querySelector('.ground-menu').classList.remove('open');
-    document.querySelector('body').classList.remove('active');
-    document.querySelector('.main-container').classList.remove('active');
+    setOpenMenu(false)
   }
   return (
-    <div className="ground-menu">
-      <div className="nav-toggle">
-        <i className="fa fa-times" onClick={onClickCloseMenu} />
-      </div>
-      {
-        (isAdmin && token) ? (
-          <MenuAdmin
-            Link={Link}
+    <>
+      <div className={`ground-menu ${openMenu && 'open'}`} >
+        {
+          (isAdmin && token) ? (
+            <MenuAdmin
+              Link={Link}
+              onClickCloseMenu={onClickCloseMenu}
+            />
+          ) : (<MenuUser
+            list_menu={list_menu}
             onClickCloseMenu={onClickCloseMenu}
-          />
-        ) : (<MenuUser
-          list_menu={list_menu}
-          onClickCloseMenu={onClickCloseMenu}
-          Link={Link}
-        />)
-      }
-    </div>
+            Link={Link}
+          />)
+        }
+      </div>
+      {openMenu && <div className="active-before" onClick={onClickCloseMenu} />}
+    </>
   )
 };

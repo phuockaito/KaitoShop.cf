@@ -199,7 +199,7 @@
 }
 .ground-menu nav > .menu > li.active-menu.open .sub-menu {
 	max-height: 100vh;
-  transition: 0.5s ease-in-out;
+	transition: 0.5s ease-in-out;
 }
 .ground-menu nav > .menu > li.active-menu.open a i.fa-caret-down {
 	transform: rotate(-180deg);
@@ -275,25 +275,16 @@
 		opacity: 1;
 		visibility: visible;
 	}
-	.show-menu-1000,
-	.ground-menu .nav-toggle i.fa-times {
-		display: block !important;
-	}
-	.totle-menu {
+
+	.toggle-menu {
 		display: block !important;
 		grid-row: 1/3;
 		cursor: pointer;
 	}
-	.totle-menu i {
+	.toggle-menu i {
 		font-size: 23px;
 		color: #ffff;
 		cursor: pointer;
 		font-weight: 500;
-	}
-}
-
-@media screen and (max-width: 420px) {
-	.totle-menu i {
-		font-size: 20px;
 	}
 }

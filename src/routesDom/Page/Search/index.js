@@ -70,7 +70,7 @@ export default function Search() {
             (
               <div className="group-no-data">
                 <FileSearchOutlined
-                  style={{ fontSize: '4.5em', color: '#596275' }}
+                  style={{ fontSize: '1.5em', color: '#596275' }}
                 />
                 <p>Rất tiếc, không tìm thấy sản phẩm phù hợp với lựa chọn của bạn</p>
               </div>

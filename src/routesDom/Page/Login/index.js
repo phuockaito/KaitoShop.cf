@@ -3,7 +3,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { Form, Input, Button, Modal } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { UserOutlined, LockOutlined, GooglePlusOutlined, GoogleOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, GooglePlusOutlined } from "@ant-design/icons";
 import { GoogleLogin } from 'react-google-login';
 // Context
 import { UserContext } from "contexts/UserContext";

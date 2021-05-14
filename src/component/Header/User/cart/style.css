@@ -5,49 +5,23 @@
 	align-self: center;
 }
 
-.ground-card .main-card .card-user {
+.ground-card .main-card .length-cart {
 	position: relative;
-	display: block;
 }
-.ground-card .main-card .card-user a {
-	position: relative;
-	display: block;
-}
-.ground-card .main-card .card-user a i span {
-	position: absolute;
-	top: 0px;
-	right: -7px;
-	display: block;
-	width: 17px;
-	font-weight: bold;
-	height: 17px;
-	line-height: 17px;
-	border-radius: 50%;
-	color: #302e4d;
-	font-size: 17px;
-}
-.ground-card .main-card .card-user a i {
-	font-size: 20px;
-	cursor: pointer;
+
+.ground-card .main-card .length-cart .icon-cart {
+	font-size: 1.4em;
 	color: #fff;
 	position: relative;
-	width: 40px;
-	text-align: center;
-	height: 40px;
-	line-height: 40px;
-	border-radius: 50%;
-	display: inline-block;
+	width: 30px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
+
 @media screen and (max-width: 1000px) {
 	.ground-card {
 		margin: auto;
-	}
-}
-@media screen and (max-width: 400px) {
-	.ground-card .main-card .card-user a i {
-		font-size: 20px;
-		height: 35px;
-		width: 35px;
-		line-height: 35px;
 	}
 }

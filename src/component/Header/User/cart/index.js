@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Badge } from 'antd';
 import { Link } from 'react-router-dom';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import './style.css'
 export default function Cart({ setPatchCart, dataCart }) {
   useEffect(() => {
@@ -14,20 +15,21 @@ export default function Cart({ setPatchCart, dataCart }) {
     <>
       <div className="ground-card">
         <div className="main-card">
-          <div className="card-user">
-            <Badge
-              count={dataCart.length}
-              overflowCount={9}
-              showZero
+          <Badge
+            count={dataCart.length}
+            overflowCount={9}
+            showZero
+            className="length-cart"
+          >
+            <Link
+              to="/cart"
+              className="head-example"
             >
-              <Link
-                to="/cart"
-                className="head-example"
-              >
-                <i className="fa fa-shopping-cart" />
-              </Link>
-            </Badge>
-          </div>
+              <ShoppingCartOutlined
+                className="icon-cart"
+              />
+            </Link>
+          </Badge>
         </div>
       </div>
     </>

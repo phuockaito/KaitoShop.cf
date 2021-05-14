@@ -1,3 +1,13 @@
+.active-before{
+  background-color: rgb(5 5 5/80%);
+    position: fixed;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+}
 .ground-container {
 	position: relative;
 }

@@ -1,4 +1,4 @@
-
+import { ShoppingCartOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import { Select, Form, Button, Image, notification } from "antd";
 import ReactHtmlParser from "react-html-parser";
@@ -160,7 +160,7 @@ export default function InForProduct({ dataProductsId, actionAddToCart }) {
                       <Button
                         type="primary"
                         htmlType="submit">
-                        <i className="fa fa-shopping-cart" />
+                        <ShoppingCartOutlined style={{ fontSize: '1.3em' }} />
 												chọn mua hàng
 											</Button>
                     </div>
