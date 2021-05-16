@@ -44,6 +44,10 @@ const adminAPI = {
     const url = "/admin/get-list-comments-user";
     return axiosClient.get(url, { params }, token);
   },
+  getListCommentsCart: (params, token) => {
+    const url = "/admin/get-list-cart-user";
+    return axiosClient.get(url, { params }, token);
+  },
   deleteCommentUser: (params, token) => {
     const url = "/admin/delete-comments-user";
     return axiosClient.delete(url, { params }, token);

@@ -1,4 +1,4 @@
-import { DeleteOutlined, CommentOutlined } from '@ant-design/icons';
+import { DeleteOutlined, CommentOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { Table, Image, Tag, Tooltip, Badge, Popconfirm } from 'antd';
 import moment from "moment";
 import "moment/locale/vi";
@@ -10,6 +10,7 @@ export default function ListUser({
   limit,
   page,
   setOpenFromComment,
+  setOpenCartUser,
   setIdUser,
   token,
   actionDeleteAccountUser
@@ -127,12 +128,12 @@ export default function ListUser({
       render: (_id, item) => (
         <>
           <span
-            style={{ paddingRight: '5px' }}
+            style={{ paddingBottom: '5px', display: 'block' }}
           >
             <Badge
               style={{ backgroundColor: '#1890ff' }}
               count={item.__v}
-            // overflowCount={99}
+              overflowCount={9}
             >
             </Badge>
           </span>
@@ -146,6 +147,41 @@ export default function ListUser({
             style={{
               color: '#1890ff',
               fontSize: '1.2em'
+            }}
+          />
+        </>
+      )
+    },
+    {
+      title: 'Giỏ Hàng',
+      dataIndex: '_id',
+      key: '_id',
+      ellipsis: {
+        showTitle: false,
+      },
+      render: (_id, item) => (
+        <>
+          <span
+            style={{ paddingBottom: '5px', display: 'block' }}
+          >
+            <Badge
+              style={{ backgroundColor: '#f5222d' }}
+              count={item.password}
+              overflowCount={9}
+            >
+            </Badge>
+          </span>
+          <ShoppingCartOutlined
+            onClick={
+              () => {
+                setIdUser(_id);
+                setOpenCartUser(true)
+              }
+            }
+            style={{
+              color: '#f5222d',
+              fontSize: '1.2em',
+              cursor: 'pointer'
             }}
           />
         </>
@@ -176,7 +212,6 @@ export default function ListUser({
           </>
         );
       },
-
     }
   ];
   const handleTableChange = (pagination) => {

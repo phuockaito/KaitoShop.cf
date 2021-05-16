@@ -42,8 +42,29 @@
 	color: #fff;
 	border: 1px solid #f7f8f9;
 }
+.list-ground-cart-user .load-data-cart {
+	padding: 6px 36px;
+	border-radius: 15px;
+	background: transparent;
+	border: 1px solid #189eff;
+	cursor: pointer;
+	font-size: 0.9em;
+	text-transform: capitalize;
+	color: #189eff;
+	transition: 0.3s ease-out;
+	font-weight: 520;
+	display: block;
+	margin: auto auto 20px;
+}
+.list-ground-cart-user .load-data-cart:hover {
+	color: #fff;
+	background-color: #189eff;
+}
 /* Responsive */
 @media screen and (max-width: 1000px) {
+	.list-ground-cart-user .ant-modal-body {
+		padding: 10px;
+	}
 	.ground-user-manage {
 		padding-left: 0;
 	}

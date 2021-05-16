@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getListProduct, deleteToProduct, updateToProduct } from './pathAPI';
+import { getListProduct, deleteToProduct } from './pathAPI';
 const ProductSlice = createSlice({
   name: 'productAdmin',
   initialState: {
@@ -29,24 +29,23 @@ const ProductSlice = createSlice({
       const { product } = action.payload;
       const { data } = state;
       const index = data.findIndex(item => item._id === product._id);
-      console.log(index);
-      data.splice(index, 1);
+      if (index >= 0) {
+        data.splice(index, 1);
+        state.length = state.length - 1;
+      }
       state.loadingDelete = false;
-      state.length = state.length - 1;
     },
     [deleteToProduct.rejected]: state => {
       state.loadingDelete = false;
     },
     // put product
-    [updateToProduct.pending]: state => {
-
-    },
-    [updateToProduct.fulfilled]: (state, action) => {
-      console.log(action)
-    },
-    [updateToProduct.rejected]: state => {
-
-    }
+    // [updateToProduct.pending]: state => {
+    // },
+    // [updateToProduct.fulfilled]: (state, action) => {
+    //   console.log(action)
+    // },
+    // [updateToProduct.rejected]: state => {
+    // }
   }
 });
 

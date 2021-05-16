@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { UserOutlined, EyeOutlined } from '@ant-design/icons';
-
 // image
 import cash from 'image/cash.jpg';
 import installment from 'image/installment.jpg';
@@ -12,7 +11,6 @@ import visa from 'image/visa.jpg';
 import { UserContext } from 'contexts/UserContext';
 import './style.css';
 var format = new Intl.NumberFormat();
-
 export default function Footer() {
   const state = useContext(UserContext);
   const [UserOnline] = state.UserOnline;
@@ -72,7 +70,7 @@ export default function Footer() {
                 </li>
               </ul>
               <div className="user-online">
-                <p>Online   <UserOutlined /> {UserOnline}</p>
+                <p><UserOutlined /> Online {UserOnline}</p>
                 <p><EyeOutlined /> {view > 1000 ? format.format(view) : view} lượt xem</p>
               </div>
             </div>

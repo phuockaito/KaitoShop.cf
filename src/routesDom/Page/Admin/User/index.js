@@ -1,13 +1,14 @@
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // patch API
-import { getUser, getListCommentsUser, deleteCommentUser, deleteAccountUser } from 'features/Admin/User/pathAPI';
+import { getUser, getListCommentsUser, deleteCommentUser, deleteAccountUser, getListCartUser } from 'features/Admin/User/pathAPI';
 // Context
 import { UserContext } from 'contexts/UserContext';
 // Component
 import ListUser from './ListUser';
 import Loading from 'loading/index';
 import CommentUser from './CommentUser';
+import CartUser from './CartUser';
 import LoadingBtn from 'component/LoadingBtn/index';
 import LoadingPage from 'component/LoadingPage/index';
 // Css
@@ -17,17 +18,20 @@ export default function UserManage() {
   // dispatch API
   const actionGetUsers = (params, token) => dispatch(getUser(params, token));
   const actionGetListCommentsUser = (params, token) => dispatch(getListCommentsUser(params, token));
+  const actionGetListCartUser = (params, token) => dispatch(getListCartUser(params, token));
   const actionDeleteCommentUser = (params, token) => dispatch(deleteCommentUser(params, token));
   const actionDeleteAccountUser = (params, token) => dispatch(deleteAccountUser(params, token));
   // create state
   const state = useContext(UserContext);
   const [token] = state.token;
   const [openFromComment, setOpenFromComment] = useState(false);
+  const [openCartUser, setOpenCartUser] = useState(false);
   const [idUser, setIdUser] = useState(null);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   // list comments
   const [limitCMT, setLimitCMT] = useState(5);
+  const [limitCart, setLimitCart] = useState(2);
   // store
   const listAccount = useSelector(state => state.userAdmin.user);
   const length = useSelector(state => state.userAdmin.lengthUser);
@@ -37,6 +41,10 @@ export default function UserManage() {
   const listCommentUser = useSelector(state => state.userAdmin.comment);
   const loadingComments = useSelector(state => state.userAdmin.loadingComments);
   const lengthComment = useSelector(state => state.userAdmin.lengthComment);
+  // data cart user
+  const listCartUser = useSelector(state => state.userAdmin.cart);
+  const loadingCart = useSelector(state => state.userAdmin.loadingCart);
+  const lengthCart = useSelector(state => state.userAdmin.lengthCart);
   // get list user
   useEffect(() => {
     window.scrollTo({
@@ -51,7 +59,7 @@ export default function UserManage() {
   }, [page, limit]);
   // get list comment
   useEffect(() => {
-    if (idUser) {
+    if (idUser && openFromComment) {
       const paramComment = {
         page: 1,
         limit: limitCMT,
@@ -59,10 +67,18 @@ export default function UserManage() {
       };
       actionGetListCommentsUser(paramComment);
     }
-  }, [idUser, limitCMT]);
+    if (idUser && openCartUser) {
+      const paramCart = {
+        page: 1,
+        limit: limitCart,
+        id_user: idUser
+      };
+      actionGetListCartUser(paramCart);
+    }
+  }, [idUser, limitCart, limitCMT, openFromComment, openCartUser]);
   useEffect(() => {
     setLimitCMT(5);
-  }, [idUser]);
+  }, [idUser, openFromComment, openCartUser]);
   return (
     <>
       {loadingDeleteAccount && <LoadingPage />}
@@ -80,6 +96,7 @@ export default function UserManage() {
                 page={page}
                 limit={limit}
                 setOpenFromComment={setOpenFromComment}
+                setOpenCartUser={setOpenCartUser}
                 setIdUser={setIdUser}
                 token={token}
                 actionDeleteAccountUser={actionDeleteAccountUser}
@@ -97,6 +114,19 @@ export default function UserManage() {
                 limitCMT={limitCMT}
                 setLimitCMT={setLimitCMT}
                 actionDeleteCommentUser={actionDeleteCommentUser}
+              />
+            }
+            {idUser &&
+              <CartUser
+                token={token}
+                openCartUser={openCartUser}
+                setOpenCartUser={setOpenCartUser}
+                listCartUser={listCartUser}
+                lengthCart={lengthCart}
+                loadingCart={loadingCart}
+                LoadingBtn={LoadingBtn}
+                limitCart={limitCart}
+                setLimitCart={setLimitCart}
               />
             }
           </div>

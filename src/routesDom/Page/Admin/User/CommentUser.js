@@ -178,7 +178,7 @@ export default function CommentUser({
         }
         {/* nếu có bình luận */}
         {
-          !loadingComments && listCommentUser.length > 0 &&
+          !loadingComments && lengthComment > 0 &&
           < >
             <Table
               className="ground-table"

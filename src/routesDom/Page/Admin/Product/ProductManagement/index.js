@@ -222,10 +222,10 @@ export default function ProductManagement() {
   return (
     <div className="ground-admin-product">
       <div className="container-admin-cart">
-        {dataProducts.length > 0 && <h3>Có tất cả {length} sản phẩm</h3>}
+        {length > 0 && <h3>Có tất cả {length} sản phẩm</h3>}
         {loading && <Loading />}
         {loadingDelete && <LoadingPage />}
-        {!loading && dataProducts.length > 0 &&
+        {!loading && length > 0 &&
           <Table
             className="ground-table"
             columns={Columns}
