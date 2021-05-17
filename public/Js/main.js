@@ -1,35 +1,10 @@
 $(document).ready(function () {
   const scrollMenu = $('.ground-header');
-  const btnShowSearch = $('.btn-show-search');
-  const btnCloseSearch = $('.btn-search');
   $("ul.menu").find('li.active-menu a').on('click', function () {
     $(this).parent('li.active-menu').toggleClass('open');
   });
-  //
-  btnShowSearch.on('click', function () {
-    toggleShowSearch();
-  })
-  btnCloseSearch.on('click', function () {
-    CloseSearch();
-  });
-  function CloseSearch() {
-    $('.search').removeClass('open');
-    $('body').removeClass('active');
-    $('.main-container').removeClass('active');
-  }
-  function toggleShowSearch() {
-    $('.search').toggleClass('open');
-    hiddenBody();
-  }
-
-  function hiddenBody() {
-    $('body').toggleClass('active');
-    $('.main-container').toggleClass('active');
-  }
-
   $('button.scrollTop').on('click', () => {
     $("html ,body").animate({ scrollTop: 0 }, 500);
-
   })
 
   // let lastScrollTop = 0;
