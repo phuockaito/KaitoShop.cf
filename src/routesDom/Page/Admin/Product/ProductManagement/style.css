@@ -28,7 +28,9 @@
 	.ground-table
 	.ant-table-tbody
 	> tr
-	> td {
+	> td,
+.ant-table-tbody > tr > td,
+.list-ground-comment-user .ant-table-thead > tr > th {
 	text-align: center;
 }
 

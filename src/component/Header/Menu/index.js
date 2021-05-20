@@ -22,7 +22,9 @@ export default function Menu({ token, openMenu, setOpenMenu }) {
   //function
   const onClickCloseMenu = () => {
     setOpenMenu(false)
-  }
+  };
+  { openMenu ? document.querySelector('body').classList.add('active') : document.querySelector('body').classList.remove('active') }
+
   return (
     <>
       <div className={`ground-menu ${openMenu && 'open'}`} >

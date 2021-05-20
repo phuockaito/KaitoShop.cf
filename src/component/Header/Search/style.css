@@ -2,6 +2,10 @@
 	display: block;
 	position: relative;
 	align-self: center;
+	max-width: 1000px;
+	margin: auto;
+	width: 100%;
+	left: 7px;
 }
 .ground-search span {
 	display: none;
@@ -75,10 +79,10 @@
 
 @media screen and (max-width: 1000px) {
 	.ground-search {
-		max-width: 500px;
 		display: block;
 		justify-items: center;
 		margin: auto;
+		left: 0;
 	}
 	.ground-search span {
 		display: block;

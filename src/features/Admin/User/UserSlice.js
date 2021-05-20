@@ -75,13 +75,13 @@ const UserSlice = createSlice({
       const cartRes = action.payload.cart;
       const { cart, user } = state;
       const indexCart = cart.findIndex(product => product._id === cartRes._id);
-      const indexUser = user.findIndex(ur => ur._id === cartRes.id_User);
+      const indexUser = user.findIndex(ur => ur.user._id === cartRes.id_User);
       if (indexCart !== -1) {
         cart.splice(indexCart, 1);
         state.lengthCart = state.lengthCart - 1;
       };
       if (indexUser !== -1) {
-        user[indexUser].password = user[indexUser].password - 1;
+        user[indexUser].length_cart = user[indexUser].length_cart - 1;
       };
     },
     [deleteCart.rejected]: () => {
@@ -93,14 +93,14 @@ const UserSlice = createSlice({
       const { comment } = state;
       state.lengthComment = length;
       const indexCmt = comment.findIndex(cmt => cmt._id === id_comment);
-      const indexUser = state.user.findIndex(ur => ur._id === id_user);
+      const indexUser = state.user.findIndex(ur => ur.user._id === id_user);
       if (indexCmt !== -1) {
         comment.splice(indexCmt, 1);
         message.success('Xóa Thành Công', 1.5);
-      }
+      };
       if (indexUser !== -1) {
-        state.user[indexUser].__v = length;
-      }
+        state.user[indexUser].length_comment = length;
+      };
     },
     [deleteCommentUser.rejected]: () => {
       message.error('Xóa thất bại !', 1.5);

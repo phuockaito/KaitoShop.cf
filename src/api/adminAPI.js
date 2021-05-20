@@ -23,6 +23,10 @@ const adminAPI = {
     const url = "/admin/list-product";
     return axiosClient.get(url, { params }, token);
   },
+  CommentProduct: (params, token) => {
+    const url = "/admin/get-comments-product";
+    return axiosClient.get(url, { params }, token);
+  },
   addProduct: (data, token) => {
     const url = "/admin/add-product";
     return axiosClient.post(url, data, token);

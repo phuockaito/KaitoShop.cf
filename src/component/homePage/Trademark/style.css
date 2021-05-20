@@ -44,7 +44,6 @@
 	box-shadow: 0 0 1px 0 rgba(8, 11, 14, 0.06),
 		0 16px 16px -1px rgba(8, 11, 14, 0.1);
 	border: 1px solid #ffffff;
-	object-fit: contain;
 }
 @media screen and (max-width: 614px) {
 	.group-trademark .container-trademark ul li {

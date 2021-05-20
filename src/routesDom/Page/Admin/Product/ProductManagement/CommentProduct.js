@@ -1,31 +1,30 @@
-import { Modal } from 'antd';
-import { FileSearchOutlined } from '@ant-design/icons';
-import { Table, Avatar, Tag, Tooltip, Popconfirm } from 'antd';
+import { Modal, Table, Avatar, Tag, Tooltip, Popconfirm } from 'antd';
+import { FileSearchOutlined, DeleteOutlined } from '@ant-design/icons';
 import StarRatings from "react-star-ratings";
-import { DeleteOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 import moment from "moment";
 import "moment/locale/vi";
-export default function CommentUser({
+export default function CommentProduct({
   token,
-  openFromComment,
-  setOpenFromComment,
-  listCommentUser,
-  loadingComments,
+  isOpenDialogComment,
+  setIsOpenDialogComment,
+  loadingGetComment,
+  lengthCommentProduct,
   LoadingBtn,
-  lengthComment,
-  limitCMT,
-  setLimitCMT,
+  commentProduct,
+  limitCmt,
+  setLimitCmt,
+  pageCmt,
+  setPageCmt,
   actionDeleteCommentUser
 }) {
-  const deleteComment = (idComment, item) => {
+  const deleteComment = (_idComment, item) => {
     const params = {
-      _id_comment: idComment,
+      _id_comment: _idComment,
       _id_product: item.id_product,
       _id_user: item.id_user
     };
     actionDeleteCommentUser(params, token);
-  };
+  }
   const Columns = [
     {
       title: 'ID',
@@ -43,26 +42,20 @@ export default function CommentUser({
       )
     },
     {
-      title: 'Ảnh Sản Phẩm',
-      dataIndex: 'array_product',
-      key: 'array_product',
+      title: 'Ảnh',
+      dataIndex: 'avatar',
+      key: 'avatar',
       ellipsis: {
         showTitle: false,
       },
-      render: array_product => (
-        <Tooltip placement="top" title='Click để xem'>
-          <Link
-            to={`/${array_product[0].key}/${array_product[0].NSX.replace(/ /g, "-")}/${array_product[0].name.replace(/ /g, "-")}/${array_product[0]._id}`}
-          >
-            < Avatar
-              size={64}
-              style={{
-                borderRadius: '50%'
-              }}
-              src={array_product[0].poster}
-            />
-          </Link>
-        </Tooltip>
+      render: avatar => (
+        < Avatar
+          size={50}
+          style={{
+            borderRadius: '50%'
+          }}
+          src={avatar}
+        />
       )
     },
     {
@@ -127,7 +120,7 @@ export default function CommentUser({
           trigger='click'
         >
           <Tag color="purple-inverse" key={content}>
-            {content.length > 30 ? `${content.slice(0, 30)}...` : `${content}`}
+            {content.length > 30 ? `${content.slice(0, 15)}...` : `${content}`}
           </Tag>
         </Tooltip>
       )
@@ -158,49 +151,46 @@ export default function CommentUser({
       )
     }
   ];
+  const pagination = {
+    total: lengthCommentProduct,
+    current: pageCmt,
+    pageSize: limitCmt,
+    current: pageCmt,
+    position: ['bottomCenter']
+  };
+  const handleTableChange = (pagination) => {
+    const { current, pageSize } = pagination;
+    setPageCmt(current);
+    setLimitCmt(pageSize);
+  };
   return (
     <>
       <Modal
-        title={`Tất cả có ${lengthComment} bình luận`}
-        visible={openFromComment}
+        title={`Tất cả có ${commentProduct.length} / ${lengthCommentProduct} bình luận`}
+        visible={isOpenDialogComment}
         footer={false}
         centered
-        onCancel={() => setOpenFromComment(false)}
+        onCancel={() => setIsOpenDialogComment(false)}
         width={1200}
         className="list-ground-comment-user"
       >
-        {/* loading */}
+        {/* loading khi click vào icon comment */}
+        {loadingGetComment && <LoadingBtn />}
+        {/* show thông tin bình luận sản phẩm đó */}
         {
-          loadingComments &&
-          <div style={{ padding: '20px 0' }}>
-            <LoadingBtn />
-          </div>
+          (!loadingGetComment && lengthCommentProduct > 0) &&
+          <Table
+            className="ground-table-comment"
+            columns={Columns}
+            dataSource={commentProduct}
+            onChange={handleTableChange}
+            pagination={pagination}
+            scroll={{ x: 1000, y: 490 }}
+          />
         }
-        {/* nếu có bình luận */}
+        {/* nếu không có bình luận */}
         {
-          !loadingComments && lengthComment > 0 &&
-          <>
-            <Table
-              className="ground-table"
-              columns={Columns}
-              dataSource={listCommentUser}
-              pagination={false}
-              position={'bottomCenter'}
-              scroll={{ x: 1000, y: 490 }}
-            />
-            {
-              lengthComment > 5 && listCommentUser.length < lengthComment &&
-              <button
-                className="load-data-comment"
-                onClick={() => setLimitCMT(limitCMT + 5)}
-              >Tải Thêm
-              </button>
-            }
-          </>
-        }
-        {/* nếu không có bình luận nào */}
-        {
-          !loadingComments && listCommentUser.length === 0 &&
+          (!loadingGetComment && lengthCommentProduct === 0) &&
           (
             <div
               style={{

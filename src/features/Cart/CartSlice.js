@@ -80,15 +80,13 @@ const CartSlice = createSlice({
       message.success('Cập Nhật Thành Công', 1.5);
       localStorage.setItem("cart", JSON.stringify(dataCart));
 
-    },
-
+    }
   },
   extraReducers: {
     // post cart API
     [postCartAPI.pending]: state => {
       state.loadingPostCartAPI = true;
     },
-
     [postCartAPI.fulfilled]: (state, action) => {
       state.loadingPostCartAPI = false;
       notification['success']({

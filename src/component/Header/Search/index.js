@@ -14,7 +14,8 @@ export default function Search() {
     } else {
       setIsFormValid(false);
     }
-  }
+  };
+  { openSearch ? document.querySelector('body').classList.add('active') : document.querySelector('body').classList.remove('active') }
   return (
     <div className="ground-search">
       <SearchOutlined

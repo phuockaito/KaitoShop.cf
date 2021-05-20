@@ -20,12 +20,13 @@ export default function EditProduct() {
   // dispatch action
   const actionGetProductId = id => dispatch(getProductId(id));
   const actionUpdateProduct = (data, token) => dispatch(updateToProduct(data, token));
-  // useEffect
 
   useEffect(() => {
     actionGetProductId(id_product);
-  }, []);
-  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     if (dataProductsEdit.length > 0) {
       const { name, price, sex, key, NSX, collections, productType, description, poster, color, size } = dataProductsEdit[0];
       const data = {
@@ -43,7 +44,7 @@ export default function EditProduct() {
       }
       setValuesEdit(data);
     }
-  }, [dataProductsEdit.length > 0]);
+  }, [dataProductsEdit.length > 0, id_product]);
   return (
     <div className="ground-edit-product">
       <div className="container-edit-product">
@@ -59,5 +60,5 @@ export default function EditProduct() {
       </div>
     </div>
   )
-}
+};
 

@@ -79,6 +79,7 @@ export default function UserManage() {
   useEffect(() => {
     setLimitCMT(5);
   }, [idUser, openFromComment, openCartUser]);
+
   return (
     <>
       {loadingDeleteAccount && <LoadingPage />}

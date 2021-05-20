@@ -26,93 +26,93 @@ export default function ListUser({
   const Columns = [
     {
       title: 'ID',
-      dataIndex: '_id',
-      key: '_id',
+      dataIndex: 'user',
+      key: 'user',
       ellipsis: {
         showTitle: false,
       },
-      render: _id => (
-        <Tooltip placement="top" title={_id}>
-          <Tag color="red-inverse" key={_id}>
-            {_id}
+      render: (user) => (
+        <Tooltip placement="top" title={user._id}>
+          <Tag color="red-inverse" key={user._id}>
+            {user._id}
           </Tag>
         </Tooltip>
       )
     },
     {
       title: 'Hình Ảnh',
-      dataIndex: 'avatar',
-      key: 'avatar',
+      dataIndex: 'user',
+      key: 'user',
       ellipsis: {
         showTitle: false,
       },
-      render: avatar => (
+      render: user => (
         <Image
           width={50}
           style={{
             borderRadius: '50%'
           }}
-          src={avatar}
+          src={user.avatar}
         />
       )
     },
     {
       title: 'Tên',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'user',
+      key: 'user',
       ellipsis: {
         showTitle: false,
       },
-      render: name => (
-        <Tooltip placement="top" title={name} color="pink" key="volcano">
-          <Tag color="#096dd9" key={name}>
-            {name}
+      render: user => (
+        <Tooltip placement="top" title={user.name} color="pink" key="volcano">
+          <Tag color="#096dd9" key={user.name}>
+            {user.name}
           </Tag>
         </Tooltip>
       )
     },
     {
       title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      dataIndex: 'user',
+      key: 'user',
       ellipsis: {
         showTitle: false,
       },
-      render: email => (
-        <Tooltip color="pink" key="#f50" placement="top" title={email}>
-          <Tag color="#092b00" key={email}>
-            {email}
+      render: user => (
+        <Tooltip color="pink" key="#f50" placement="top" title={user.email}>
+          <Tag color="#092b00" key={user.email}>
+            {user.email}
           </Tag>
         </Tooltip>
       )
     },
     {
       title: 'Thời Gian',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      dataIndex: 'user',
+      key: 'user',
       ellipsis: {
         showTitle: false,
       },
-      render: createdAt => (
-        <Tooltip placement="top" title={moment(createdAt).format('LLLL')}>
-          <Tag color="#237804" key={createdAt}>
-            {moment(createdAt).fromNow()}
+      render: user => (
+        <Tooltip placement="top" title={moment(user.createdAt).format('LLLL')}>
+          <Tag color="#237804" key={user.createdAt}>
+            {moment(user.createdAt).fromNow()}
           </Tag>
         </Tooltip>
       )
     },
     {
       title: 'Vài Trò',
-      dataIndex: 'role',
-      key: 'role',
+      dataIndex: 'user',
+      key: 'user',
       ellipsis: {
         showTitle: false,
       },
-      render: role => (
+      render: user => (
         <>
-          {role === 1 ? <Tag color="#f5222d" key={role}>
+          {user.role === 1 ? <Tag color="#f5222d" key={user.role}>
             Quản trị viên
-          </Tag> : <Tag color="#5c0011" key={role}>
+          </Tag> : <Tag color="#5c0011" key={user.role}>
             Người dùng
           </Tag>}
         </>
@@ -120,27 +120,26 @@ export default function ListUser({
     },
     {
       title: 'Bình Luận',
-      dataIndex: '_id',
-      key: '_id',
+      dataIndex: 'length_comment',
+      key: 'length_comment',
       ellipsis: {
         showTitle: false,
       },
-      render: (_id, item) => (
+      render: (length_comment, { user }) => (
         <>
           <span
             style={{ paddingBottom: '5px', display: 'block' }}
           >
             <Badge
               style={{ backgroundColor: '#1890ff' }}
-              count={item.__v}
+              count={length_comment}
               overflowCount={9}
-            >
-            </Badge>
+            />
           </span>
           <CommentOutlined
             onClick={
               () => {
-                setIdUser(_id);
+                setIdUser(user._id);
                 setOpenFromComment(true)
               }
             }
@@ -154,19 +153,19 @@ export default function ListUser({
     },
     {
       title: 'Giỏ Hàng',
-      dataIndex: '_id',
-      key: '_id',
+      dataIndex: 'length_cart',
+      key: 'length_cart',
       ellipsis: {
         showTitle: false,
       },
-      render: (_id, item) => (
+      render: (length_cart, { user }) => (
         <>
           <span
             style={{ paddingBottom: '5px', display: 'block' }}
           >
             <Badge
               style={{ backgroundColor: '#f5222d' }}
-              count={item.password}
+              count={length_cart}
               overflowCount={9}
             >
             </Badge>
@@ -174,7 +173,7 @@ export default function ListUser({
           <ShoppingCartOutlined
             onClick={
               () => {
-                setIdUser(_id);
+                setIdUser(user._id);
                 setOpenCartUser(true)
               }
             }
@@ -239,6 +238,6 @@ export default function ListUser({
       />
     </>
   )
-}
+};
 
 

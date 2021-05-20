@@ -22,7 +22,7 @@ export default function SeeMoreProduct({ items, data, onChangePage, lengthProduc
         />
       )
     }
-  }
+  };
   const showReview = (rating, numReviews) => {
     const rate = (rating / numReviews);
     if (numReviews > 0) {
@@ -42,7 +42,6 @@ export default function SeeMoreProduct({ items, data, onChangePage, lengthProduc
       )
     }
     else {
-
       return (
         <>
           <StarRatings
@@ -56,7 +55,7 @@ export default function SeeMoreProduct({ items, data, onChangePage, lengthProduc
         </>
       )
     }
-  }
+  };
   const ShowSeeMore = data => {
     if (data.length > 0) {
       return (
@@ -97,7 +96,7 @@ export default function SeeMoreProduct({ items, data, onChangePage, lengthProduc
         </div>
       )
     }
-  }
+  };
   return (
     <>
       <div className="group-see-more-products">
@@ -112,4 +111,4 @@ export default function SeeMoreProduct({ items, data, onChangePage, lengthProduc
       </div>
     </>
   )
-}
+};

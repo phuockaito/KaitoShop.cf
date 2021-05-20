@@ -6,6 +6,11 @@ export const getListProduct = createAsyncThunk('listProduct', async (params, tok
   return response;
 });
 
+export const getCommentProduct = createAsyncThunk('commentProduct', async (params, token) => {
+  const response = await ProductSlice.CommentProduct(params, token);
+  return response;
+});
+
 export const postAddProduct = createAsyncThunk('addProduct', async (data, image, token) => {
   const response = await ProductSlice.addProduct(data, token);
   return response;

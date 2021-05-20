@@ -132,8 +132,8 @@
 	padding: 10px;
 	background: #fdf9ff;
 	position: relative;
-  justify-content: center;
-  border-radius: 8px;
+	justify-content: center;
+	border-radius: 8px;
 }
 .group-array-image > li {
 	position: relative;
@@ -391,7 +391,6 @@
 .group-description .group-description-text p {
 	font-size: 1.1em;
 	color: rgb(60, 59, 59);
-	text-align: justify;
 }
 /* --------------alert------------- */
 

@@ -39,15 +39,15 @@ export default function DetailProducts() {
   const [token,] = state.token;
   const items = 20;
   // Data Product ID
-  const loading = useSelector((state) => state.productId.loading);
+  const loading = useSelector(state => state.productId.loading);
   const [dataProductsId, setDataProductsId] = useState([]);
   const isAdmin = useSelector(state => state.user.isAdmin);
   // Data Product See More
-  const dataProductsType = useSelector((state) => state.type.listProductSlider);
-  const lengthProductsType = useSelector((state) => state.type.length);
-  const loadingProductsType = useSelector((state) => state.type.loading);
+  const dataProductsType = useSelector(state => state.type.listProductSlider);
+  const lengthProductsType = useSelector(state => state.type.length);
+  const loadingProductsType = useSelector(state => state.type.loading);
   // Data Comment
-  const loadingComet = useSelector((state) => state.comment.loading);
+  const loadingComet = useSelector(state => state.comment.loading);
   const [lengthComment, setLengthComment] = useState(null);
   const [dataComment, setDataComment] = useState([]);
   const [checkDeleteCmt, setCheckDeleteCmt] = useState(false);

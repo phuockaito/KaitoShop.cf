@@ -19,7 +19,9 @@ export default function User({
   const [openUser, setOpenUser] = useState(false);
   const closeOpenUser = () => {
     setOpenUser(false);
-  }
+  };
+  { openUser ? document.querySelector('body').classList.add('active') : document.querySelector('body').classList.remove('active') }
+
   return (
     <>
       <div className="ground-user">
