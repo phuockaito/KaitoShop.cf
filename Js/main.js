@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  const scrollMenu = $('.ground-header');
+  // const scrollMenu = $('.ground-header');
   $("ul.menu").find('li.active-menu a').on('click', function () {
     $(this).parent('li.active-menu').toggleClass('open');
   });
