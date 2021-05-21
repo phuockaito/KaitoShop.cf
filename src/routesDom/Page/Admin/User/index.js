@@ -1,7 +1,15 @@
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Select } from 'antd';
 // patch API
-import { getUser, getListCommentsUser, deleteCommentUser, deleteAccountUser, getListCartUser } from 'features/Admin/User/pathAPI';
+import {
+  getUser,
+  getListCommentsUser,
+  deleteCommentUser,
+  deleteAccountUser,
+  getListCartUser,
+  postActiveRoleUser
+} from 'features/Admin/User/pathAPI';
 // Context
 import { UserContext } from 'contexts/UserContext';
 // Component
@@ -14,6 +22,7 @@ import LoadingPage from 'component/LoadingPage/index';
 // Css
 import './style.css';
 export default function UserManage() {
+  const { Option } = Select;
   const dispatch = useDispatch();
   // dispatch API
   const actionGetUsers = (params, token) => dispatch(getUser(params, token));
@@ -21,6 +30,7 @@ export default function UserManage() {
   const actionGetListCartUser = (params, token) => dispatch(getListCartUser(params, token));
   const actionDeleteCommentUser = (params, token) => dispatch(deleteCommentUser(params, token));
   const actionDeleteAccountUser = (params, token) => dispatch(deleteAccountUser(params, token));
+  const actionPostActiveRoleUser = (id_user, token) => dispatch(postActiveRoleUser(id_user, token));
   // create state
   const state = useContext(UserContext);
   const [token] = state.token;
@@ -32,6 +42,8 @@ export default function UserManage() {
   // list comments
   const [limitCMT, setLimitCMT] = useState(5);
   const [limitCart, setLimitCart] = useState(2);
+  // filter admin and user
+  const [role, setRole] = useState(-1);
   // store
   const listAccount = useSelector(state => state.userAdmin.user);
   const length = useSelector(state => state.userAdmin.lengthUser);
@@ -46,17 +58,25 @@ export default function UserManage() {
   const loadingCart = useSelector(state => state.userAdmin.loadingCart);
   const lengthCart = useSelector(state => state.userAdmin.lengthCart);
   // get list user
+  const functionGetUser = () => {
+    const params = {
+      page: page,
+      limit: limit,
+      role: role
+    };
+    actionGetUsers(params, token);
+  };
+  useEffect(() => {
+    setPage(1);
+    setLimit(10);
+  }, [role]);
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
-    const params = {
-      page: page,
-      limit: limit
-    };
-    actionGetUsers(params, token);
-  }, [page, limit]);
+    functionGetUser();
+  }, [page, limit, role]);
   // get list comment
   useEffect(() => {
     if (idUser && openFromComment) {
@@ -79,6 +99,10 @@ export default function UserManage() {
   useEffect(() => {
     setLimitCMT(5);
   }, [idUser, openFromComment, openCartUser]);
+  const onChangeUser = e => {
+    setRole(e.value);
+    console.log(e)
+  };
 
   return (
     <>
@@ -87,6 +111,18 @@ export default function UserManage() {
       <div className="ground-user-manage">
         <div className="container-user-manage">
           <h3>Có tất cả {length} tài khoản </h3>
+          <div className="filter-role">
+            <Select
+              labelInValue
+              defaultValue={{ value: 'tất cả' }}
+              style={{ width: 150 }}
+              onChange={onChangeUser}
+            >
+              <Option value={-1}>Tất cả</Option>
+              <Option value={1}>Quản trị viên	</Option>
+              <Option value={0}>Người dùng</Option>
+            </Select>
+          </div>
           <div className="main-user-manage">
             {!loading && listAccount.length > 0
               && <ListUser
@@ -101,6 +137,7 @@ export default function UserManage() {
                 setIdUser={setIdUser}
                 token={token}
                 actionDeleteAccountUser={actionDeleteAccountUser}
+                actionPostActiveRoleUser={actionPostActiveRoleUser}
               />
             }
             {idUser &&

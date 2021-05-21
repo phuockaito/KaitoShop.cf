@@ -72,6 +72,6 @@ export default function ListItems({ data }) {
         ))}
     </div>
   )
-}
+};
 
 

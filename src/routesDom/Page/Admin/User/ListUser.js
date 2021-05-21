@@ -1,5 +1,6 @@
-import { DeleteOutlined, CommentOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { Table, Image, Tag, Tooltip, Badge, Popconfirm } from 'antd';
+import { useState, useEffect } from 'react';
+import { DeleteOutlined, CommentOutlined, ShoppingCartOutlined, LockOutlined } from '@ant-design/icons';
+import { Table, Image, Tag, Tooltip, Badge, Popconfirm, Switch } from 'antd';
 import moment from "moment";
 import "moment/locale/vi";
 export default function ListUser({
@@ -13,16 +14,36 @@ export default function ListUser({
   setOpenCartUser,
   setIdUser,
   token,
-  actionDeleteAccountUser
+  actionDeleteAccountUser,
+  actionPostActiveRoleUser
 }) {
-
+  const [idRole, setIdRole] = useState(null);
+  const [booleanRole, setBooleanRole] = useState(null);
   const deleteAccountUser = _id => {
     const params = {
       _id_user: _id,
     }
     actionDeleteAccountUser({ params }, token);
   };
-
+  const onChangeRole = (boolean) => {
+    setBooleanRole(boolean)
+  };
+  useEffect(() => {
+    if (booleanRole && idRole) {
+      const data = {
+        _id_user: idRole,
+        role: 1
+      }
+      actionPostActiveRoleUser(data, token);
+    };
+    if (!booleanRole && idRole) {
+      const data = {
+        _id_user: idRole,
+        role: 0
+      }
+      actionPostActiveRoleUser(data, token);
+    }
+  }, [idRole, booleanRole])
   const Columns = [
     {
       title: 'ID',
@@ -110,11 +131,15 @@ export default function ListUser({
       },
       render: user => (
         <>
-          {user.role === 1 ? <Tag color="#f5222d" key={user.role}>
-            Quản trị viên
-          </Tag> : <Tag color="#5c0011" key={user.role}>
-            Người dùng
-          </Tag>}
+          {
+            user.role === 1 ?
+              <Tag color="#f5222d" key={user.role}>
+                Quản trị viên
+              </Tag> :
+              <Tag color="#5c0011" key={user.role}>
+                Người dùng
+              </Tag>
+          }
         </>
       )
     },
@@ -187,27 +212,65 @@ export default function ListUser({
       )
     },
     {
-      title: 'Hành Động',
-      key: '_id',
-      dataIndex: '_id',
+      title: 'Vai trò',
+      key: 'user',
+      dataIndex: 'user',
       fixed: 'right',
-      render: _id => {
+      render: (user) => {
         return (
           <>
-            <Popconfirm
-              title="Bạn Chắc chắn để xóa tài khoản này không ?"
-              onConfirm={() => deleteAccountUser(_id)}
-              okText="Có"
-              cancelText="Không"
-              placement="leftTop"
-            >
-              <DeleteOutlined
-                style={{
-                  color: 'red',
-                  fontSize: '1.3em'
-                }}
-              />
-            </Popconfirm>
+            {
+              user.email === 'huuphuocit1999@gmail.com' ?
+                <LockOutlined
+                  style={{
+                    color: 'black',
+                    fontSize: '1.3em',
+                  }} />
+                :
+                <>
+                  <Tag color="#237804" key={user._id}>Amin</Tag>
+                  <Switch
+                    defaultChecked={user.role === 1 ? true : false}
+                    onChange={onChangeRole}
+                    onClick={() => setIdRole(user._id)}
+                  />
+                </>
+            }
+          </>
+        );
+      },
+    },
+    {
+      title: 'Hành Động',
+      key: 'user',
+      dataIndex: 'user',
+      fixed: 'right',
+      render: user => {
+        return (
+          <>
+            {
+              user.email === 'huuphuocit1999@gmail.com' ?
+                <LockOutlined
+                  style={{
+                    color: 'black',
+                    fontSize: '1.3em',
+                  }} />
+                :
+                < Popconfirm
+                  title="Bạn Chắc chắn để xóa tài khoản này không ?"
+                  onConfirm={() => deleteAccountUser(user._id)}
+                  okText="Có"
+                  cancelText="Không"
+                  placement="leftTop"
+                >
+                  <DeleteOutlined
+                    style={{
+                      color: 'red',
+                      fontSize: '1.3em'
+                    }}
+                  />
+                </ Popconfirm>
+            }
           </>
         );
       },

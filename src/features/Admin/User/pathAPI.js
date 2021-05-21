@@ -25,3 +25,9 @@ export const getListCartUser = createAsyncThunk('getCartUser', async (params, to
   const response = await UserSlice.getListCommentsCart(params, token);
   return response;
 });
+
+export const postActiveRoleUser = createAsyncThunk('activeRoleUser', async (id_user, token) => {
+  const response = await UserSlice.postActiveRoleUser(id_user, token);
+  return response;
+});
+

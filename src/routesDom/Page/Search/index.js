@@ -19,7 +19,7 @@ export default function Search() {
   // create state
   const [page, setPage] = useState(1);
   const [current, setCurrent] = useState(1);
-  const items = 20;
+  const items = 28;
   // fetch API
   const params = { keyword: keyWord.trim(), page: page, items: items };
   useEffect(() => {
@@ -42,7 +42,6 @@ export default function Search() {
   // function
   const onChangePage = (page) => {
     setPage(page);
-
   }
   const showPagination = length => {
     if (length > 0) {
@@ -61,7 +60,7 @@ export default function Search() {
       {loadingSearch && <Loading />}
       <div className="main-search">
         <div className="group-product-search">
-          <h3>Kết quả tìm kiếm cho '{keyWord === 'undefined' ? '' : keyWord}'</h3>
+          <h3>{lengthSearch > 0 ? "Có " + lengthSearch : null} kết quả tìm kiếm cho '{keyWord === 'undefined' ? '' : keyWord}'</h3>
           <ListItems data={dataSearch} />
           {
             showPagination(lengthSearch)

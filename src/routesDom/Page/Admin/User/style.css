@@ -14,6 +14,14 @@
 	font-family: 550;
 	font-size: 1.2em;
 }
+.ground-user-manage .container-user-manage .filter-role {
+	text-align: right;
+	margin-right: 10px;
+	margin-bottom: 20px;
+}
+.container-user-manage .filter-role .ant-select {
+	text-align: left;
+}
 /* table */
 .ground-table .ant-table-thead > tr > th,
 .ground-table .ant-table-tbody > tr > td {

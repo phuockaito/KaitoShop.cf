@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUser, getListCommentsUser, deleteCommentUser, deleteAccountUser, getListCartUser } from './pathAPI';
+import { getUser, getListCommentsUser, deleteCommentUser, deleteAccountUser, getListCartUser, postActiveRoleUser } from './pathAPI';
 import { checkOutCart, deleteCart } from '../Cart/pathAPI';
 import { message } from 'antd';
 const UserSlice = createSlice({
@@ -111,7 +111,7 @@ const UserSlice = createSlice({
     },
     [deleteAccountUser.fulfilled]: (state, action) => {
       const { id_user } = action.payload;
-      const index = state.user.findIndex(ur => ur._id === id_user);
+      const index = state.user.findIndex(ur => ur.user._id === id_user);
       if (index !== -1) {
         state.user.splice(index, 1);
         message.success('Xóa Thành Công', 1.5);
@@ -121,6 +121,19 @@ const UserSlice = createSlice({
     },
     [getListCommentsUser.rejected]: state => {
       state.loadingDeleteAccount = false;
+    },
+    [postActiveRoleUser.pending]: state => {
+
+    },
+    [postActiveRoleUser.fulfilled]: (state, action) => {
+      const { id_user, role } = action.payload;
+      const index = state.user.findIndex(ur => ur.user._id === id_user);
+      if (index !== -1) {
+        state.user[index].user.role = role;
+      }
+    },
+    [postActiveRoleUser.rejected]: state => {
+
     }
   }
 });
