@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { message, notification } from 'antd';
 import { postCartAPI, getCartAPI, putCartStatusOrderAPI, putCartAddressesAPI, deleteCartAPI } from './pathAPI';
-import $ from 'jquery';
 const CartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -94,7 +93,10 @@ const CartSlice = createSlice({
         description: 'Chi tiết trong lịch sử mua hàng'
       });
       state.dataCart = [];
-      $("html ,body").animate({ scrollTop: 0 }, 500);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
       localStorage.removeItem("cart");
     },
     // get history cart user
@@ -160,9 +162,7 @@ const CartSlice = createSlice({
       const index = historyCart.findIndex((cart => cart._id === _id));
       historyCart.splice(index, 1);
       message.success('Xóa thành công', 1.5);
-      $("html ,body").animate({ scrollTop: 0 }, 500);
     }
-
   }
 });
 const { reducer, actions } = CartSlice;

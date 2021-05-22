@@ -43,7 +43,7 @@ export default function UserManage() {
   const [limitCMT, setLimitCMT] = useState(5);
   const [limitCart, setLimitCart] = useState(2);
   // filter admin and user
-  const [role, setRole] = useState(-1);
+  const [role, setRole] = useState('all');
   // store
   const listAccount = useSelector(state => state.userAdmin.user);
   const length = useSelector(state => state.userAdmin.lengthUser);
@@ -101,7 +101,6 @@ export default function UserManage() {
   }, [idUser, openFromComment, openCartUser]);
   const onChangeUser = e => {
     setRole(e.value);
-    console.log(e)
   };
 
   return (
@@ -114,13 +113,13 @@ export default function UserManage() {
           <div className="filter-role">
             <Select
               labelInValue
-              defaultValue={{ value: 'tất cả' }}
+              defaultValue={{ value: 'Tất cả' }}
               style={{ width: 150 }}
               onChange={onChangeUser}
             >
-              <Option value={-1}>Tất cả</Option>
-              <Option value={1}>Quản trị viên	</Option>
-              <Option value={0}>Người dùng</Option>
+              <Option value="all">Tất cả</Option>
+              <Option value="admin">Quản trị viên	</Option>
+              <Option value="user">Người dùng</Option>
             </Select>
           </div>
           <div className="main-user-manage">

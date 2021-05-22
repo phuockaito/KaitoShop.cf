@@ -161,7 +161,7 @@ export default function HistoryCart() {
       <div className="group-history-cart">
         <div className="container-history-cart">
           {loadingDeleteCartAPI && <LoadingPage />}
-          <h3>LỊCH SỬ MUA HÀNG <span>{dataHistoryCart.length} sản phẩm</span></h3>
+          <h3>LỊCH SỬ MUA HÀNG<span>({dataHistoryCart.length} sản phẩm)</span></h3>
           {loadingHistoryCart && <Loading />}
           {
             (!loadingHistoryCart && dataHistoryCart.length > 0) && (

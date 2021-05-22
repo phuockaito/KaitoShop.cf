@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Drawer, Modal, Form, Input } from 'antd';
+import { Button, Modal, Form, Input, Image } from 'antd';
 import { unwrapResult } from "@reduxjs/toolkit";
 import moment from 'moment';
 import 'moment/locale/vi';
@@ -7,16 +7,22 @@ import {
   LoadingOutlined,
   DeleteOutlined,
   CheckCircleOutlined,
-  FileSearchOutlined,
   ExclamationCircleOutlined,
   MessageOutlined
 } from '@ant-design/icons';
 const formatter = new Intl.NumberFormat('vn');
-export default function CartInForBuy({ data, token, id_cart, actionCheckOutCart, actionDeleteCart, actionMessagesCart }) {
+export default function CartInForBuy({
+  cart,
+  userByCart,
+  token,
+  id_cart,
+  actionCheckOutCart,
+  actionDeleteCart,
+  actionMessagesCart
+}) {
   //store
   const [form] = Form.useForm();
   const { TextArea } = Input;
-  const [visible, setVisible] = useState(false);
   const [isMessage, setIsMessage] = useState(false);
   const [loading, setLoading] = useState(false);
   const [contentMessage, setContentMessage] = useState('');
@@ -36,10 +42,10 @@ export default function CartInForBuy({ data, token, id_cart, actionCheckOutCart,
         setIsMessage(false)
       }
     }
-  }
+  };
   const onChangeTextArea = e => {
     setContentMessage(e.target.value.trim());
-  }
+  };
   const onSuccess = _id => {
     actionCheckOutCart(_id, token);
   };
@@ -58,75 +64,64 @@ export default function CartInForBuy({ data, token, id_cart, actionCheckOutCart,
         console.log('Cancel');
       },
     });
-  }
+  };
   return (
     <>
       <div className="group-info-buy-cart">
-        <h5>Tổng Số Tiền<p>{formatter.format(data.totalSum)} <u>đ</u></p></h5>
+        <h5>Tổng Số Tiền<p>{formatter.format(cart.totalSum)} <u>đ</u></p></h5>
         <div className="button-more-info">
           <Button
             type="primary"
             className="btn-error"
-            onClick={() => setIsMessage(true)}
+          // onClick={() => setIsMessage(true)}
           >
             <MessageOutlined /> Báo cáo lỗi
           </Button>
-          {data.status_order && (
+          {cart.status_order && (
             <Button
-              disabled={data.success ? true : false}
+              disabled={cart.success ? true : false}
               type="primary"
-              className={data.success ? "btn-success-order" : "btn-wait-order"}
+              className={cart.success ? "btn-success-order" : "btn-wait-order"}
               onClick={() => { onSuccess(id_cart) }}
             >
-              {data.success ? <CheckCircleOutlined /> : <LoadingOutlined />} Trạng Thái:  {!data.success ? 'Chờ Phê Duyệt' : 'Đã Phê Duyệt'}
+              {cart.success ? <CheckCircleOutlined /> : <LoadingOutlined />} Trạng Thái:  {!cart.success ? 'Chờ Phê Duyệt' : 'Đã Phê Duyệt'}
             </Button>
           )}
           <Button
             type="primary"
-            onClick={() => { setVisible(true) }}
-          >
-            <FileSearchOutlined />  Xem chi tiết đơn hàng
-        </Button>
-          <Button
-            type="primary"
             className="btn-delete-order"
-            onClick={() => { deleteCart(data._id) }}
+            onClick={() => { deleteCart(cart._id) }}
           >
             <DeleteOutlined />  Xóa giỏ hàng
           </Button>
-          {data.message && <p className="message">{data.message}</p>}
+          {cart.message && <p className="message">{cart.message}</p>}
         </div>
-        {!data.status_order && <span className="cancel">Đơn hàng đã hủy</span>}
-      </div>
-      <Drawer
-        title="Chi tiết Đơn Hàng"
-        width={500}
-        onClose={() => setVisible(false)}
-        visible={visible}
-        bodyStyle={{ padding: 10 }}
-        className="container-information"
-        placement="bottom"
-      >
-        <div className="group-modal-cart">
+        {!cart.status_order && <span className="cancel">Đơn hàng đã hủy</span>}
+        <div className="ground-address-cart">
           <div className="group-address-modal">
-            <span>Địa Chỉ:</span> <p>{data.address}</p>
+            <span>Địa Chỉ:</span> <p>{cart.address}</p>
           </div>
           <div className="group-phone-modal">
-            <span>Số Điện Thoại:</span> <p>{data.phone}</p>
+            <span>Số Điện Thoại:</span> <p>{cart.phone}</p>
           </div>
           <div className="group-payment-modal">
-            <span>Thanh Toán:</span> <p>{data.payment}</p>
+            <span>Thanh Toán:</span> <p>{cart.payment}</p>
           </div>
           <div className="group-time-modal">
             <span>Ngày Đặt Hàng:</span>
             <p>
-              {moment(data.timeCart).fromNow()}
+              {`${moment(cart.timeCart).fromNow()}, ${moment(cart.timeCart).format('LLLL')}`}
             </p>
-            <p> {moment(data.timeCart).format('LLLL')}</p>
+          </div>
+          <div className="ground-user-by-cart">
+            <ul>
+              <li> <span>Ảnh:</span><p> <Image style={{ width: '50px', borderRadius: '50%' }} src={userByCart.avatar} /></p></li>
+              <li> <span>Tên:</span><p class="name-user-by-cart">{userByCart.name}</p></li>
+              <li> <span>Email:</span><p>{userByCart.email}</p></li>
+            </ul>
           </div>
         </div>
-      </Drawer>
-
+      </div>
       {/*  */}
       <Modal
         visible={isMessage}
@@ -161,7 +156,6 @@ export default function CartInForBuy({ data, token, id_cart, actionCheckOutCart,
           />
           <p className="length-content-message">{contentMessage.length}/100</p>
         </Form.Item>
-
       </Modal>
     </>
   )

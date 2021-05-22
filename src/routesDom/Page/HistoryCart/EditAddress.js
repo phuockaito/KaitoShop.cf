@@ -172,7 +172,7 @@ export default function EditAddress({ id_card, actionPutCartAddressesAPI, token,
         >
           <TextArea
             placeholder="địa chỉ cụ thể: ấp, số nhà, tên đường..."
-            maxLength={200}
+            maxLength={70}
             rows={4}
           />
         </Form.Item>

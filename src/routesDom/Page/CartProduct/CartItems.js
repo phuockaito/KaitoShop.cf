@@ -95,9 +95,9 @@ export default function CartItems({
           }
         </div>
         <div className="card-total-money">
-          <div className="totle-money">
+          <div className="total-money">
             <h3>Thành tiền</h3>
-            <div className="group-totle-money">
+            <div className="group-total-money">
               <p>{formatter.format(showTotalAmount(dataCart))} <u>đ</u></p>
               <span>(Đã bao gồm VAT nếu có)</span>
             </div>

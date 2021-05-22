@@ -65,7 +65,7 @@ const UserContextProvider = ({ children }) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Header":
           "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-        "Access-Control-Allow-Methods": "PUT, POST, PUT, DELETE, GET",
+        "Access-Control-Allow-Methods": "PUT, POST, DELETE, GET",
       },
     });
     if (socketIo) {

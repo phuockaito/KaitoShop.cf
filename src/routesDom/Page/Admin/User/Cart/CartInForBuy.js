@@ -27,9 +27,6 @@ export default function CartInForBuy({ cart, token, id_cart, actionCheckOutCart,
       onOk() {
         actionDeleteCart(id_cart, token);
       },
-      onCancel() {
-        console.log('Cancel');
-      },
     });
   }
   return (
@@ -63,23 +60,12 @@ export default function CartInForBuy({ cart, token, id_cart, actionCheckOutCart,
           {cart.message && <p className="message">{cart.message}</p>}
         </div>
         {!cart.status_order && <span className="cancel">Đơn hàng đã hủy</span>}
-      </div>
-      {/* chi tiet cart */}
-      <Drawer
-        title="Chi tiết Đơn Hàng"
-        width={500}
-        onClose={() => setVisible(false)}
-        visible={visible}
-        bodyStyle={{ padding: 10 }}
-        className="container-information"
-        placement="bottom"
-      >
-        <div className="group-modal-cart">
+        <div className="ground-address-cart">
           <div className="group-address-modal">
             <span>Địa Chỉ:</span> <p>{cart.address}</p>
           </div>
           <div className="group-phone-modal">
-            <span>Số Điện Thoại:</span> <p>{cart.phone}</p>
+            <span>Số Điện Thoại:</span> <p>+84{cart.phone}</p>
           </div>
           <div className="group-payment-modal">
             <span>Thanh Toán:</span> <p>{cart.payment}</p>
@@ -87,12 +73,11 @@ export default function CartInForBuy({ cart, token, id_cart, actionCheckOutCart,
           <div className="group-time-modal">
             <span>Ngày Đặt Hàng:</span>
             <p>
-              {moment(cart.timeCart).fromNow()}
+              {`${moment(cart.timeCart).fromNow()}, ${moment(cart.timeCart).format('LLLL')}`}
             </p>
-            <p> {moment(cart.timeCart).format('LLLL')}</p>
           </div>
         </div>
-      </Drawer>
+      </div>
     </>
   )
 };

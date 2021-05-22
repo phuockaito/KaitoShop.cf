@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FileTextOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
+import { Select, Pagination } from 'antd';
 // API
 import { checkOutCart, deleteCart, messagesCart, getCart } from 'features/Admin/Cart/pathAPI';
 // component
@@ -26,26 +26,53 @@ export default function ListProduct() {
   const length = useSelector(state => state.cartAdmin.length);
   const [statusOrder, setStatusOrder] = useState('true-false');
   const [success, setSuccess] = useState('true-false');
+  const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(1);
+  const [current, setCurrent] = useState(1);
   // dispatch API
   const actionCheckOutCart = (id_cart, token) => dispatch(checkOutCart(id_cart, token));
   const actionDeleteCart = (id_cart, token) => dispatch(deleteCart(id_cart, token));
   const actionMessagesCart = (data, token) => dispatch(messagesCart(data, token));
   const actionGetCart = param => dispatch(getCart(param));
-  useEffect(() => {
+  // useEffecc
+  const functionGetCart = () => {
     const param = {
       success: success,
       status_order: statusOrder,
+      limit: limit,
+      page: page
     };
     actionGetCart(param);
+  };
+  useEffect(() => {
+    setPage(1);
+    setLimit(5);
+    setCurrent(1);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    functionGetCart();
   }, [success, statusOrder]);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+    functionGetCart();
+  }, [page]);
   const onChangeFilter = e => {
     setSuccess(e.value[0])
     setStatusOrder(e.value[1])
-  }
+  };
+  const onChangePagination = (page) => {
+    setCurrent(page)
+    setPage(page);
+  };
   return (
     <div className="ground-admin-list">
       <div className="container-admin-list">
-        <h3>Tất Cả {length === 0 ? '' : length} Danh Sách Mua Hàng </h3>
+        <h3>Tất Cả  {length > 0 && length} Danh Sách Mua Hàng </h3>
         <div className="filter-success">
           <Select
             labelInValue
@@ -72,13 +99,14 @@ export default function ListProduct() {
             !loading && data.map((cartItems, index) => (
               <div className="cart-items" key={index}>
                 <CartItem
-                  data={cartItems}
+                  data={cartItems.cart}
                   key={index}
                 />
                 <CartInForBuy
-                  data={cartItems}
+                  cart={cartItems.cart}
+                  userByCart={cartItems.user}
                   token={token}
-                  id_cart={cartItems._id}
+                  id_cart={cartItems.cart._id}
                   actionCheckOutCart={actionCheckOutCart}
                   actionDeleteCart={actionDeleteCart}
                   actionMessagesCart={actionMessagesCart}
@@ -86,8 +114,20 @@ export default function ListProduct() {
               </div>
             ))
           }
+          {
+            (!loading && length > 0) &&
+            <Pagination
+              onChange={onChangePagination}
+              total={length}
+              defaultPageSize={limit}
+              current={current}
+              style={{
+                textAlign: 'center'
+              }}
+            />
+          }
         </div>
       </div>
     </div>
   )
-}
+};

@@ -1,7 +1,6 @@
-import { Drawer, Button, Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import {
   EditOutlined,
-  FileSearchOutlined,
   LoadingOutlined,
   CheckCircleOutlined,
   CloseOutlined,
@@ -26,7 +25,7 @@ export default function CartInForBuy({
   loadingUpdateCartStatus,
   actionDeleteCartAPI }) {
   // create state
-  const [visible, setVisible] = useState(false);
+
   const [visibleEditAddress, setVisibleEditAddress] = useState(false);
   // function
   const CancelOrder = (id_card) => {
@@ -65,7 +64,7 @@ export default function CartInForBuy({
   }
   return (
     <div className="group-info-buy-cart">
-      <div className="group-sum-totale">
+      <div className="group-sum-total">
         <h5>Tổng Số Tiền<p>{formatter.format(data.totalSum)} <u>đ</u></p></h5>
         <div className="button-more-info">
           <Button
@@ -126,31 +125,14 @@ export default function CartInForBuy({
               </Button>
             )
           }
-          <Button
-            type="primary"
-            onClick={() => setVisible(true)}
-            className="show-button-more-info"
-          >
-            <FileSearchOutlined />
-                    Xem chi tiết đơn hàng
-          </Button>
           {data.message && <p className="message">{data.message}</p>}
         </div>
-      </div>
-      <Drawer
-        title="Chi tiết Đơn Hàng"
-        width={500}
-        onClose={() => setVisible(false)}
-        visible={visible}
-        bodyStyle={{ padding: 10 }}
-        placement="bottom"
-      >
-        <div className="group-modal-cart">
+        <div className="ground-address-cart">
           <div className="group-address-modal">
             <span>Địa Chỉ:</span> <p>{data.address}</p>
           </div>
           <div className="group-phone-modal">
-            <span>Số Điện Thoại:</span> <p>{data.phone}</p>
+            <span>Số Điện Thoại:</span> <p>+84{data.phone}</p>
           </div>
           <div className="group-payment-modal">
             <span>Thanh Toán:</span> <p>{data.payment}</p>
@@ -158,12 +140,11 @@ export default function CartInForBuy({
           <div className="group-time-modal">
             <span>Ngày Đặt Hàng:</span>
             <p>
-              {moment(data.timeCart).fromNow()}
+              {`${moment(data.timeCart).fromNow()}, ${moment(data.timeCart).format('LLLL')}`}
             </p>
-            <p> {moment(data.timeCart).format('LLLL')}</p>
           </div>
         </div>
-      </Drawer>
+      </div>
       <Modal
         title="Chỉnh sửa giao hàng"
         onClose={() => setVisibleEditAddress(false)}

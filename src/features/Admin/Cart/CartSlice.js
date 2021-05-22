@@ -32,10 +32,14 @@ const CartSlice = createSlice({
       state.LoadingCheckOutCart = true;
     },
     [checkOutCart.fulfilled]: (state, action) => {
-      const { cart } = action.payload;
       const { data } = state;
-      const index = data.findIndex(product => product._id === cart._id);
-      data[index] = cart;
+      const { cart, user } = action.payload.cart;
+      const index = data.findIndex(product => product.cart._id === cart._id);
+      if (index !== -1) {
+        data[index].cart = cart;
+        data[index].user = user;
+      };
+      console.log({ index })
       state.LoadingCheckOutCart = false;
     },
     [checkOutCart.rejected]: (state) => {
@@ -46,11 +50,13 @@ const CartSlice = createSlice({
       state.loadingDeleteCartAPI = true;
     },
     [deleteCart.fulfilled]: (state, action) => {
-      const { cart, length } = action.payload;
+      const { cart } = action.payload;
       const { data } = state;
-      const index = data.findIndex(product => product._id === cart._id);
-      data.splice(index, 1);
-      state.length = length;
+      const index = data.findIndex(product => product.cart._id === cart._id);
+      if (index !== -1) {
+        data.splice(index, 1);
+        state.length = state.length - 1;
+      }
       state.loadingDeleteCartAPI = false;
       message.success('Xóa thành công', 1.5);
     },
@@ -61,8 +67,10 @@ const CartSlice = createSlice({
     [messagesCart.fulfilled]: (state, action) => {
       const { cart } = action.payload;
       const { data } = state;
-      const index = data.findIndex(product => product._id === cart._id);
-      data[index] = cart;
+      const index = data.findIndex(product => product.cart._id === cart._id);
+      if (index !== -1) {
+        data[index] = cart;
+      }
     }
   }
 });
