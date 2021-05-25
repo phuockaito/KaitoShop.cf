@@ -10,7 +10,7 @@ export default function CartItem({ data }) {
           </div>
           <div className="history-card-name">
             <Link
-              to={`/${data.product.key}/${data.product.NSX.replace(/ /g, '-')}/${data.product.name.replace(/ /g, '-')}/${data.product._id}`}
+              to={`/detail-products?id_product=${data.product._id}&key=${data.product.key}`}
             >
               <p>{data.product.name} - <span>Size: {data.product.size}</span> </p>
             </Link>

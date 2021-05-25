@@ -15,7 +15,8 @@ export default function ListUser({
   setIdUser,
   token,
   actionDeleteAccountUser,
-  actionPostActiveRoleUser
+  actionPostActiveRoleUser,
+  actionDeleteAllCart
 }) {
   const [idRole, setIdRole] = useState(null);
   const [booleanRole, setBooleanRole] = useState(null);
@@ -25,6 +26,9 @@ export default function ListUser({
     }
     actionDeleteAccountUser({ params }, token);
   };
+  const deleteAllCart = _id_user => {
+    actionDeleteAllCart(_id_user, token);
+  }
   const onChangeRole = (boolean) => {
     setBooleanRole(boolean)
   };
@@ -43,7 +47,8 @@ export default function ListUser({
       }
       actionPostActiveRoleUser(data, token);
     }
-  }, [idRole, booleanRole])
+  }, [idRole, booleanRole]);
+
   const Columns = [
     {
       title: 'ID',
@@ -184,31 +189,40 @@ export default function ListUser({
         showTitle: false,
       },
       render: (length_cart, { user }) => (
-        <>
-          <span
-            style={{ paddingBottom: '5px', display: 'block' }}
-          >
-            <Badge
-              style={{ backgroundColor: '#f5222d' }}
-              count={length_cart}
-              overflowCount={9}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <div style={{ marginRight: '8px', }}>
+            <span
+              style={{ paddingBottom: '5px', display: 'block' }}
             >
-            </Badge>
-          </span>
-          <ShoppingCartOutlined
-            onClick={
-              () => {
-                setIdUser(user._id);
-                setOpenCartUser(true)
+              <Badge
+                style={{ backgroundColor: '#f5222d' }}
+                count={length_cart}
+                overflowCount={9}
+              >
+              </Badge>
+            </span>
+            <ShoppingCartOutlined
+              onClick={
+                () => {
+                  setIdUser(user._id);
+                  setOpenCartUser(true)
+                }
               }
-            }
-            style={{
-              color: '#f5222d',
-              fontSize: '1.2em',
-              cursor: 'pointer'
-            }}
-          />
-        </>
+              style={{ color: '#f5222d', fontSize: '1.2em', cursor: 'pointer' }}
+            />
+          </div>
+          <Popconfirm Popconfirm
+            title="Bạn Chắc chắn xóa tất cả giỏ hàng tài khoản này không ?"
+            onConfirm={() => deleteAllCart(user._id)}
+            okText="Có"
+            cancelText="Không"
+            placement="leftTop"
+          >
+            <DeleteOutlined
+              style={{ color: 'red', fontSize: '1.2em', top: '9px', position: 'relative', marginLeft: '15px', cursor: 'pointer' }}
+            />
+          </Popconfirm>
+        </div>
       )
     },
     {
@@ -257,7 +271,7 @@ export default function ListUser({
                   }} />
                 :
                 < Popconfirm
-                  title="Bạn Chắc chắn để xóa tài khoản này không ?"
+                  title="Bạn Chắc chắn xóa tài khoản này không ?"
                   onConfirm={() => deleteAccountUser(user._id)}
                   okText="Có"
                   cancelText="Không"
@@ -274,7 +288,7 @@ export default function ListUser({
           </>
         );
       },
-    }
+    },
   ];
   const handleTableChange = (pagination) => {
     const { current, pageSize } = pagination;

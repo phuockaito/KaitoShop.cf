@@ -15,20 +15,22 @@ export default function EditProduct() {
   const { id_product } = useRouteMatch().params;
   //state
   const [valuesEdit, setValuesEdit] = useState(1);
-  const dataProductsEdit = useSelector(state => state.productId.data);
+  const dataProductsEdit = useSelector(state => state.productId.product);
+  const length = useSelector(state => state.productId.length);
   const loading = useSelector(state => state.productId.loading);
   // dispatch action
   const actionGetProductId = id => dispatch(getProductId(id));
   const actionUpdateProduct = (data, token) => dispatch(updateToProduct(data, token));
-
+  console.log(dataProductsEdit)
+  console.log(length)
   useEffect(() => {
     actionGetProductId(id_product);
     window.scrollTo({
       top: 0,
       behavior: "smooth"
     });
-    if (dataProductsEdit.length > 0) {
-      const { name, price, sex, key, NSX, collections, productType, description, poster, color, size } = dataProductsEdit[0];
+    if (id_product) {
+      const { name, price, sex, key, NSX, collections, productType, description, poster, color, size } = dataProductsEdit;
       const data = {
         price: price,
         name: name,
@@ -44,12 +46,12 @@ export default function EditProduct() {
       }
       setValuesEdit(data);
     }
-  }, [dataProductsEdit.length > 0, id_product]);
+  }, [id_product]);
   return (
     <div className="ground-edit-product">
       <div className="container-edit-product">
         {loading && <LoadingPage />}
-        {(!loading && dataProductsEdit.length > 0) ? <FormProduct
+        {(!loading && dataProductsEdit) ? <FormProduct
           id_product={id_product}
           valuesEdit={valuesEdit}
           actionUpdateProduct={actionUpdateProduct}

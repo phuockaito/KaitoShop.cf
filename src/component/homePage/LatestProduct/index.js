@@ -46,7 +46,7 @@ export default function LatestProduct({ data, loading }) {
             data.map((listProduct) => (
               <div className="item-products-list" key={listProduct._id} data-aos="zoom-in">
                 <Link
-                  to={`/${listProduct.key}/${listProduct.NSX.replace(/ /g, '-')}/${listProduct.name.replace(/ /g, '-')}/${listProduct._id}`}
+                  to={`/detail-products?id_product=${listProduct._id}&key=${listProduct.key}`}
                 >
                   <div className="ig-products-list">
                     <LazyLoadImage

@@ -42,7 +42,7 @@ export default function ListItem({
             </div>
             <div className="margin-history-comment name-history-comment">
               <Link
-                to={`/${comment.array_product[0].key}/${comment.array_product[0].NSX.replace(/ /g, "-")}/${comment.array_product[0].name.replace(/ /g, "-")}/${comment.array_product[0]._id}`}
+                to={`/detail-products?id_product=${comment.array_product[0]._id}&key=${comment.array_product[0].key}`}
               >
                 {comment.array_product[0].name}
               </Link>

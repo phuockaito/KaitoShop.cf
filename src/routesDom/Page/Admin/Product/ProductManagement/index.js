@@ -104,7 +104,7 @@ export default function ProductManagement() {
 
         <Tooltip Tooltip placement="topLeft" title={product.name} >
           <Link
-            to={`/${product.key}/${product.NSX.replace(/ /g, '-')}/${product.name.replace(/ /g, '-')}/${product._id}`}
+            to={`/detail-products?id_product=${product._id}&key=${product.key}`}
           >
             <Tag
               color="#f5222d"

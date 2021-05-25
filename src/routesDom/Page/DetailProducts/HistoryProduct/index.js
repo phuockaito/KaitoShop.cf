@@ -50,7 +50,7 @@ export default function HistoryProduct({ _id, historyProduct }) {
             data.map((listProduct) => (
               <div className="item-products-list" key={listProduct._id}>
                 <Link
-                  to={`/${listProduct.key}/${listProduct.NSX.replace(/ /g, '-')}/${listProduct.name.replace(/ /g, '-')}/${listProduct._id}`}
+                  to={`/detail-products?id_product=${listProduct._id}&key=${listProduct.key}`}
                 >
                   <div className="ig-products-list">
                     <img src={listProduct.poster[0].url} />

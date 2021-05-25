@@ -49,7 +49,7 @@ function SliderHome({ data, loading }) {
             data.map(slider => (
               <div className="iteml-silder" key={slider._id} data-aos="zoom-in">
                 <Link
-                  to={`/${slider.key}/${slider.NSX.replace(/ /g, '-')}/${slider.name.replace(/ /g, '-')}/${slider._id}`}
+                  to={`/detail-products?id_product=${slider._id}&key=${slider.key}`}
                 >
                   <div className="ig-silder">
                     <LazyLoadImage

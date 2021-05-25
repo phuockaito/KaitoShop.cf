@@ -52,7 +52,7 @@ export default function CommentUser({
       render: array_product => (
         <Tooltip placement="top" title='Click để xem'>
           <Link
-            to={`/${array_product[0].key}/${array_product[0].NSX.replace(/ /g, "-")}/${array_product[0].name.replace(/ /g, "-")}/${array_product[0]._id}`}
+            to={`/detail-products?id_product=${array_product[0]._id}&key=${array_product[0].key}`}
           >
             < Avatar
               size={64}

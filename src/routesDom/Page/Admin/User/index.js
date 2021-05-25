@@ -8,7 +8,8 @@ import {
   deleteCommentUser,
   deleteAccountUser,
   getListCartUser,
-  postActiveRoleUser
+  postActiveRoleUser,
+  deleteAllCart
 } from 'features/Admin/User/pathAPI';
 // Context
 import { UserContext } from 'contexts/UserContext';
@@ -31,6 +32,7 @@ export default function UserManage() {
   const actionDeleteCommentUser = (params, token) => dispatch(deleteCommentUser(params, token));
   const actionDeleteAccountUser = (params, token) => dispatch(deleteAccountUser(params, token));
   const actionPostActiveRoleUser = (id_user, token) => dispatch(postActiveRoleUser(id_user, token));
+  const actionDeleteAllCart = (id_user, token) => dispatch(deleteAllCart(id_user, token));
   // create state
   const state = useContext(UserContext);
   const [token] = state.token;
@@ -137,6 +139,7 @@ export default function UserManage() {
                 token={token}
                 actionDeleteAccountUser={actionDeleteAccountUser}
                 actionPostActiveRoleUser={actionPostActiveRoleUser}
+                actionDeleteAllCart={actionDeleteAllCart}
               />
             }
             {idUser &&

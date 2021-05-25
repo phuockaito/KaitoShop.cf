@@ -31,3 +31,8 @@ export const postActiveRoleUser = createAsyncThunk('activeRoleUser', async (id_u
   return response;
 });
 
+export const deleteAllCart = createAsyncThunk('deleteCartAll', async (id_user, token) => {
+  const response = await UserSlice.deleteAllCart(id_user, token);
+  return response;
+});
+

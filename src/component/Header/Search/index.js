@@ -1,18 +1,25 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { SearchOutlined } from '@ant-design/icons';
 import { Form, Button, Input } from 'antd';
 import './style.css';
 export default function Search() {
-  const [keyWord, setKeyWord] = useState('');
+  const history = useHistory();
   const [isFormValid, setIsFormValid] = useState(true);
   const [openSearch, setOpenSearch] = useState(false);
   const onChangeKeyWord = e => {
-    setKeyWord(e.target.value);
     if (e.target.value.trim() === '') {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
+    }
+  };
+
+  const submitSearch = e => {
+    if (e) {
+      const search = e.keyWord.trim().replace(/ /g, '-');
+      const url = `/search?query=${search}`;
+      history.push(url);
     }
   };
   { openSearch ? document.querySelector('body').classList.add('active') : document.querySelector('body').classList.remove('active') }
@@ -23,12 +30,15 @@ export default function Search() {
         onClick={() => setOpenSearch(true)}
       />
       <div className={`search ${openSearch && 'open'}`}>
-        <Form>
+        <Form
+          onFinish={submitSearch}
+        >
           <div className="input-search">
             <Form.Item
               name="keyWord"
             >
               <Input
+                // ref={refContainer}
                 className="keyword-search"
                 onChange={onChangeKeyWord}
                 placeholder="Tìm sản phẩm, danh mục hay thương hiệu mong muốn ..."
@@ -36,20 +46,18 @@ export default function Search() {
             </Form.Item>
           </div>
           <div className="icon-search">
-            <Link to={`/search/${keyWord.trim()}`} >
-              <Button
-                htmlType="submit"
-                type="primary"
-                disabled={isFormValid}
-                className='btn-search'
+            <Button
+              htmlType="submit"
+              type="primary"
+              disabled={isFormValid}
+              className='btn-search'
+              onClick={() => setOpenSearch(false)}
+            >
+              <SearchOutlined
+                style={{ color: 'white', fontSize: '1.2em', display: 'block' }}
                 onClick={() => setOpenSearch(false)}
-              >
-                <SearchOutlined
-                  style={{ color: 'white', fontSize: '1.2em', display: 'block' }}
-                  onClick={() => setOpenSearch(false)}
-                />
-              </Button>
-            </Link>
+              />
+            </Button>
           </div>
         </Form>
       </div>

@@ -42,7 +42,7 @@ export default function ListItems({ data }) {
         data.map(product => (
           <div className="item-products-search" key={product._id} data-aos="zoom-in">
             <Link
-              to={`/${product.key}/${product.NSX.replace(/ /g, '-')}/${product.name.replace(/ /g, '-')}/${product._id}`}
+              to={`/detail-products?id_product=${product._id}&key=${product.key}`}
             >
               <div className="ig-products-search">
                 <LazyLoadImage

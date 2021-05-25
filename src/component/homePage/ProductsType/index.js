@@ -46,7 +46,7 @@ function ProductsType({ data, loading }) {
             data.map(product => (
               <div className="item-products-type" key={product._id} data-aos="zoom-in">
                 <Link
-                  to={`/${product.key}/${product.NSX.replace(/ /g, '-')}/${product.name.replace(/ /g, '-')}/${product._id}`}
+                  to={`/detail-products?id_product=${product._id}&key=${product.key}`}
                 >
                   <div className="ig-products-type">
                     <LazyLoadImage

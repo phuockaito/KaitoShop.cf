@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUser, getListCommentsUser, deleteCommentUser, deleteAccountUser, getListCartUser, postActiveRoleUser } from './pathAPI';
+import {
+  getUser,
+  getListCommentsUser,
+  deleteCommentUser,
+  deleteAccountUser,
+  getListCartUser,
+  postActiveRoleUser,
+  deleteAllCart
+} from './pathAPI';
 import { checkOutCart, deleteCart } from '../Cart/pathAPI';
 import { message } from 'antd';
 const UserSlice = createSlice({
@@ -122,9 +130,7 @@ const UserSlice = createSlice({
     [getListCommentsUser.rejected]: state => {
       state.loadingDeleteAccount = false;
     },
-    [postActiveRoleUser.pending]: state => {
-
-    },
+    // active user and admin account
     [postActiveRoleUser.fulfilled]: (state, action) => {
       const { id_user, role } = action.payload;
       const index = state.user.findIndex(ur => ur.user._id === id_user);
@@ -132,8 +138,14 @@ const UserSlice = createSlice({
         state.user[index].user.role = role;
       }
     },
-    [postActiveRoleUser.rejected]: state => {
-
+    // delete all cart user
+    [deleteAllCart.fulfilled]: (state, action) => {
+      const { id_user, length } = action.payload;
+      const index = state.user.findIndex(ur => ur.user._id === id_user);
+      if (index !== -1) {
+        state.user[index].length_cart = length;
+        message.success('Xóa Thành Công', 1.5);
+      }
     }
   }
 });

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Popconfirm } from 'antd';
+import queryString from 'query-string';
 // API
 import { getProductId, getProductType } from "features/Product/pathAPI";
 import { getCommentOne } from "features/Comment/pathAPI";
@@ -21,18 +22,20 @@ import NotFount from '../NotFount/index';
 import { UserContext } from "contexts/UserContext";
 // --CSS
 import "./style.css";
-export default function DetailProducts() {
-  let historyProduct = JSON.parse(localStorage.getItem("historyProduct")) || [];
-  const { key, name, _id, nsx } = useRouteMatch().params;
+export default function DetailProducts({ location }) {
+  const { id_product } = queryString.parse(location.search);
+  const { key } = queryString.parse(location.search);
+  const page = Number(queryString.parse(location.search).page) || 1;
+  const page_cmt = Number(queryString.parse(location.search).page_cmt) || 1;
+  let historyProduct = JSON.parse(localStorage.getItem("history_product")) || [];
+  // state default
   const history = useHistory();
-  document.querySelector("title").innerHTML = name.replace(/-/g, " ");
   const dispatch = useDispatch();
   // dispatch API
   const getProductTypeAPI = (param) => dispatch(getProductType(param));
   const actionAddToCart = cart => dispatch(addCartProduct(cart));
   const actionDeleteProduct = (id, token) => dispatch(deleteToProduct(id, token));
   // create state
-  const [pageComment, setPageComment] = useState(1);
   const state = useContext(UserContext);
   const { socket } = state;
   const [user,] = state.user;
@@ -40,12 +43,14 @@ export default function DetailProducts() {
   const items = 20;
   // Data Product ID
   const loading = useSelector(state => state.productId.loading);
-  const [dataProductsId, setDataProductsId] = useState([]);
+  const [dataProductsId, setDataProductsId] = useState(null);
   const isAdmin = useSelector(state => state.user.isAdmin);
+  { dataProductsId && (document.querySelector("title").innerHTML = dataProductsId.name) }
   // Data Product See More
   const dataProductsType = useSelector(state => state.type.listProductSlider);
   const lengthProductsType = useSelector(state => state.type.length);
   const loadingProductsType = useSelector(state => state.type.loading);
+  const [pageUrl, setPageUrl] = useState(page);
   // Data Comment
   const loadingComet = useSelector(state => state.comment.loading);
   const [lengthComment, setLengthComment] = useState(null);
@@ -55,12 +60,13 @@ export default function DetailProducts() {
   const [starRating, setStarRating] = useState([]);
   const [reviewRating, setReviewRating] = useState(0);
   const [loadingDeleteProduct, setLoadingDeleteProduct] = useState(false);
+  const [pageUrlCmt, setPageUrlCmt] = useState(page_cmt);
   // Join room
   useEffect(() => {
     if (socket) {
-      socket.emit("joinRoom", _id);
+      socket.emit("joinRoom", id_product);
     }
-  }, [socket, _id]);
+  }, [socket, id_product]);
   // delete reply comment
   useEffect(() => {
     if (socket) {
@@ -173,69 +179,96 @@ export default function DetailProducts() {
     return () => socket.off("serverUserUpdateComment");
   }, [socket, dataComment]);
   // get comment
-  useEffect(() => {
-    const fetchComment = async () => {
-      const paramsComment = {
-        _id_product: _id,
-        page: pageComment,
-        limit: 5,
-      };
-      const resultComment = await dispatch(getCommentOne(paramsComment));
-      const comment = unwrapResult(resultComment);
-      if (comment) {
-        setDataComment(comment.data);
-        setLengthComment(comment.length);
-        setStarRating(comment.starRating);
-        setSumStarRating(comment.sumStarRating);
-        setReviewRating(comment.reviewRating);
-      }
+  const fetchComment = async (idProduct) => {
+    const paramsComment = {
+      _id_product: idProduct,
+      page: pageUrlCmt,
+      limit: 5,
     };
-    fetchComment();
-  }, [pageComment, _id]);
+    const resultComment = await dispatch(getCommentOne(paramsComment));
+    const comment = unwrapResult(resultComment);
+    if (comment) {
+      setDataComment(comment.data);
+      setLengthComment(comment.length);
+      setStarRating(comment.starRating);
+      setSumStarRating(comment.sumStarRating);
+      setReviewRating(comment.reviewRating);
+    }
+  };
+  useEffect(() => {
+    if (id_product) {
+      fetchComment(id_product);
+    }
+  }, [pageUrlCmt, id_product]);
   //  get one product
-  const fetchProductIdAPI = async () => {
+  const fetchProductIdAPI = async (idProduct) => {
     const paramsType = {
       name: key,
-      page: 1,
+      page: page,
       sort_price: 0,
     };
     // fetch API Product See More
-    const resultProduct = await dispatch(getProductId(_id));
+    const resultProduct = await dispatch(getProductId(idProduct));
     dispatch(getProductType(paramsType));
     const currentProduct = unwrapResult(resultProduct);
-    setDataProductsId(currentProduct.data);
+    setDataProductsId(currentProduct.product);
   };
   // historyProductOld
   const showHistoryProduct = () => {
     const historyProductOld = [...historyProduct];
     historyProductOld.forEach((product, index) => {
-      if (product === null || product._id === _id) {
+      if (product === null || product._id === id_product) {
         historyProductOld.splice(index, 1);
       }
     });
-    historyProductOld.unshift(dataProductsId[0]);
-    localStorage.setItem("historyProduct", JSON.stringify(historyProductOld));
-  }
+    historyProductOld.unshift(dataProductsId);
+    localStorage.setItem("history_product", JSON.stringify(historyProductOld));
+  };
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    fetchProductIdAPI();
+    if (id_product) {
+      fetchProductIdAPI(id_product);
+      setPageUrl(1);
+      setPageUrlCmt(1);
+    };
     showHistoryProduct();
-  }, [_id, key]);
-  // onClick
-  const onChangePage = (_page) => {
+  }, [id_product]);
+  useEffect(() => {
     const param = {
       items: items,
       name: key,
-      page: _page,
+      page: pageUrl,
       sort_price: 0,
     };
     getProductTypeAPI(param);
+  }, [pageUrl])
+  // onClick
+  const onChangePageSeenMoreProduct = (_page) => {
+    setPageUrl(_page);
+    const data = {
+      id_product: id_product,
+      key: key,
+      page: _page,
+      page_cmt: pageUrlCmt
+    };
+    const params = queryString.stringify(data);
+    const url = `/detail-products?${params}`;
+    history.push(url);
   };
   const onChangePageComment = (_page) => {
-    setPageComment(pageComment + _page);
+    setPageUrlCmt(pageUrlCmt + _page);
+    const data = {
+      id_product: id_product,
+      key: key,
+      page_cmt: pageUrlCmt + 1,
+      page: pageUrl
+    };
+    const params = queryString.stringify(data);
+    const url = `/detail-products?${params}`;
+    history.push(url);
   };
   const actionCheckDeleteCmt = () => {
     setCheckDeleteCmt(true);
@@ -267,22 +300,22 @@ export default function DetailProducts() {
       {loadingDeleteProduct && <LoadingPage />}
       {
         // kiểm tra sản phẩm có hay không
-        dataProductsId.length > 0 ?
+        dataProductsId ?
           <div className="container-detail-products">
             <div className="group-detail">
               {/* link nguồn sản phẩm */}
               <div className="link-group">
                 <Link to="/">Trang chủ</Link>
-                <Link to={`/product/${key}`}>{key}</Link>
-                <Link to={`/products/${key}/${nsx}`}>{nsx.replace(/-/g, " ")}</Link>
-                <span style={{ color: "#ec1839", fontWeight: '550' }}>{name.replace(/-/g, " ")}</span>
+                <Link to={`/product?trademark=${dataProductsId.key.replace(/ /g, '-')}`}>{dataProductsId.key}</Link>
+                <Link to={`/product-type?nsx=${dataProductsId.NSX.replace(/ /g, '-')}`}>{dataProductsId.NSX}</Link>
+                <span style={{ color: "#ec1839", fontWeight: '550' }}>{dataProductsId.name}</span>
               </div>
               {/* hiện chỉnh sữa và xóa nếu nó là  admin */}
               {
                 isAdmin && token && <div className="ground-btn-admin">
                   <Popconfirm
                     title="Chắc chắn để xóa ?"
-                    onConfirm={() => onDeleteProduct(_id)}
+                    onConfirm={() => onDeleteProduct(id_product)}
                     okText="Có"
                     cancelText="Không"
                     placement="bottom"
@@ -292,7 +325,7 @@ export default function DetailProducts() {
                   </Button>
                   </Popconfirm>
                   <Button type="primary">
-                    <Link to={`/admin-edit-product/${_id}`}> Chỉnh Sữa</Link>
+                    <Link to={`/admin-edit-product/${id_product}`}> Chỉnh Sữa</Link>
                   </Button>
                 </div>
               }
@@ -300,7 +333,7 @@ export default function DetailProducts() {
               <InForProduct dataProductsId={dataProductsId} actionAddToCart={actionAddToCart} />
               {/* show tất cả bình luận và from viết bình luận */}
               <Comment
-                idProduct={_id}
+                idProduct={id_product}
                 lengthComment={lengthComment}
                 dataComment={dataComment}
                 onChangePageComment={onChangePageComment}
@@ -311,19 +344,20 @@ export default function DetailProducts() {
                 actionCheckDeleteCmt={actionCheckDeleteCmt}
                 sumStarRating={sumStarRating}
                 starRating={starRating}
-                nameProduct={name}
+                nameProduct={dataProductsId.name}
                 reviewRating={reviewRating}
               />
               {/* sản phẩm đề xuất */}
               <SeeMoreProduct
                 items={items}
                 data={dataProductsType}
-                onChangePage={onChangePage}
+                onChangePage={onChangePageSeenMoreProduct}
                 lengthProductsType={lengthProductsType}
                 loading={loadingProductsType}
+                pageUrl={pageUrl}
               />
               {/* hiện các sản phẩm đã xem */}
-              <HistoryProduct historyProduct={historyProduct} _id={_id} />
+              <HistoryProduct historyProduct={historyProduct} _id={id_product} />
             </div>
           </div>
           // nếu sản phẩm không có sẽ hiện trang rỗng

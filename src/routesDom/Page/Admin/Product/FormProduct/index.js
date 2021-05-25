@@ -93,7 +93,7 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
                 behavior: "smooth"
               });
               let linkProduct = resProduct.product;
-              setLinkNewProduct(`/${linkProduct.key}/${linkProduct.NSX.replace(/ /g, '-')}/${linkProduct.name.replace(/ /g, '-')}/${linkProduct._id}`)
+              setLinkNewProduct(`/detail-products?id_product=${linkProduct._id}&key=${linkProduct.key}`)
               notification['success']({
                 message: 'Thông Báo !',
                 description: 'Cập nhật thành công '
@@ -123,7 +123,7 @@ export default function FormProduct({ actionPostAddProduct, id_product, valuesEd
               behavior: "smooth"
             });
             let linkProduct = resProduct.product;
-            setLinkNewProduct(`${linkProduct.key}/${linkProduct.NSX.replace(/ /g, '-')}/${linkProduct.name.replace(/ /g, '-')}/${linkProduct._id}`)
+            setLinkNewProduct(`/detail-products?id_product=${linkProduct._id}&key=${linkProduct.key}`)
             notification['success']({
               message: 'Thông Báo !',
               description: 'Thêm mới thành công'

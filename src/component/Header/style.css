@@ -14,7 +14,6 @@
 	grid-template-columns: 17% 70% 5% 8%;
 	align-items: center;
 	justify-content: center;
-	grid-gap: 10px;
 }
 .main-item-card {
 	justify-self: baseline;

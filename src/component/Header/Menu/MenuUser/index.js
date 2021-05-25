@@ -36,7 +36,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
               Adidas.map((menu, key) => (
                 <li key={key} >
                   <Link
-                    to={`/products/adidas/${menu.replace(/ /g, "-")}`}
+                    to={`/product-type?nsx=${menu.replace(/ /g, "-")}`}
                     onClick={onClickCloseMenu}
                   >
                     {menu}
@@ -61,7 +61,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
               Nike.map((menu, key) => (
                 <li key={key} >
                   <Link
-                    to={`/products/nike/${menu.replace(/ /g, "-")}`}
+                    to={`/product-type?nsx=${menu.replace(/ /g, "-")}`}
                     onClick={onClickCloseMenu}
                   >
                     {menu}
@@ -85,7 +85,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
               Vans.map((menu, key) => (
                 <li key={key} >
                   <Link
-                    to={`/products/vans/${menu.replace(/ /g, "-")}`}
+                    to={`/product-type?nsx=${menu.replace(/ /g, "-")}`}
                     onClick={onClickCloseMenu}
                   >
                     {menu}
@@ -109,7 +109,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
               NewBalance.map((menu, key) => (
                 <li key={key} >
                   <Link
-                    to={`/products/new-balance/${menu.replace(/ /g, "-")}`}
+                    to={`/product-type?nsx=${menu.replace(/ /g, "-")}`}
                     onClick={onClickCloseMenu}
                   >
                     {menu}
@@ -133,7 +133,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
               Puma.map((menu, key) => (
                 <li key={key} >
                   <Link
-                    to={`/products/puma/${menu.replace(/ /g, "-")}`}
+                    to={`/product-type?nsx=${menu.replace(/ /g, "-")}`}
                     onClick={onClickCloseMenu}
                   >
                     {menu}
@@ -157,7 +157,7 @@ export default function MenuUser({ list_menu, onClickCloseMenu, Link }) {
               Converse.map((menu, key) => (
                 <li key={key} >
                   <Link
-                    to={`/products/converse/${menu.replace(/ /g, "-")}`}
+                    to={`/product-type?nsx=${menu.replace(/ /g, "-")}`}
                     onClick={onClickCloseMenu}
                   >
                     {menu}

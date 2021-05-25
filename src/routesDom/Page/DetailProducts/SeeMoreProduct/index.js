@@ -6,7 +6,7 @@ import $ from "jquery";
 import Loading from 'component/LoadingBtn/index';
 import './style.css';
 const formatter = new Intl.NumberFormat('vn');
-export default function SeeMoreProduct({ items, data, onChangePage, lengthProductsType, loading }) {
+export default function SeeMoreProduct({ items, data, onChangePage, lengthProductsType, loading, pageUrl }) {
   // state
   const onChangePagination = (page) => {
     onChangePage(page);
@@ -19,6 +19,7 @@ export default function SeeMoreProduct({ items, data, onChangePage, lengthProduc
           onChange={onChangePagination}
           total={length}
           defaultPageSize={items}
+          current={pageUrl}
         />
       )
     }
@@ -64,7 +65,7 @@ export default function SeeMoreProduct({ items, data, onChangePage, lengthProduc
             data.map((listProduct) => (
               <div className="item-products-see-more" key={listProduct._id} data-aos="zoom-in">
                 <Link
-                  to={`/${listProduct.key}/${listProduct.NSX.replace(/ /g, '-')}/${listProduct.name.replace(/ /g, '-')}/${listProduct._id}`}
+                  to={`/detail-products?id_product=${listProduct._id}&key=${listProduct.key}`}
                 >
                   <div className="ig-see-more">
                     <LazyLoadImage

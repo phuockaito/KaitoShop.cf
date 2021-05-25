@@ -62,7 +62,8 @@ export default function CartItems({
                 </div>
                 <div className="card-name">
                   <Link title='Xem chi tiết'
-                    to={`/${card.product.key}/${card.product.NSX.replace(/ /g, '-')}/${card.product.name.replace(/ /g, '-')}/${card.product._id}`}>
+                    to={`/detail-products?id_product=${card.product._id}&key=${card.product.key}`}
+                  >
                     <p>{card.product.name} - <span>size {card.product.size}</span></p>
                   </Link>
                 </div>

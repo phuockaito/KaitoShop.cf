@@ -14,42 +14,42 @@ export default function Trademark() {
         <ul>
           <li>
             <Link
-              to="/product/adidas"
+              to="/product?trademark=adidas"
             >
               <img src={adidas} alt="adidas" />
             </Link>
           </li>
           <li>
             <Link
-              to="/product/converse"
+              to="/product?trademark=converse"
             >
               <img src={converse} alt="converse" />
             </Link>
           </li>
           <li>
             <Link
-              to="/product/newBalance"
+              to="/product?trademark=newBalance"
             >
               <img src={newBalance} alt="newBalance" />
             </Link>
           </li>
           <li>
             <Link
-              to="/product/nike"
+              to="/product?trademark=nike"
             >
               <img src={nike} alt="nike" />
             </Link>
           </li>
           <li>
             <Link
-              to="/product/puma"
+              to="/product?trademark=puma"
             >
               <img src={puma} alt="puma" />
             </Link>
           </li>
           <li>
             <Link
-              to="/product/vans"
+              to="/product?trademark=vans"
             >
               <img src={vans} alt="vans" />
             </Link>

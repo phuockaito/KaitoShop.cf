@@ -63,6 +63,10 @@ const adminAPI = {
   postActiveRoleUser: (id_user, token) => {
     const url = "/admin/active-role-user";
     return axiosClient.post(url, id_user, token);
-  }
+  },
+  deleteAllCart: (id_user, token) => {
+    const url = `/admin/delete-all-cart?_id_user=${id_user}`;
+    return axiosClient.delete(url, null, token);
+  },
 };
 export default adminAPI;

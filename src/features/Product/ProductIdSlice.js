@@ -5,7 +5,7 @@ import { getProductId } from './pathAPI';
 const ListProductsSlice = createSlice({
   name: 'productId',
   initialState: {
-    data: [],
+    product: [],
     loading: true
   },
   reducers: {},
@@ -15,10 +15,10 @@ const ListProductsSlice = createSlice({
     },
     [getProductId.fulfilled]: (state, action) => {
       state.loading = false;
-      state.data = action.payload.data;
+      state.product = action.payload.product;
     }
     ,
-    [getProductId.rejected]: (state, action) => {
+    [getProductId.rejected]: (state) => {
       state.loading = false;
     }
   }

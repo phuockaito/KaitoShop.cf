@@ -19,22 +19,22 @@ const Page = [
     main: Home,
   },
   {
-    path: '/search/:keyWord',
+    path: '/search',
     exact: true,
     main: Search,
   },
   {
-    path: '/product/:name_Trademark',
+    path: '/product',
     exact: true,
     main: Trademark,
   },
   {
-    path: '/:key/:nsx/:name/:_id',
+    path: '/detail-products',
     exact: true,
     main: DetailProducts,
   },
   {
-    path: '/products/:key/:NSX',
+    path: '/product-type',
     exact: true,
     main: TrademarkType,
   },
