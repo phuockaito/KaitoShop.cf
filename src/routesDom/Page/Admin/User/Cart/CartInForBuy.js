@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Drawer, Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import 'moment/locale/vi';

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { Pagination, Select } from 'antd';
@@ -12,16 +12,13 @@ import ListItems from './ListItems';
 import './style.css';
 export default function TrademarkType({ location }) {
   const { nsx } = queryString.parse(location.search);
-  const page = Number(queryString.parse(location.search).page);
-  const sort_price = Number(queryString.parse(location.search).sort_price);
+  const page = Number(queryString.parse(location.search).page) || 1;
+  const sort_price = Number(queryString.parse(location.search).sort_price) || 0;
   const dispatch = useDispatch();
   const history = useHistory();
   const { Option } = Select;
   document.querySelector('title').innerHTML = nsx.replace(/-/g, ' ').toUpperCase();
   // state
-  const [pageUrl, setPageUrl] = useState(page);
-  const [sortPrice, setSortPrice] = useState(sort_price);
-  const [current, setCurrent] = useState(page);
   const items = 20;
   // store
   const dataTrademarkType = useSelector(state => state.trademarkType.data);
@@ -36,9 +33,6 @@ export default function TrademarkType({ location }) {
         top: 0,
         behavior: "smooth"
       });
-      setCurrent(1);
-      setSortPrice(0);
-      setPageUrl(1);
       const params = {
         page: 1,
         sort_price: 0,
@@ -56,38 +50,20 @@ export default function TrademarkType({ location }) {
         behavior: "smooth"
       });
       const params = {
-        page: pageUrl,
-        sort_price: sortPrice,
+        page: page,
+        sort_price: sort_price,
         items: items,
         nsx: nsx,
       };
       actionGetProductTrademarkType(params);
-      console.log('sortPrice')
+      console.log('sort_price')
     }
-  }, [sortPrice]);
-  useEffect(() => {
-    if (page || sort_price) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-      const params = {
-        page: pageUrl,
-        sort_price: sortPrice,
-        items: items,
-        nsx: nsx,
-      };
-      actionGetProductTrademarkType(params);
-      console.log('pageUrl')
-    }
-  }, [pageUrl]);
+  }, [sort_price, page]);
   const onChangePagination = (page) => {
-    setCurrent(page);
-    setPageUrl(page);
     const data = {
       nsx: nsx,
       page: page,
-      sort_price: sortPrice,
+      sort_price: sort_price,
       items: items,
     };
     const params = queryString.stringify(data);
@@ -95,10 +71,9 @@ export default function TrademarkType({ location }) {
     history.push(url);
   };
   const onChangeSortPrice = e => {
-    setSortPrice(e.value);
     const data = {
       nsx: nsx,
-      page: pageUrl,
+      page: page,
       sort_price: e.value,
       items: items,
     };
@@ -116,7 +91,7 @@ export default function TrademarkType({ location }) {
             <div className="filter-price">
               <Select
                 labelInValue
-                defaultValue={{ value: sortPrice || 0 }}
+                defaultValue={{ value: sort_price || 0 }}
                 style={{ width: 150 }}
                 onChange={onChangeSortPrice}
               >
@@ -137,7 +112,7 @@ export default function TrademarkType({ location }) {
                 onChange={onChangePagination}
                 total={lengthTrademarkType}
                 defaultPageSize={items}
-                current={current || 1}
+                current={page || 1}
               />
             }
           </div>

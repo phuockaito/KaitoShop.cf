@@ -155,7 +155,6 @@ export default function CommentProduct({
     total: lengthCommentProduct,
     current: pageCmt,
     pageSize: limitCmt,
-    current: pageCmt,
     position: ['bottomCenter']
   };
   const handleTableChange = (pagination) => {

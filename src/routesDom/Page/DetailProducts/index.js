@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -24,8 +24,8 @@ import { UserContext } from "contexts/UserContext";
 import "./style.css";
 export default function DetailProducts({ location }) {
   const { id_product } = queryString.parse(location.search);
-  const { key } = queryString.parse(location.search);
-  const page = Number(queryString.parse(location.search).page) || 1;
+  const { key } = queryString.parse(location.search) || 'converse';
+  const page_limit = Number(queryString.parse(location.search).page_limit) || 1;
   const page_cmt = Number(queryString.parse(location.search).page_cmt) || 1;
   let historyProduct = JSON.parse(localStorage.getItem("history_product")) || [];
   // state default
@@ -50,7 +50,6 @@ export default function DetailProducts({ location }) {
   const dataProductsType = useSelector(state => state.type.listProductSlider);
   const lengthProductsType = useSelector(state => state.type.length);
   const loadingProductsType = useSelector(state => state.type.loading);
-  const [pageUrl, setPageUrl] = useState(page);
   // Data Comment
   const loadingComet = useSelector(state => state.comment.loading);
   const [lengthComment, setLengthComment] = useState(null);
@@ -60,7 +59,6 @@ export default function DetailProducts({ location }) {
   const [starRating, setStarRating] = useState([]);
   const [reviewRating, setReviewRating] = useState(0);
   const [loadingDeleteProduct, setLoadingDeleteProduct] = useState(false);
-  const [pageUrlCmt, setPageUrlCmt] = useState(page_cmt);
   // Join room
   useEffect(() => {
     if (socket) {
@@ -182,7 +180,7 @@ export default function DetailProducts({ location }) {
   const fetchComment = async (idProduct) => {
     const paramsComment = {
       _id_product: idProduct,
-      page: pageUrlCmt,
+      page: page_cmt,
       limit: 5,
     };
     const resultComment = await dispatch(getCommentOne(paramsComment));
@@ -199,12 +197,12 @@ export default function DetailProducts({ location }) {
     if (id_product) {
       fetchComment(id_product);
     }
-  }, [pageUrlCmt, id_product]);
+  }, [page_cmt, id_product]);
   //  get one product
   const fetchProductIdAPI = async (idProduct) => {
     const paramsType = {
-      name: key,
-      page: page,
+      name: key || 'converse',
+      page: page_limit,
       sort_price: 0,
     };
     // fetch API Product See More
@@ -231,8 +229,6 @@ export default function DetailProducts({ location }) {
     });
     if (id_product) {
       fetchProductIdAPI(id_product);
-      setPageUrl(1);
-      setPageUrlCmt(1);
     };
     showHistoryProduct();
   }, [id_product]);
@@ -240,31 +236,30 @@ export default function DetailProducts({ location }) {
     const param = {
       items: items,
       name: key,
-      page: pageUrl,
+      page: page_limit,
       sort_price: 0,
     };
     getProductTypeAPI(param);
-  }, [pageUrl])
+  }, [page_limit]);
+  console.log(page_limit)
   // onClick
   const onChangePageSeenMoreProduct = (_page) => {
-    setPageUrl(_page);
     const data = {
       id_product: id_product,
       key: key,
-      page: _page,
-      page_cmt: pageUrlCmt
+      page_limit: _page,
+      page_cmt: page_cmt,
     };
     const params = queryString.stringify(data);
     const url = `/detail-products?${params}`;
     history.push(url);
   };
   const onChangePageComment = (_page) => {
-    setPageUrlCmt(pageUrlCmt + _page);
     const data = {
       id_product: id_product,
       key: key,
-      page_cmt: pageUrlCmt + 1,
-      page: pageUrl
+      page_cmt: page_cmt + 1,
+      page_limit: page_limit
     };
     const params = queryString.stringify(data);
     const url = `/detail-products?${params}`;
@@ -354,7 +349,7 @@ export default function DetailProducts({ location }) {
                 onChangePage={onChangePageSeenMoreProduct}
                 lengthProductsType={lengthProductsType}
                 loading={loadingProductsType}
-                pageUrl={pageUrl}
+                pageUrl={page_limit}
               />
               {/* hiện các sản phẩm đã xem */}
               <HistoryProduct historyProduct={historyProduct} _id={id_product} />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Pagination, Select } from 'antd';
@@ -19,9 +19,6 @@ export default function Trademark({ location }) {
   const sort_price = Number(queryString.parse(location.search).sort_price) || 0;
   document.querySelector('title').innerHTML = trademark.toUpperCase();
   // state
-  const [pageUrl, setPageUrl] = useState(page);
-  const [sortPrice, setSortPrice] = useState(sort_price);
-  const [current, setCurrent] = useState(page);
   const items = 20;
   // store
   const dataProductsType = useSelector(state => state.type.listProductSlider);
@@ -31,12 +28,10 @@ export default function Trademark({ location }) {
   const actionGetProductType = params => dispatch(getProductType(params));
   //function
   const onChangePage = (page) => {
-    setPageUrl(page);
-    setCurrent(page);
     const data = {
       trademark: trademark,
       page: page,
-      sort_price: sortPrice,
+      sort_price: sort_price,
       items: items,
     };
     const params = queryString.stringify(data);
@@ -44,10 +39,9 @@ export default function Trademark({ location }) {
     history.push(url);
   };
   const onChangeSortPrice = (e) => {
-    setSortPrice(e.value);
     const data = {
       trademark: trademark,
-      page: pageUrl,
+      page: page,
       sort_price: e.value,
       items: items,
     };
@@ -62,13 +56,13 @@ export default function Trademark({ location }) {
       behavior: "smooth"
     });
     const params = {
-      page: pageUrl,
-      sort_price: sortPrice,
+      page: page,
+      sort_price: sort_price,
       items: items,
       name: trademark,
     };
     actionGetProductType(params);
-  }, [pageUrl, sortPrice]);
+  }, [page, sort_price]);
 
   return (
     <>
@@ -79,7 +73,7 @@ export default function Trademark({ location }) {
           <div className="filter-price">
             <Select
               labelInValue
-              defaultValue={{ value: sortPrice }}
+              defaultValue={{ value: sort_price }}
               style={{ width: 150 }}
               onChange={onChangeSortPrice}
             >
@@ -100,7 +94,7 @@ export default function Trademark({ location }) {
               onChange={onChangePage}
               total={lengthProductsType}
               defaultPageSize={items}
-              current={current || 1}
+              current={page || 1}
             />
           }
         </div>

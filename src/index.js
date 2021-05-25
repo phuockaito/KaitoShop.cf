@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 import './index.css';
 // --Contexts
 import { UserContextProvider } from 'contexts/UserContext';
+// console.log("%cDừng lại!", "color: red;font-size:60px;");
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

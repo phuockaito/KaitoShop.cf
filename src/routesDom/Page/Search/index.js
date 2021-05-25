@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from 'antd';
 import { FileSearchOutlined } from '@ant-design/icons';
@@ -15,13 +15,11 @@ export default function Search({ location }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = queryString.parse(location.search).query.replace(/-/g, ' ');
-  const page = Number(queryString.parse(location.search).page);
+  const page = Number(queryString.parse(location.search).page) || 1;
   // dispatch API
   const actionsGetSearch = params => dispatch(getSearch(params));
   document.querySelector('title').innerHTML = `Tìm kiếm - ${query}`;
   // create state
-  const [pageUrl, setPageUrl] = useState(page);
-  const [current, setCurrent] = useState(page);
   const items = 28;
   // fetch API
   const functionGetActionsGetSearch = () => {
@@ -37,23 +35,17 @@ export default function Search({ location }) {
     actionsGetSearch(params);
   };
   useEffect(() => {
-    if (!page) {
-      setPageUrl(1);
-      setCurrent(1);
-    }
     functionGetActionsGetSearch();
   }, [query]);
   useEffect(() => {
     functionGetActionsGetSearch();
-    setCurrent(pageUrl);
-  }, [pageUrl]);
+  }, [page]);
   // Data Search
   const dataSearch = useSelector(state => state.search.data);
   const lengthSearch = useSelector(state => state.search.length);
   const loadingSearch = useSelector(state => state.search.loading);
   // function
   const onChangePage = (page) => {
-    setPageUrl(page);
     const data = {
       query: query,
       page: page
@@ -69,7 +61,7 @@ export default function Search({ location }) {
           onChange={onChangePage}
           total={length}
           defaultPageSize={items}
-          current={current}
+          current={page}
         />
       )
     }
