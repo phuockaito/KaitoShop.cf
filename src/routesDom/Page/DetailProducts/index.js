@@ -50,6 +50,7 @@ export default function DetailProducts({ location }) {
   const dataProductsType = useSelector(state => state.type.listProductSlider);
   const lengthProductsType = useSelector(state => state.type.length);
   const loadingProductsType = useSelector(state => state.type.loading);
+
   // Data Comment
   const loadingComet = useSelector(state => state.comment.loading);
   const [lengthComment, setLengthComment] = useState(null);
@@ -198,19 +199,7 @@ export default function DetailProducts({ location }) {
       fetchComment(id_product);
     }
   }, [page_cmt, id_product]);
-  //  get one product
-  const fetchProductIdAPI = async (idProduct) => {
-    const paramsType = {
-      name: key || 'converse',
-      page: page_limit,
-      sort_price: 0,
-    };
-    // fetch API Product See More
-    const resultProduct = await dispatch(getProductId(idProduct));
-    dispatch(getProductType(paramsType));
-    const currentProduct = unwrapResult(resultProduct);
-    setDataProductsId(currentProduct.product);
-  };
+
   // historyProductOld
   const showHistoryProduct = () => {
     const historyProductOld = [...historyProduct];
@@ -221,6 +210,12 @@ export default function DetailProducts({ location }) {
     });
     historyProductOld.unshift(dataProductsId);
     localStorage.setItem("history_product", JSON.stringify(historyProductOld));
+  };
+  //  get one product
+  const fetchProductIdAPI = async (idProduct) => {
+    const resultProduct = await dispatch(getProductId(idProduct));
+    const currentProduct = unwrapResult(resultProduct);
+    setDataProductsId(currentProduct.product);
   };
   useEffect(() => {
     window.scrollTo({
@@ -240,8 +235,7 @@ export default function DetailProducts({ location }) {
       sort_price: 0,
     };
     getProductTypeAPI(param);
-  }, [page_limit]);
-  console.log(page_limit)
+  }, [page_limit, key]);
   // onClick
   const onChangePageSeenMoreProduct = (_page) => {
     const data = {

@@ -24,16 +24,17 @@ export default function HomePage() {
   // list Product
   const dataProductsList = useSelector(state => state.ListProduct.data);
   const loadingProductsList = useSelector(state => state.ListProduct.loading);
-  const lengthProductsList = useSelector(state => state.ListProduct.length);
-  //effApi
+  //useEffect
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-    actionGetProductType({ name: 'Puma', page: 1, sort_price: 0 });
-    actionGetProductSlider({ name: 'Converse', items: 12 });
-    actionGetProductAll({ page: '1', limit: '24' })
+    if (dataProductsList.length === 0 || dataProductsType.length === 0 || dataSlider.length === 0) {
+      actionGetProductType({ name: 'Puma', page: 1, sort_price: 0 });
+      actionGetProductSlider({ name: 'Converse', items: 12 });
+      actionGetProductAll({ page: '1', limit: '24' });
+    }
   }, []);
   return (
     <div className="group-home">
@@ -51,7 +52,6 @@ export default function HomePage() {
         <LatestProduct
           data={dataProductsList}
           loading={loadingProductsList}
-          lengthAllProduct={lengthProductsList}
         />
       </div>
     </div>

@@ -4,10 +4,9 @@ import { getProductAll } from './pathAPI';
 const ListProductSlice = createSlice({
   name: 'products',
   initialState: {
-    data: {},
+    data: [],
     length: 0,
     loading: true,
-    error: ''
   },
   reducers: {},
   extraReducers: {
@@ -21,9 +20,8 @@ const ListProductSlice = createSlice({
       state.data = product;
     }
     ,
-    [getProductAll.rejected]: (state, action) => {
+    [getProductAll.rejected]: (state) => {
       state.loading = false;
-      state.error = action.error;
     }
   }
 
