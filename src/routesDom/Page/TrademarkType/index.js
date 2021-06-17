@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { Pagination, Select } from 'antd';
@@ -12,12 +12,12 @@ import ListItems from './ListItems';
 import './style.css';
 export default function TrademarkType({ location }) {
   const { nsx } = queryString.parse(location.search);
+  document.querySelector('title').innerHTML = nsx.replace(/-/g, ' ').toUpperCase();
   const page = Number(queryString.parse(location.search).page) || 1;
   const sort_price = Number(queryString.parse(location.search).sort_price) || 0;
   const dispatch = useDispatch();
   const history = useHistory();
   const { Option } = Select;
-  document.querySelector('title').innerHTML = nsx.replace(/-/g, ' ').toUpperCase();
   // state
   const items = 20;
   // store
@@ -27,38 +27,24 @@ export default function TrademarkType({ location }) {
   // dispatch Api
   const actionGetProductTrademarkType = params => dispatch(getProductTrademarkType(params));
   //useEffect
+  const fetchAPi = () => {
+    const params = {
+      page: page,
+      sort_price: sort_price,
+      items: items,
+      nsx: nsx,
+    };
+    actionGetProductTrademarkType(params);
+  };
   useEffect(() => {
-    if (!page && !sort_price) {
+    if (nsx) {
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
-      const params = {
-        page: 1,
-        sort_price: 0,
-        items: items,
-        nsx: nsx,
-      };
-      actionGetProductTrademarkType(params);
-      console.log('nsx')
+      fetchAPi();
     }
-  }, [nsx]);
-  useEffect(() => {
-    if (page || sort_price) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-      const params = {
-        page: page,
-        sort_price: sort_price,
-        items: items,
-        nsx: nsx,
-      };
-      actionGetProductTrademarkType(params);
-      console.log('sort_price')
-    }
-  }, [sort_price, page]);
+  }, [nsx, sort_price, page]);
   const onChangePagination = (page) => {
     const data = {
       nsx: nsx,
