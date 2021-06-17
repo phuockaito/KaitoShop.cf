@@ -72,6 +72,7 @@ export default function Footer() {
               <div className="user-online">
                 <p><UserOutlined /> Online {UserOnline}</p>
                 <p><EyeOutlined /> {view > 1000 ? format.format(view) : view} lượt xem</p>
+                <p style={{ fontSize: '16px' }}>Cập nhật mới nhất: 17/06/2021</p>
               </div>
             </div>
           </div>
