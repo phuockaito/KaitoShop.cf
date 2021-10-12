@@ -1,0 +1,110 @@
+.information {
+	position: relative;
+	display: block;
+}
+.information .create-account {
+	text-align: center;
+}
+.information .create-account span {
+	color: rgb(153 153 153 / 40%);
+	font-weight: 400;
+	font-size: 1em;
+	padding: 5px 2px;
+	text-transform: capitalize;
+}
+.information .group-avatar {
+	text-align: center;
+}
+.change-information {
+	margin-top: 10px;
+	position: relative;
+}
+.information .group-avatar img {
+	border-radius: 50%;
+	height: 220px;
+	width: 220px;
+	box-shadow: 0 0 1px 0 rgba(8, 11, 14, 0.06),
+		0 16px 16px -1px rgba(8, 11, 14, 0.1);
+	border: 1px solid #f7f8f9;
+}
+.information .group-avatar .group-upload-image {
+	position: relative;
+	margin: 10px auto;
+}
+
+/* ----------------- Ground  information------------*/
+
+.information .ground-information .group-name,
+.information .ground-information .group-email,
+.information .ground-information .group-logout,
+.information .ground-information .group-buy-cart,
+.information .ground-information .group-comments {
+	display: flex;
+	padding: 10px 0;
+	align-items: center;
+}
+
+.ground-information .group-name .name-information {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+.ground-information
+	.group-name
+	.name-information
+	form.ant-form.ant-form-horizontal {
+	width: 100%;
+}
+.ground-information .group-name .name-information .ant-form-item {
+	margin: 0;
+}
+.ground-information .group-name .name-information .group-edit-user {
+	text-align: right;
+	margin: 5px 0;
+}
+.ground-information .group-name .name-information .group-edit-user button {
+	margin: 0 5px;
+}
+.ground-information .group-name .name-information p {
+	font-weight: 600;
+	margin: 0;
+	font-size: 1.1em;
+	color: #272727;
+}
+.ground-information .group-name .name-information .i-edit {
+	position: absolute;
+	font-size: 1.4em;
+	cursor: pointer;
+	right: 0;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+.information .ground-information .icon-user-information {
+	/* display: inline-block !important; */
+	font-size: 1.2em;
+	padding-right: 20px;
+	/* color: #ec1839; */
+}
+.information .ground-information .icon-user-information.btn-logout {
+	color: #ec1839;
+}
+.information .ground-information .inForUser {
+	margin: 0;
+	font-size: 1.1em;
+	font-weight: 500;
+	color: #272727;
+}
+.information .ground-information button.inForUser {
+	display: block;
+	background: none;
+	outline: none;
+	border: none;
+	color: #ec1839;
+}
+
+@media screen and (max-width: 510px) {
+	.container-information .ant-drawer-content-wrapper {
+		width: 100% !important;
+	}
+}

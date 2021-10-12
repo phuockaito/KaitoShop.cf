@@ -1,0 +1,42 @@
+.ground-admin-product {
+	padding-left: 270px;
+}
+.ground-admin-product .container-admin-cart {
+	position: relative;
+	margin: 20px;
+	min-height: 45vh;
+	box-shadow: 0 1px 6px rgb(239 233 242);
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background: #ffff;
+	display: block;
+	text-align: center;
+	border-radius: 8px;
+}
+.ground-admin-product .container-admin-cart h3 {
+	text-align: left;
+	padding: 20px;
+}
+/* table */
+.ground-admin-product
+	.container-admin-cart
+	.ground-table
+	.ant-table-thead
+	> tr
+	> th,
+.ground-admin-product
+	.container-admin-cart
+	.ground-table
+	.ant-table-tbody
+	> tr
+	> td,
+.ant-table-tbody > tr > td,
+.list-ground-comment-user .ant-table-thead > tr > th {
+	text-align: center;
+}
+
+/* Responsive */
+@media screen and (max-width: 1000px) {
+	.ground-admin-product {
+		padding-left: 0;
+	}
+}

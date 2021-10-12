@@ -1,0 +1,82 @@
+.ground-user-manage {
+	padding-left: 270px;
+}
+.ground-user-manage .container-user-manage {
+	min-height: 50vh;
+	margin: 20px;
+	border-radius: 8px;
+	box-shadow: 0 1px 6px #efe9f2;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background: #ffff;
+}
+.ground-user-manage .container-user-manage h3 {
+	padding: 10px 0 0 10px;
+	font-family: 550;
+	font-size: 1.2em;
+}
+.ground-user-manage .container-user-manage .filter-role {
+	text-align: right;
+	margin-right: 10px;
+	margin-bottom: 20px;
+}
+.container-user-manage .filter-role .ant-select {
+	text-align: left;
+}
+/* table */
+.ground-table .ant-table-thead > tr > th,
+.ground-table .ant-table-tbody > tr > td {
+	text-align: center;
+}
+/* list-ground-comment-user */
+.list-ground-comment-user .ant-modal-body {
+	padding: 0 0 20px 0;
+}
+.list-ground-comment-user .load-data-comment {
+	padding: 6px 36px;
+	border-radius: 15px;
+	background: transparent;
+	border: 1px solid #189eff;
+	cursor: pointer;
+	font-size: 0.9em;
+	text-transform: capitalize;
+	color: #189eff;
+	transition: 0.3s ease-out;
+	font-weight: 520;
+	display: block;
+	margin: 10px auto 0 auto;
+}
+.list-ground-comment-user .load-data-comment:hover {
+	background: #189eff;
+	color: #fff;
+	border: 1px solid #f7f8f9;
+}
+.list-ground-cart-user .load-data-cart {
+	padding: 6px 36px;
+	border-radius: 15px;
+	background: transparent;
+	border: 1px solid #189eff;
+	cursor: pointer;
+	font-size: 0.9em;
+	text-transform: capitalize;
+	color: #189eff;
+	transition: 0.3s ease-out;
+	font-weight: 520;
+	display: block;
+	margin: auto auto 20px;
+}
+.list-ground-cart-user .load-data-cart:hover {
+	color: #fff;
+	background-color: #189eff;
+}
+/* Responsive */
+@media screen and (max-width: 1000px) {
+	.list-ground-cart-user .ant-modal-body {
+		padding: 10px;
+	}
+	.ground-user-manage {
+		padding-left: 0;
+	}
+	.ground-user-manage .container-user-manage {
+		margin: 20px 10px;
+	}
+}
