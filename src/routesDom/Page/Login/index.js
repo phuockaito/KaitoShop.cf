@@ -83,6 +83,7 @@ export default function Login() {
   }, [tokenLocal, token]);
   // login with google
   const responseGoogle = async (response) => {
+    console.log('res', response);
     const { tokenId } = response;
     try {
       const resultLogin = await dispatch(loginGoogle(tokenId));
