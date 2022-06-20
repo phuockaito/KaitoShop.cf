@@ -2,7 +2,7 @@ import axios from "axios";
 import queryString from "query-string";
 
 const axiosClient = axios.create({
-    baseURL: "/api",
+    baseURL: "https://kaito-shop.herokuapp.com/api",
     headers: {
         "content-type": "application/json",
     },
