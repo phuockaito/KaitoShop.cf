@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProductType } from './pathAPI';
+import { getProductType } from "./pathAPI";
 
 const TypeProductSlice = createSlice({
-    name: 'productType',
+    name: "productType",
     initialState: {
         listProductSlider: [],
         loading: true,
-        length: null
+        length: null,
     },
     reducers: {},
     extraReducers: {
@@ -20,9 +20,8 @@ const TypeProductSlice = createSlice({
             state.loading = false;
             state.listProductSlider = action.payload.data;
             state.length = action.payload.length;
-        }
-    }
-
+        },
+    },
 });
 const { reducer } = TypeProductSlice;
 export default reducer;

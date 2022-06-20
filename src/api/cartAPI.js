@@ -1,11 +1,11 @@
 import axiosClient from "./axiosClient";
 const cartAPI = {
     postToCartAPI: (data, token) => {
-        const url = '/cart/add-cart';
+        const url = "/cart/add-cart";
         return axiosClient.post(url, data, token);
     },
     getToCartAPI: (token) => {
-        const url = '/cart/get-cart';
+        const url = "/cart/get-cart";
         return axiosClient.get(url, null, token);
     },
     putToCartStatusOrderAPI: (data, token) => {
@@ -19,9 +19,8 @@ const cartAPI = {
         return axiosClient.put(url, inForCart, token);
     },
     deleteToCartAPI: (id_card, token) => {
-        
         const url = `/cart/delete-cart?id_cart=${id_card}`;
         return axiosClient.delete(url, null, token);
-    }
+    },
 };
 export default cartAPI;

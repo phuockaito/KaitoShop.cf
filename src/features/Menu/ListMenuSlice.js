@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMenu } from './pathAPI';
+import { getMenu } from "./pathAPI";
 
 const ListMenuSlice = createSlice({
-    name: 'menu',
+    name: "menu",
     initialState: {
         listMenu: [],
-        loading: true
+        loading: true,
     },
     reducers: {},
     extraReducers: {
@@ -18,9 +18,8 @@ const ListMenuSlice = createSlice({
         [getMenu.fulfilled]: (state, action) => {
             state.loading = false;
             state.listMenu = action.payload;
-        }
-    }
-
+        },
+    },
 });
 const { reducer } = ListMenuSlice;
 export default reducer;
