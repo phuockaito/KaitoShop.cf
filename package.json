@@ -2,7 +2,7 @@
     "name": "client",
     "version": "0.1.0",
     "private": true,
-    "proxy": "http://kaitoshop.cf",
+    "proxy": "https://kaito-shop.vercel.app",
     "dependencies": {
         "@reduxjs/toolkit": "^1.5.0",
         "@testing-library/jest-dom": "^5.11.6",
