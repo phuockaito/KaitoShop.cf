@@ -85,9 +85,9 @@ const UserContextProvider = ({ children }) => {
                     window.location.reload();
                 }
             }
+            return () => socket.close();
         })();
-        return () => socket.close();
-    }, [dispatch, socket]);
+    }, []);
     const state = {
         patchCart: [patchCart, setPatchCart],
         token: [token, setToken],
