@@ -57,7 +57,7 @@ const UserContextProvider = ({ children }) => {
     }, [socket]);
     // connect and get user if have token
     useEffect(async () => {
-        const socketIo = io("https://api-kaito-shop.herokuapp.com", {
+        const socketIo = io("https://kaito-shop.herokuapp.com", {
             withCredentials: true,
             extraHeaders: {
                 "Access-Control-Allow-Origin": "*",
