@@ -56,36 +56,38 @@ const UserContextProvider = ({ children }) => {
         }
     }, [socket]);
     // connect and get user if have token
-    useEffect(async () => {
-        const socketIo = io("https://kaito-shop.herokuapp.com", {
-            withCredentials: true,
-            extraHeaders: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Header":
-                    "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-                "Access-Control-Allow-Methods": "PUT, POST, DELETE, GET",
-            },
-        });
-        if (socketIo) {
-            setSocket(socketIo);
-        }
-        if (tokenLocal) {
-            try {
-                const actionResult = await dispatch(getProfile());
-                const currentUser = unwrapResult(actionResult);
-                if (currentUser) {
-                    setUser(currentUser.user);
-                    setToken(tokenLocal);
-                    setIdUser(currentUser.user._id);
-                }
-            } catch (e) {
-                console.log(e);
-                localStorage.removeItem("token");
-                window.location.reload();
+    useEffect(() => {
+        (async () => {
+            const socketIo = io("https://kaito-shop.herokuapp.com", {
+                withCredentials: true,
+                extraHeaders: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Header":
+                        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+                    "Access-Control-Allow-Methods": "PUT, POST, DELETE, GET",
+                },
+            });
+            if (socketIo) {
+                setSocket(socketIo);
             }
-        }
+            if (tokenLocal) {
+                try {
+                    const actionResult = await dispatch(getProfile());
+                    const currentUser = unwrapResult(actionResult);
+                    if (currentUser) {
+                        setUser(currentUser.user);
+                        setToken(tokenLocal);
+                        setIdUser(currentUser.user._id);
+                    }
+                } catch (e) {
+                    console.log(e);
+                    localStorage.removeItem("token");
+                    window.location.reload();
+                }
+            }
+        })();
         return () => socket.close();
-    }, []);
+    }, [dispatch, socket]);
     const state = {
         patchCart: [patchCart, setPatchCart],
         token: [token, setToken],
