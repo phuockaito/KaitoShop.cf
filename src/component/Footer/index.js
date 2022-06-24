@@ -100,7 +100,7 @@ export default function Footer() {
                                 </li>
                                 <li>
                                     <a
-                                        href="http://kaitomovie.cf/"
+                                        href="https://www.kaitoshop.tk/"
                                         target="_blank"
                                         rel="noreferrer noopener"
                                     >
@@ -113,13 +113,23 @@ export default function Footer() {
                                     <UserOutlined /> Online {UserOnline}
                                 </p>
                                 <p>
-                                    <EyeOutlined />{" "}
-                                    {view > 1000 ? format.format(view) : view}{" "}
+                                    <EyeOutlined />
+                                    {view > 1000 ? format.format(view) : view}
                                     lượt xem
                                 </p>
                                 <p style={{ fontSize: "16px" }}>
                                     Cập nhật mới nhất: 17/06/2021
                                 </p>
+                                <a
+                                    href="https://www.kaitoshop.tk/"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    style={{
+                                        textAlign: "center",
+                                            display: "block",
+                                    }}>
+                                    Version NextJs
+                                    </a>
                             </div>
                         </div>
                     </div>
