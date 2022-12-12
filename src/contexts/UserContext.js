@@ -58,7 +58,7 @@ const UserContextProvider = ({ children }) => {
     // connect and get user if have token
     useEffect(() => {
         (async () => {
-            const socketIo = io("https://api-kaito-shop.vercel.app/", {
+            const socketIo = io("api-kaito-shop.vercel.app", {
                 withCredentials: true,
                 // extraHeaders: {
                 //     "Access-Control-Allow-Origin": "*",
@@ -66,7 +66,7 @@ const UserContextProvider = ({ children }) => {
                 //         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
                 //     "Access-Control-Allow-Methods": "PUT, POST, DELETE, GET",
                 // },
-                
+
             });
             if (socketIo) {
                 setSocket(socketIo);
