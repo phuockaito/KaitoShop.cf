@@ -126,10 +126,10 @@ export default function Footer() {
                                     target="_blank"
                                     style={{
                                         textAlign: "center",
-                                            display: "block",
+                                        display: "block",
                                     }}>
                                     Version NextJs
-                                    </a>
+                                </a>
                             </div>
                         </div>
                     </div>
