@@ -60,12 +60,13 @@ const UserContextProvider = ({ children }) => {
         (async () => {
             const socketIo = io("https://api-kaito-shop.vercel.app/", {
                 withCredentials: true,
-                extraHeaders: {
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Header":
-                        "Origin, X-Requested-With, Content-Type, Accept, Authorization",
-                    "Access-Control-Allow-Methods": "PUT, POST, DELETE, GET",
-                },
+                // extraHeaders: {
+                //     "Access-Control-Allow-Origin": "*",
+                //     "Access-Control-Header":
+                //         "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+                //     "Access-Control-Allow-Methods": "PUT, POST, DELETE, GET",
+                // },
+                
             });
             if (socketIo) {
                 setSocket(socketIo);
