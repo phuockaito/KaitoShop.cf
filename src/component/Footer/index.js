@@ -118,7 +118,7 @@ export default function Footer() {
                                     lượt xem
                                 </p>
                                 <p style={{ fontSize: "16px" }}>
-                                    Cập nhật mới nhất: 12/12/2022.
+                                    Cập nhật mới nhất: 12/12/2022
                                 </p>
                                 <a
                                     href="https://www.kaitoshop.tk/"

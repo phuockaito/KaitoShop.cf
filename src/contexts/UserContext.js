@@ -58,7 +58,9 @@ const UserContextProvider = ({ children }) => {
     // connect and get user if have token
     useEffect(() => {
         (async () => {
-            const socketIo = io("https://api-kaito-shop.vercel.app");
+            const socketIo = io("https://api-kaito-shop.vercel.app", {
+                withCredentials: true,
+            });
             if (socketIo) {
                 setSocket(socketIo);
             }
