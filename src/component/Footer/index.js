@@ -121,7 +121,7 @@ export default function Footer() {
                                     Cập nhật mới nhất: 12/12/2022
                                 </p>
                                 <a
-                                    href="https://www.kaitoshop.tk/"
+                                    href="https://nextjs-react-toolkit.vercel.app/"
                                     rel="noopener noreferrer"
                                     target="_blank"
                                     style={{
