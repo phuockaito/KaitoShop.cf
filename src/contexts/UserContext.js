@@ -2,7 +2,7 @@ import { createContext, useState, useEffect,useLayoutEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { notification } from "antd";
-import { io } from 'socket.io-client';
+import { Manager } from "socket.io-client";
 
 // dispatch API
 import { getProfile } from "features/User/patchAPI";
@@ -59,7 +59,7 @@ const UserContextProvider = ({ children }) => {
     // connect and get user if have token
     useEffect(() => {
         (async () => {
-            const socketIo = io("ws://api-kaito-shop.vercel.app", {
+            const socketIo = new Manager("https://api-kaito-shop.vercel.app", {
                 // withCredentials: true,
                 autoConnect: true
 
