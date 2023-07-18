@@ -41,7 +41,7 @@ function SliderHome({ data, loading }) {
         }
     };
     const ShowSlider = (data) => {
-        if (data.length > 0) {
+        if (data?.length > 0) {
             return (
                 <Slider {...settings}>
                     {data.map((slider) => (

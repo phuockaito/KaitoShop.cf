@@ -1,8 +1,9 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect,useLayoutEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { notification } from "antd";
-import io from "socket.io-client";
+import { io } from 'socket.io-client';
+
 // dispatch API
 import { getProfile } from "features/User/patchAPI";
 const UserContext = createContext(null);
@@ -59,7 +60,9 @@ const UserContextProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             const socketIo = io("https://api-kaito-shop.vercel.app", {
-                withCredentials: true,
+                // withCredentials: true,
+                autoConnect: true
+
             });
             if (socketIo) {
                 setSocket(socketIo);

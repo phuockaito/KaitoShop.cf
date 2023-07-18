@@ -38,7 +38,7 @@ function ProductsType({ data, loading }) {
         }
     };
     const ShowProducts = (data) => {
-        if (data.length > 0) {
+        if (data?.length > 0) {
             return (
                 <div className="products-type">
                     {data.map((product) => (

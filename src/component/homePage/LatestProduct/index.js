@@ -36,7 +36,7 @@ export default function LatestProduct({ data, loading }) {
         }
     };
     const showListProducts = (data) => {
-        if (data.length > 0) {
+        if (data?.length > 0) {
             return (
                 <div className="list-Products">
                     {data.map((listProduct) => (
