@@ -60,7 +60,7 @@ const UserContextProvider = ({ children }) => {
     useEffect(() => {
         (async () => {
             const socketIo = io("https://api-kaito-shop.vercel.app", {
-                // withCredentials: true,
+                withCredentials: true,
                 autoConnect: true
 
             });
