@@ -60,10 +60,7 @@ const UserContextProvider = ({ children }) => {
     useLayoutEffect(() => {
         (async () => {
             const socketIo = io("wss://api-kaito-shop.vercel.app", {
-                allowRequest: (req, callback) => {
-                    const noOriginHeader = req.headers.origin === undefined;
-                    callback(null, noOriginHeader); // only allow requests without 'origin' header
-                }
+                serveClient: false
             });
             if (socketIo) {
                 setSocket(socketIo);
