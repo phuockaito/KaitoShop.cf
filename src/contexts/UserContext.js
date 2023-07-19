@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useLayoutEffect } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { notification } from "antd";
@@ -57,10 +57,17 @@ const UserContextProvider = ({ children }) => {
         }
     }, [socket]);
     // connect and get user if have token
-    useEffect(() => {
+    useLayoutEffect(() => {
         (async () => {
             const socketIo = io("https://api-kaito-shop.vercel.app", {
-                autoConnect: true
+                autoConnect: true,
+                reconnectionDelayMax: 10000,
+                auth: {
+                    token: "123"
+                },
+                query: {
+                    "my-key": "my-value"
+                }
             });
             if (socketIo) {
                 setSocket(socketIo);
