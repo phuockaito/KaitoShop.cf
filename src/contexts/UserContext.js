@@ -64,7 +64,8 @@ const UserContextProvider = ({ children }) => {
                 withCredentials: true,
                 transports: ['websocket', 'polling'],
                 secure: true,
-                autoConnect: true
+                // autoConnect: true
+                path: '/socket.io',
             });
             if (socketIo) {
                 setSocket(socketIo);
