@@ -61,7 +61,7 @@ const UserContextProvider = ({ children }) => {
         (async () => {
             const socketIo = io("https://api-kaito-shop.vercel.app", {
                 path: '/socket.io',
-                transports: ['polling', 'websocket'],
+                transports: ['polling'],
                 secure: true,
             });
             if (socketIo) {
