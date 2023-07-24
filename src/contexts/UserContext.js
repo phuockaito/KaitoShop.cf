@@ -59,14 +59,8 @@ const UserContextProvider = ({ children }) => {
     // connect and get user if have token
     useLayoutEffect(() => {
         (async () => {
-            const socketIo = io("https://api-kaito-shop.vercel.app", {
-                credentials: true,
-                allowRequest: (req, callback) => {
-                    const noOriginHeader = req.headers.origin === undefined;
-                    callback(null, noOriginHeader); // only allow requests without 'origin' header
-                },
-                path: '/socket.io',
-                secure: true,
+            const socketIo = io("ws://api-kaito-shop.vercel.app", {
+                transports: ["websocket"],
             });
             if (socketIo) {
                 setSocket(socketIo);
