@@ -65,7 +65,9 @@ const UserContextProvider = ({ children }) => {
                     const noOriginHeader = req.headers.origin === undefined;
                     callback(null, noOriginHeader); // only allow requests without 'origin' header
                 },
-                transports: ['websocket']
+                path: '/socket.io',
+                transports: ['websocket'],
+                secure: true,
             });
             if (socketIo) {
                 setSocket(socketIo);
