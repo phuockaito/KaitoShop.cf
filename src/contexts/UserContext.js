@@ -59,8 +59,8 @@ const UserContextProvider = ({ children }) => {
     // connect and get user if have token
     useLayoutEffect(() => {
         (async () => {
-            const socketIo = io("ws://api-kaito-shop.vercel.app", {
-                reconnectionDelayMax: 10000,
+            const socketIo = io("https://api-kaito-shop.vercel.app", {
+
             });
             if (socketIo) {
                 setSocket(socketIo);
