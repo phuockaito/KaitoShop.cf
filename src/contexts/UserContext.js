@@ -60,8 +60,8 @@ const UserContextProvider = ({ children }) => {
     useLayoutEffect(() => {
         (async () => {
             const socketIo = io("https://api-kaito-shop.vercel.app", {
-                withCredentials: true,
-                transports: ['websocket', 'polling'],
+                path: '/socket.io',
+                transports: ['websocket'],
                 secure: true,
             });
             if (socketIo) {
