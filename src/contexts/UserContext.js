@@ -60,9 +60,11 @@ const UserContextProvider = ({ children }) => {
     useLayoutEffect(() => {
         (async () => {
             const socketIo = io("https://api-kaito-shop.vercel.app", {
-                path: '/socket.io',
-                transports: ['polling'],
-                secure: true,
+                credentials: true,
+                allowRequest: (req, callback) => {
+                    const noOriginHeader = req.headers.origin === undefined;
+                    callback(null, noOriginHeader); // only allow requests without 'origin' header
+                  }
             });
             if (socketIo) {
                 setSocket(socketIo);
