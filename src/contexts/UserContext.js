@@ -60,7 +60,7 @@ const UserContextProvider = ({ children }) => {
     useLayoutEffect(() => {
         (async () => {
             const socketIo = io("ws://api-kaito-shop.vercel.app", {
-                // transports: ["websocket"],
+                reconnectionDelayMax: 10000,
             });
             if (socketIo) {
                 setSocket(socketIo);
