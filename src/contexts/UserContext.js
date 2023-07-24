@@ -66,7 +66,6 @@ const UserContextProvider = ({ children }) => {
                     callback(null, noOriginHeader); // only allow requests without 'origin' header
                 },
                 path: '/socket.io',
-                transports: ['websocket'],
                 secure: true,
             });
             if (socketIo) {
